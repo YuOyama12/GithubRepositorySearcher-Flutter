@@ -30,7 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  dio: ^5.8.0+1 # https://pub.dev/packages/dio
+  retrofit: ^4.6.0 # https://pub.dev/packages/retrofit
+  freezed_annotation: ^3.1.0 # https://pub.dev/packages/freezed_annotation
+  json_annotation: ^4.9.0 # https://pub.dev/packages/json_annotation
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,6 +49,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  build_runner: ^2.6.0
+  freezed: ^3.2.0
+  json_serializable: ^6.10.0
+  retrofit_generator: ^10.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
