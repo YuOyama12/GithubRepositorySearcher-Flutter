@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:github_repository_searcher/data/service/api_client/api_client.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/provider/repository_query_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../provider/repositories_response_notifier.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -9,6 +12,7 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final query = ref.read(repositoryQueryProvider);
+    final repositoryResponse = ref.watch(repositoriesResponseNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,6 +42,8 @@ class HomePage extends HookConsumerWidget {
                 ),
                 FilledButton(
                   onPressed: () {
+                    ref.read(repositoriesResponseNotifierProvider.notifier)
+                        .searchRepositories(query: query);
                   },
                   child: Text(StringConsts.search),
                 ),
