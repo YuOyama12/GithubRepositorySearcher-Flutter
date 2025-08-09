@@ -9,9 +9,9 @@ part of 'repository.dart';
 _Repository _$RepositoryFromJson(Map<String, dynamic> json) => _Repository(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
-  fullName: json['full_name'] as String,
-  htmlUrl: json['html_url'] as String,
-  description: json['description'] as String,
+  fullName: json['full_name'] as String? ?? null,
+  htmlUrl: json['html_url'] as String? ?? null,
+  description: json['description'] as String? ?? null,
 );
 
 Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>

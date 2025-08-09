@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Repository {
 
- int get id; String get name;@JsonKey(name: "full_name") String get fullName;@JsonKey(name: "html_url") String get htmlUrl; String get description;
+ int get id; String get name;@JsonKey(name: "full_name") String? get fullName;@JsonKey(name: "html_url") String? get htmlUrl; String? get description;
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $RepositoryCopyWith<$Res>  {
   factory $RepositoryCopyWith(Repository value, $Res Function(Repository) _then) = _$RepositoryCopyWithImpl;
 @useResult
 $Res call({
- int id, String name,@JsonKey(name: "full_name") String fullName,@JsonKey(name: "html_url") String htmlUrl, String description
+ int id, String name,@JsonKey(name: "full_name") String? fullName,@JsonKey(name: "html_url") String? htmlUrl, String? description
 });
 
 
@@ -65,14 +65,14 @@ class _$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? fullName = null,Object? htmlUrl = null,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? fullName = freezed,Object? htmlUrl = freezed,Object? description = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
-as String,htmlUrl: null == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,fullName: freezed == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
+as String?,htmlUrl: freezed == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
+as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -157,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String fullName, @JsonKey(name: "html_url")  String htmlUrl,  String description)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Repository() when $default != null:
 return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description);case _:
@@ -178,7 +178,7 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String fullName, @JsonKey(name: "html_url")  String htmlUrl,  String description)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description)  $default,) {final _that = this;
 switch (_that) {
 case _Repository():
 return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description);case _:
@@ -198,7 +198,7 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name, @JsonKey(name: "full_name")  String fullName, @JsonKey(name: "html_url")  String htmlUrl,  String description)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description)?  $default,) {final _that = this;
 switch (_that) {
 case _Repository() when $default != null:
 return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description);case _:
@@ -213,14 +213,14 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 @JsonSerializable()
 
 class _Repository implements Repository {
-  const _Repository({required this.id, required this.name, @JsonKey(name: "full_name") required this.fullName, @JsonKey(name: "html_url") required this.htmlUrl, required this.description});
+  const _Repository({required this.id, required this.name, @JsonKey(name: "full_name") this.fullName = null, @JsonKey(name: "html_url") this.htmlUrl = null, this.description = null});
   factory _Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
 
 @override final  int id;
 @override final  String name;
-@override@JsonKey(name: "full_name") final  String fullName;
-@override@JsonKey(name: "html_url") final  String htmlUrl;
-@override final  String description;
+@override@JsonKey(name: "full_name") final  String? fullName;
+@override@JsonKey(name: "html_url") final  String? htmlUrl;
+@override@JsonKey() final  String? description;
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
@@ -255,7 +255,7 @@ abstract mixin class _$RepositoryCopyWith<$Res> implements $RepositoryCopyWith<$
   factory _$RepositoryCopyWith(_Repository value, $Res Function(_Repository) _then) = __$RepositoryCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name,@JsonKey(name: "full_name") String fullName,@JsonKey(name: "html_url") String htmlUrl, String description
+ int id, String name,@JsonKey(name: "full_name") String? fullName,@JsonKey(name: "html_url") String? htmlUrl, String? description
 });
 
 
@@ -272,14 +272,14 @@ class __$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? fullName = null,Object? htmlUrl = null,Object? description = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? fullName = freezed,Object? htmlUrl = freezed,Object? description = freezed,}) {
   return _then(_Repository(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
-as String,htmlUrl: null == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,fullName: freezed == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
+as String?,htmlUrl: freezed == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
+as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
