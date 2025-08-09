@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
+import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../provider/repositories_response_notifier.dart';
+import '../../provider/repositories_response_notifier.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -45,8 +46,31 @@ class HomePage extends HookConsumerWidget {
               ],
             ),
           ),
+          (repositoryResponse == null || repositoryResponse.items.isEmpty)
+              ? Expanded(child: _NoRepositoryWidget())
+              : Expanded(
+              child: ListView.builder(
+                  itemCount: repositoryResponse.items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final repository = repositoryResponse.items[index];
+                    return RepositoryItem(
+                        repository: repository
+                    );
+                  }
+              )
+          )
         ],
       ),
     );
   }
+}
+
+class _NoRepositoryWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Text(StringConsts.noRepositoryResult),
+      );
+  }
+
 }
