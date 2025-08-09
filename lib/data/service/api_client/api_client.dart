@@ -1,15 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:github_repository_searcher/data/service/api_client/app_dio.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repositories_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 part "api_client.g.dart";
 
-final apiClient = ApiClient(Dio(_dioOption));
-
-final _dioOption = BaseOptions(
-  baseUrl: 'https://api.github.com/',
-  contentType: 'application/json',
-);
+final apiClient = ApiClient(AppDio());
 
 @RestApi()
 abstract class ApiClient {
