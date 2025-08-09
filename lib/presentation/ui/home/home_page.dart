@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,6 +13,8 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueryController = TextEditingController(text: '');
     final repositoryResponse = ref.watch(repositoriesResponseNotifierProvider);
+
+    final isSearchButtonEnabled = useState(false);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,13 +37,18 @@ class HomePage extends HookConsumerWidget {
                       decoration: InputDecoration(
                         hintText: StringConsts.searchPlaceholder,
                       ),
+                      onChanged: (newValue) {
+                          isSearchButtonEnabled.value = newValue.isNotEmpty;
+                      },
                     )
                 ),
                 FilledButton(
-                  onPressed: () {
+                  onPressed: (isSearchButtonEnabled.value)
+                  ? () {
                     ref.read(repositoriesResponseNotifierProvider.notifier)
                         .searchRepositories(query: searchQueryController.text);
-                  },
+                  }
+                  : null,
                   child: Text(StringConsts.search),
                 ),
               ],
