@@ -17,6 +17,7 @@ _Repository _$RepositoryFromJson(Map<String, dynamic> json) => _Repository(
   language: json['language'] as String?,
   stargazersCount: (json['stargazers_count'] as num).toInt(),
   watchersCount: (json['watchers_count'] as num).toInt(),
+  owner: UserResponse.fromJson(json['owner'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>
@@ -31,4 +32,5 @@ Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>
       'language': instance.language,
       'stargazers_count': instance.stargazersCount,
       'watchers_count': instance.watchersCount,
+      'owner': instance.owner,
     };
