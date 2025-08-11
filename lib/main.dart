@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github_repository_searcher/presentation/ui/home_page.dart';
+import 'package:github_repository_searcher/presentation/ui/home/home_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
