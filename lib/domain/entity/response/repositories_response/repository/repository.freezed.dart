@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Repository {
 
- int get id; String get name;@JsonKey(name: "full_name") String? get fullName;@JsonKey(name: "html_url") String? get htmlUrl; String? get description;
+ int get id; String get name;@JsonKey(name: "full_name") String? get fullName;@JsonKey(name: "html_url") String? get htmlUrl; String? get description;@JsonKey(name: "created_at") String get createdAt;@JsonKey(name: "updated_at") String get updatedAt; String? get language;@JsonKey(name: "stargazers_count") int get stargazersCount;@JsonKey(name: "watchers_count") int get watchersCount;
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $RepositoryCopyWith<Repository> get copyWith => _$RepositoryCopyWithImpl<Reposit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.language, language) || other.language == language)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.watchersCount, watchersCount) || other.watchersCount == watchersCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,fullName,htmlUrl,description);
+int get hashCode => Object.hash(runtimeType,id,name,fullName,htmlUrl,description,createdAt,updatedAt,language,stargazersCount,watchersCount);
 
 @override
 String toString() {
-  return 'Repository(id: $id, name: $name, fullName: $fullName, htmlUrl: $htmlUrl, description: $description)';
+  return 'Repository(id: $id, name: $name, fullName: $fullName, htmlUrl: $htmlUrl, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, language: $language, stargazersCount: $stargazersCount, watchersCount: $watchersCount)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $RepositoryCopyWith<$Res>  {
   factory $RepositoryCopyWith(Repository value, $Res Function(Repository) _then) = _$RepositoryCopyWithImpl;
 @useResult
 $Res call({
- int id, String name,@JsonKey(name: "full_name") String? fullName,@JsonKey(name: "html_url") String? htmlUrl, String? description
+ int id, String name,@JsonKey(name: "full_name") String? fullName,@JsonKey(name: "html_url") String? htmlUrl, String? description,@JsonKey(name: "created_at") String createdAt,@JsonKey(name: "updated_at") String updatedAt, String? language,@JsonKey(name: "stargazers_count") int stargazersCount,@JsonKey(name: "watchers_count") int watchersCount
 });
 
 
@@ -65,14 +65,19 @@ class _$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? fullName = freezed,Object? htmlUrl = freezed,Object? description = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? fullName = freezed,Object? htmlUrl = freezed,Object? description = freezed,Object? createdAt = null,Object? updatedAt = null,Object? language = freezed,Object? stargazersCount = null,Object? watchersCount = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,fullName: freezed == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
 as String?,htmlUrl: freezed == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
 as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
+as int,watchersCount: null == watchersCount ? _self.watchersCount : watchersCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -157,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description, @JsonKey(name: "created_at")  String createdAt, @JsonKey(name: "updated_at")  String updatedAt,  String? language, @JsonKey(name: "stargazers_count")  int stargazersCount, @JsonKey(name: "watchers_count")  int watchersCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Repository() when $default != null:
-return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description);case _:
+return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description,_that.createdAt,_that.updatedAt,_that.language,_that.stargazersCount,_that.watchersCount);case _:
   return orElse();
 
 }
@@ -178,10 +183,10 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description, @JsonKey(name: "created_at")  String createdAt, @JsonKey(name: "updated_at")  String updatedAt,  String? language, @JsonKey(name: "stargazers_count")  int stargazersCount, @JsonKey(name: "watchers_count")  int watchersCount)  $default,) {final _that = this;
 switch (_that) {
 case _Repository():
-return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description);case _:
+return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description,_that.createdAt,_that.updatedAt,_that.language,_that.stargazersCount,_that.watchersCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +203,10 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name, @JsonKey(name: "full_name")  String? fullName, @JsonKey(name: "html_url")  String? htmlUrl,  String? description, @JsonKey(name: "created_at")  String createdAt, @JsonKey(name: "updated_at")  String updatedAt,  String? language, @JsonKey(name: "stargazers_count")  int stargazersCount, @JsonKey(name: "watchers_count")  int watchersCount)?  $default,) {final _that = this;
 switch (_that) {
 case _Repository() when $default != null:
-return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description);case _:
+return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.description,_that.createdAt,_that.updatedAt,_that.language,_that.stargazersCount,_that.watchersCount);case _:
   return null;
 
 }
@@ -213,7 +218,7 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 @JsonSerializable()
 
 class _Repository implements Repository {
-  const _Repository({required this.id, required this.name, @JsonKey(name: "full_name") this.fullName, @JsonKey(name: "html_url") this.htmlUrl, this.description});
+  const _Repository({required this.id, required this.name, @JsonKey(name: "full_name") this.fullName, @JsonKey(name: "html_url") this.htmlUrl, this.description, @JsonKey(name: "created_at") required this.createdAt, @JsonKey(name: "updated_at") required this.updatedAt, this.language, @JsonKey(name: "stargazers_count") required this.stargazersCount, @JsonKey(name: "watchers_count") required this.watchersCount});
   factory _Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
 
 @override final  int id;
@@ -221,6 +226,11 @@ class _Repository implements Repository {
 @override@JsonKey(name: "full_name") final  String? fullName;
 @override@JsonKey(name: "html_url") final  String? htmlUrl;
 @override final  String? description;
+@override@JsonKey(name: "created_at") final  String createdAt;
+@override@JsonKey(name: "updated_at") final  String updatedAt;
+@override final  String? language;
+@override@JsonKey(name: "stargazers_count") final  int stargazersCount;
+@override@JsonKey(name: "watchers_count") final  int watchersCount;
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +245,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl)&&(identical(other.description, description) || other.description == description)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.language, language) || other.language == language)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.watchersCount, watchersCount) || other.watchersCount == watchersCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,fullName,htmlUrl,description);
+int get hashCode => Object.hash(runtimeType,id,name,fullName,htmlUrl,description,createdAt,updatedAt,language,stargazersCount,watchersCount);
 
 @override
 String toString() {
-  return 'Repository(id: $id, name: $name, fullName: $fullName, htmlUrl: $htmlUrl, description: $description)';
+  return 'Repository(id: $id, name: $name, fullName: $fullName, htmlUrl: $htmlUrl, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, language: $language, stargazersCount: $stargazersCount, watchersCount: $watchersCount)';
 }
 
 
@@ -255,7 +265,7 @@ abstract mixin class _$RepositoryCopyWith<$Res> implements $RepositoryCopyWith<$
   factory _$RepositoryCopyWith(_Repository value, $Res Function(_Repository) _then) = __$RepositoryCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name,@JsonKey(name: "full_name") String? fullName,@JsonKey(name: "html_url") String? htmlUrl, String? description
+ int id, String name,@JsonKey(name: "full_name") String? fullName,@JsonKey(name: "html_url") String? htmlUrl, String? description,@JsonKey(name: "created_at") String createdAt,@JsonKey(name: "updated_at") String updatedAt, String? language,@JsonKey(name: "stargazers_count") int stargazersCount,@JsonKey(name: "watchers_count") int watchersCount
 });
 
 
@@ -272,14 +282,19 @@ class __$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? fullName = freezed,Object? htmlUrl = freezed,Object? description = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? fullName = freezed,Object? htmlUrl = freezed,Object? description = freezed,Object? createdAt = null,Object? updatedAt = null,Object? language = freezed,Object? stargazersCount = null,Object? watchersCount = null,}) {
   return _then(_Repository(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,fullName: freezed == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
 as String?,htmlUrl: freezed == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
 as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
+as int,watchersCount: null == watchersCount ? _self.watchersCount : watchersCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
