@@ -21,6 +21,15 @@ class RepositoryItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: EdgeInsetsGeometry.all(8.0),
+            child: Image.network(
+              repository.owner.avatarUrl ?? "",
+              height: 72.0,
+              width: 72.0,
+              fit: BoxFit.contain,
+            ),
+          ),
           Expanded(
             child: Padding(
                 padding: EdgeInsetsGeometry.all(8.0),
@@ -29,13 +38,17 @@ class RepositoryItem extends StatelessWidget {
                   children: [
                     Text(
                       repository.name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18.5,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 6.0),
                     (description == null)
                         ? SizedBox.shrink()
                         : Text(
                           description,
+                          style: TextStyle(fontSize: 12.5),
                           overflow: TextOverflow.ellipsis,
                         ),
 
