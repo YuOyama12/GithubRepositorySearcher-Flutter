@@ -213,14 +213,14 @@ return $default(_that.id,_that.name,_that.fullName,_that.htmlUrl,_that.descripti
 @JsonSerializable()
 
 class _Repository implements Repository {
-  const _Repository({required this.id, required this.name, @JsonKey(name: "full_name") this.fullName = null, @JsonKey(name: "html_url") this.htmlUrl = null, this.description = null});
+  const _Repository({required this.id, required this.name, @JsonKey(name: "full_name") this.fullName, @JsonKey(name: "html_url") this.htmlUrl, this.description});
   factory _Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);
 
 @override final  int id;
 @override final  String name;
 @override@JsonKey(name: "full_name") final  String? fullName;
 @override@JsonKey(name: "html_url") final  String? htmlUrl;
-@override@JsonKey() final  String? description;
+@override final  String? description;
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.

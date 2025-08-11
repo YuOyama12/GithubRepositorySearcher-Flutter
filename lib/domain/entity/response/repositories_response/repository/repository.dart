@@ -9,12 +9,9 @@ abstract class Repository with _$Repository {
     required int id,
     required String name,
     @JsonKey(name: "full_name")
-    @Default(null)
     String? fullName,
     @JsonKey(name: "html_url")
-    @Default(null)
     String? htmlUrl,
-    @Default(null)
     String? description,
   }) = _Repository;
 
