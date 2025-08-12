@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repository/repository.dart';
+import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
 
 class RepositoryItem extends StatelessWidget {
   const RepositoryItem({
@@ -23,12 +24,7 @@ class RepositoryItem extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsetsGeometry.all(8.0),
-            child: Image.network(
-              repository.owner.avatarUrl ?? "",
-              height: 72.0,
-              width: 72.0,
-              fit: BoxFit.contain,
-            ),
+            child: AvatarIcon(avatarUrl: repository.owner.avatarUrl),
           ),
           Expanded(
             child: Padding(
