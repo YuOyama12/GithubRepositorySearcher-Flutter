@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repository/repository.dart';
+import 'package:github_repository_searcher/domain/entity/response/user_response/user_response.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
 
 class RepositoryItem extends StatelessWidget {
@@ -24,7 +25,7 @@ class RepositoryItem extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsetsGeometry.all(8.0),
-            child: AvatarIcon(avatarUrl: repository.owner.avatarUrl),
+            child: _ProfileWidget(owner: repository.owner),
           ),
           Expanded(
             child: Padding(
@@ -54,6 +55,40 @@ class RepositoryItem extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _ProfileWidget extends StatelessWidget {
+  final UserResponse owner;
+
+  const _ProfileWidget({
+    required this.owner,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final widgetWidth = 72.0;
+    return Column(
+        children: [
+          AvatarIcon(
+            avatarUrl: owner.avatarUrl,
+            size: widgetWidth,
+          ),
+          SizedBox(height: 6.0),
+          Container(
+            width: widgetWidth,
+            alignment: Alignment.center,
+            child: Text(
+              owner.login,
+              style: TextStyle(
+                fontSize: 12.5,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ]
     );
   }
 }
