@@ -44,16 +44,14 @@ class RepositoryItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 6.0),
-                    (description == null)
-                        ? SizedBox.shrink()
-                        : Padding(
-                            padding: EdgeInsetsGeometry.fromLTRB(0, 0, 0, 6.0),
-                            child: Text(
-                              description,
-                              style: TextStyle(fontSize: 11.5),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                        ),
+                    Padding(
+                      padding: EdgeInsetsGeometry.fromLTRB(0, 0, 0, 6.0),
+                      child: Text(
+                        description ?? '',
+                        style: TextStyle(fontSize: 11.5),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     Text(StringConsts.usedLanguage(repository.language)),
                     Padding(
                       padding: EdgeInsetsGeometry.all(4.0),
