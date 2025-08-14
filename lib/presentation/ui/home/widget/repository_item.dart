@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repository/repository.dart';
 import 'package:github_repository_searcher/domain/entity/response/user_response/user_response.dart';
+import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
 
 class RepositoryItem extends StatelessWidget {
@@ -36,18 +37,23 @@ class RepositoryItem extends StatelessWidget {
                     Text(
                       repository.name,
                       style: TextStyle(
-                        fontSize: 18.5,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 6.0),
                     (description == null)
                         ? SizedBox.shrink()
-                        : Text(
-                          description,
-                          style: TextStyle(fontSize: 12.5),
-                          overflow: TextOverflow.ellipsis,
+                        : Padding(
+                            padding: EdgeInsetsGeometry.fromLTRB(0, 0, 0, 6.0),
+                            child: Text(
+                              description,
+                              style: TextStyle(fontSize: 11.5),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                         ),
+                    Text(StringConsts.usedLanguage(repository.language)),
 
                   ],
                 )
