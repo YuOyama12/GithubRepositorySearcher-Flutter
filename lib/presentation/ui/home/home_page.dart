@@ -61,8 +61,13 @@ class HomePage extends HookConsumerWidget {
                   itemCount: repositoryResponse.items.length,
                   itemBuilder: (BuildContext context, int index) {
                     final repository = repositoryResponse.items[index];
-                    return RepositoryItem(
-                        repository: repository
+                    return InkWell(
+                      onTap: () {
+                        //todo: タップ時の画面遷移処理を入れる。
+                      },
+                      child: RepositoryItem(
+                          repository: repository
+                      ),
                     );
                   }
               )

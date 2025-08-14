@@ -9,9 +9,15 @@ part of 'repository.dart';
 _Repository _$RepositoryFromJson(Map<String, dynamic> json) => _Repository(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
-  fullName: json['full_name'] as String? ?? null,
-  htmlUrl: json['html_url'] as String? ?? null,
-  description: json['description'] as String? ?? null,
+  fullName: json['full_name'] as String?,
+  htmlUrl: json['html_url'] as String?,
+  description: json['description'] as String?,
+  createdAt: json['created_at'] as String,
+  updatedAt: json['updated_at'] as String,
+  language: json['language'] as String?,
+  stargazersCount: (json['stargazers_count'] as num).toInt(),
+  watchersCount: (json['watchers_count'] as num).toInt(),
+  owner: UserResponse.fromJson(json['owner'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>
@@ -21,4 +27,10 @@ Map<String, dynamic> _$RepositoryToJson(_Repository instance) =>
       'full_name': instance.fullName,
       'html_url': instance.htmlUrl,
       'description': instance.description,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'language': instance.language,
+      'stargazers_count': instance.stargazersCount,
+      'watchers_count': instance.watchersCount,
+      'owner': instance.owner,
     };
