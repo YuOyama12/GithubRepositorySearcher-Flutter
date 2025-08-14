@@ -43,9 +43,8 @@ class RepositoryItem extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 6.0),
                     Padding(
-                      padding: EdgeInsetsGeometry.fromLTRB(0, 0, 0, 6.0),
+                      padding: EdgeInsetsGeometry.symmetric(vertical: 6.0),
                       child: Text(
                         description ?? '',
                         style: TextStyle(fontSize: 11.5),
