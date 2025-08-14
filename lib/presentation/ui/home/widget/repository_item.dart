@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repository/repository.dart';
 import 'package:github_repository_searcher/domain/entity/response/user_response/user_response.dart';
+import 'package:github_repository_searcher/presentation/const/colors.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
 
@@ -54,7 +55,13 @@ class RepositoryItem extends StatelessWidget {
                             ),
                         ),
                     Text(StringConsts.usedLanguage(repository.language)),
-
+                    Padding(
+                      padding: EdgeInsetsGeometry.all(4.0),
+                      child: _StarsAndWatchers(
+                          stargazersCount: repository.stargazersCount,
+                          watchersCount: repository.watchersCount
+                      ),
+                    )
                   ],
                 )
             )
@@ -95,6 +102,43 @@ class _ProfileWidget extends StatelessWidget {
             ),
           ),
         ]
+    );
+  }
+}
+
+class _StarsAndWatchers extends StatelessWidget {
+  final int stargazersCount;
+  final int watchersCount;
+
+  const _StarsAndWatchers({
+    required this.stargazersCount,
+    required this.watchersCount,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 6.0,
+      children: [
+        Icon(
+          Icons.star,
+          color: ColorConsts.starYellow,
+        ),
+        Expanded(
+          child: Text(
+            stargazersCount.toString()
+          ),
+        ),
+        Icon(
+          Icons.remove_red_eye_rounded,
+          color: ColorConsts.watcherGray,
+        ),
+        Expanded(
+          child: Text(
+              watchersCount.toString()
+          ),
+        ),
+      ],
     );
   }
 }
