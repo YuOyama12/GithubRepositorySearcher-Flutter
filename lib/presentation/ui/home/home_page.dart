@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:github_repository_searcher/presentation/const/routes.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../provider/repositories_response_notifier.dart';
@@ -63,7 +65,13 @@ class HomePage extends HookConsumerWidget {
                     final repository = repositoryResponse.items[index];
                     return InkWell(
                       onTap: () {
-                        //todo: タップ時の画面遷移処理を入れる。
+                        context.push(
+                          RouteConsts.repositoryDetailPagePath,
+                          extra: {
+                            'repositoryName': repository.name,
+                            'repositoryUrl': repository.htmlUrl
+                          }
+                        );
                       },
                       child: RepositoryItem(
                           repository: repository
