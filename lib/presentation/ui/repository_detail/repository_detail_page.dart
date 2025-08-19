@@ -23,6 +23,12 @@ class RepositoryDetailPage extends HookConsumerWidget {
             ref.read(loadingProgressController.notifier)
               .setLoading(isLoading: (progress < 100));
           },
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith(args.repositoryUrl)) {
+              return NavigationDecision.navigate;
+            }
+            return NavigationDecision.prevent;
+          }
         ),
       )
       ..loadRequest(Uri.parse(args.repositoryUrl));
