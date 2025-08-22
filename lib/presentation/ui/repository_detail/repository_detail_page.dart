@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/presentation/const/colors.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -41,6 +42,9 @@ class RepositoryDetailPage extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(args.repositoryName),
+        leading: CloseButton(
+          onPressed: () => context.pop(),
+        ),
       ),
       body: WebViewWidget(controller: controller),
     );
