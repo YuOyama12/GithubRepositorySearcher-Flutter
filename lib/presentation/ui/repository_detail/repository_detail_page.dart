@@ -46,7 +46,29 @@ class RepositoryDetailPage extends HookConsumerWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      body: WebViewWidget(controller: controller),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: controller),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 36.0, vertical: 48.0),
+              child: _WebPageController(
+                onBackPressed: () async {
+                  if (await controller.canGoBack()) {
+                    controller.goBack();
+                  }
+                },
+                onForwardPressed: () async {
+                  if (await controller.canGoForward()) {
+                    controller.goForward();
+                  }
+                },
+              )
+            ),
+          )
+        ]
+      )
     );
   }
 
@@ -59,5 +81,43 @@ class RepositoryDetailPage extends HookConsumerWidget {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+}
+
+class _WebPageController extends StatelessWidget {
+  const _WebPageController({
+    required this.onBackPressed,
+    required this.onForwardPressed,
+  });
+
+  final Function onBackPressed;
+  final Function onForwardPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor = ColorConsts.watcherGray.withAlpha(50);
+    final iconButtonColor = ColorConsts.watcherGray.withAlpha(200);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          color: backgroundColor,
+          child: IconButton(
+            onPressed: () => onBackPressed(),
+            icon: Icon(Icons.arrow_back),
+            color: iconButtonColor,
+          ),
+        ),
+        Container(
+          color: backgroundColor,
+          child: IconButton(
+            onPressed: () => onForwardPressed(),
+            icon: Icon(Icons.arrow_forward),
+            color: iconButtonColor,
+          ),
+        ),
+      ],
+    );
   }
 }
