@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/colors.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
@@ -18,25 +19,40 @@ class RepositoryDetailPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-            ref.read(loadingProgressController.notifier)
-              .setLoading(isLoading: (progress < 100));
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(args.repositoryUrl)) {
-              return NavigationDecision.navigate;
-            }
+    double currentYPositon = 0;
+    final showWebPageController = useState(true);
 
-            _showLoadPreventionSnackBar(context);
-            return NavigationDecision.prevent;
+    final controller = useMemoized(() {
+      return WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setOnScrollPositionChange((position) {
+          // 上へスクロールしたときのみ、WebPageControllerを表示させる。
+          if (position.y < currentYPositon) {
+            showWebPageController.value = true;
+          } else {
+            showWebPageController.value = false;
           }
-        ),
-      )
-      ..loadRequest(Uri.parse(args.repositoryUrl));
+
+          currentYPositon = position.y;
+        })
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              ref.read(loadingProgressController.notifier)
+                  .setLoading(isLoading: (progress < 100));
+            },
+            onNavigationRequest: (NavigationRequest request) {
+              if (request.url.startsWith(args.repositoryUrl)) {
+                return NavigationDecision.navigate;
+              }
+
+              _showLoadPreventionSnackBar(context);
+              return NavigationDecision.prevent;
+            }
+          ),
+        )
+        ..loadRequest(Uri.parse(args.repositoryUrl));
+    }, [args.repositoryUrl]);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,24 +65,28 @@ class RepositoryDetailPage extends HookConsumerWidget {
       body: Stack(
         children: [
           WebViewWidget(controller: controller),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 36.0, vertical: 48.0),
-              child: _WebPageController(
-                onBackPressed: () async {
-                  if (await controller.canGoBack()) {
-                    controller.goBack();
-                  }
-                },
-                onForwardPressed: () async {
-                  if (await controller.canGoForward()) {
-                    controller.goForward();
-                  }
-                },
-              )
-            ),
-          )
+          AnimatedOpacity(
+            opacity: showWebPageController.value ? 1.0 : 0.0,
+            duration: Duration(milliseconds: 200),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: EdgeInsetsGeometry.symmetric(horizontal: 36.0, vertical: 48.0),
+                  child: _WebPageController(
+                    onBackPressed: () async {
+                      if (await controller.canGoBack()) {
+                        controller.goBack();
+                      }
+                    },
+                    onForwardPressed: () async {
+                      if (await controller.canGoForward()) {
+                        controller.goForward();
+                      }
+                    },
+                  )
+              ),
+            )
+          ),
         ]
       )
     );
