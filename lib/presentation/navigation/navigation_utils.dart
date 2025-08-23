@@ -31,14 +31,4 @@ class NavigationUtils {
       );
     }
   }
-
-  static RepositoryDetailArgs getRepositoryDetailArgs({
-    required GoRouterState state,
-  }) {
-    final data = state.extra as Map<String, dynamic>;
-    return RepositoryDetailArgs(
-        repositoryName: data[RepositoryDetailArgs.repositoryNameKey],
-        repositoryUrl: data[RepositoryDetailArgs.repositoryUrlKey],
-    );
-  }
 }
