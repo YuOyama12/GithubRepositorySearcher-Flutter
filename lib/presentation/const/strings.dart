@@ -6,5 +6,5 @@ class StringConsts {
   static String usedLanguage(String? language) {
     return '使用言語：${language ?? '-'}';
   }
-
+  static const String loadPreventionErrorMessage = 'このページを表示することはできません';
 }
