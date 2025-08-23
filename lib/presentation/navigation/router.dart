@@ -4,9 +4,10 @@ import 'package:github_repository_searcher/presentation/ui/repository_detail/rep
 import 'package:go_router/go_router.dart';
 
 import '../ui/home/home_page.dart';
+import '../ui/repository_detail/navigation/repository_detail_args.dart';
 
 final goRouter = GoRouter(
-  initialLocation: RouteConsts.homePagePath,  // アプリ起動後のパス
+  initialLocation: RouteConsts.homePagePath,
   routes: [
     _homePageRoute,
     _repositoryDetailPageRoute,
@@ -21,8 +22,12 @@ final _homePageRoute = GoRoute(
 final _repositoryDetailPageRoute = GoRoute(
   path: RouteConsts.repositoryDetailPagePath,
   builder: (_, state) {
+    final data = state.extra as Map<String, dynamic>;
     return RepositoryDetailPage(
-        args: NavigationUtils.getRepositoryDetailArgs(state: state),
+        args: RepositoryDetailArgs(
+          repositoryName: data[RepositoryDetailArgs.repositoryNameKey],
+          repositoryUrl: data[RepositoryDetailArgs.repositoryUrlKey],
+        ),
     );
   }
 );
