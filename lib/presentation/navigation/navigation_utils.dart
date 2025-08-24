@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
+import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:go_router/go_router.dart';
 import 'package:universal_html/js.dart' as js;
 
@@ -30,5 +31,17 @@ class NavigationUtils {
           }
       );
     }
+  }
+
+  static void toUserDetail({
+    required BuildContext context,
+    required UserDetailArgs args
+  }) {
+    context.push(
+        RouteConsts.userDetailPagePath,
+        extra: {
+          UserDetailArgs.userIdKey: args.userId,
+        }
+    );
   }
 }

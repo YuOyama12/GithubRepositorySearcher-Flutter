@@ -3,6 +3,7 @@ import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
+import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../provider/repositories_response_notifier.dart';
@@ -73,7 +74,15 @@ class HomePage extends HookConsumerWidget {
                         );
                       },
                       child: RepositoryItem(
-                          repository: repository
+                        repository: repository,
+                        onOwnerTap: (id) {
+                          NavigationUtils.toUserDetail(
+                            context: context,
+                            args: UserDetailArgs(
+                              userId: id,
+                            ),
+                          );
+                        },
                       ),
                     );
                   }
