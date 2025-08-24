@@ -86,9 +86,9 @@ class _ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final widgetWidth = 72.0;
-    return InkWell(
-      onTap: () => onTap(owner.id),
-      child: Column(
+    return Stack(
+      children: [
+        Column(
           children: [
             AvatarIcon(
               avatarUrl: owner.avatarUrl,
@@ -108,7 +108,16 @@ class _ProfileWidget extends StatelessWidget {
               ),
             ),
           ]
-      ),
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => onTap(owner.id),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
