@@ -35,4 +35,8 @@ class UserResponseNotifier extends StateNotifier<UserResponse?> {
       loadingController.setLoading(isLoading: false);
     }
   }
+
+  void initialize() {
+    state = null;
+  }
 }

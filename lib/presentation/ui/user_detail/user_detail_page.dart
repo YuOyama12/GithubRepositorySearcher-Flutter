@@ -26,7 +26,8 @@ class UserDetailPage extends HookConsumerWidget {
             .fetchUserById(userId: args.userId);
       });
 
-      return null;
+      return ref.read(userResponseNotifierProvider.notifier)
+          .initialize;
     }, []);
 
     return Scaffold(
