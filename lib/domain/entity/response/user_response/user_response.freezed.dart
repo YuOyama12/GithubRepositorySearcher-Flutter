@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserResponse {
 
- int get id; String get login;@JsonKey(name: "avatar_url") String? get avatarUrl;@JsonKey(name: "html_url") String? get htmlUrl;
+ int get id; String get login; int? get followers; int? get following;@JsonKey(name: "avatar_url") String? get avatarUrl;
 /// Create a copy of UserResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UserResponseCopyWith<UserResponse> get copyWith => _$UserResponseCopyWithImpl<U
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.login, login) || other.login == login)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.login, login) || other.login == login)&&(identical(other.followers, followers) || other.followers == followers)&&(identical(other.following, following) || other.following == following)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,login,avatarUrl,htmlUrl);
+int get hashCode => Object.hash(runtimeType,id,login,followers,following,avatarUrl);
 
 @override
 String toString() {
-  return 'UserResponse(id: $id, login: $login, avatarUrl: $avatarUrl, htmlUrl: $htmlUrl)';
+  return 'UserResponse(id: $id, login: $login, followers: $followers, following: $following, avatarUrl: $avatarUrl)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UserResponseCopyWith<$Res>  {
   factory $UserResponseCopyWith(UserResponse value, $Res Function(UserResponse) _then) = _$UserResponseCopyWithImpl;
 @useResult
 $Res call({
- int id, String login,@JsonKey(name: "avatar_url") String? avatarUrl,@JsonKey(name: "html_url") String? htmlUrl
+ int id, String login, int? followers, int? following,@JsonKey(name: "avatar_url") String? avatarUrl
 });
 
 
@@ -65,12 +65,13 @@ class _$UserResponseCopyWithImpl<$Res>
 
 /// Create a copy of UserResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? login = null,Object? avatarUrl = freezed,Object? htmlUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? login = null,Object? followers = freezed,Object? following = freezed,Object? avatarUrl = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,login: null == login ? _self.login : login // ignore: cast_nullable_to_non_nullable
-as String,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,htmlUrl: freezed == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
+as String,followers: freezed == followers ? _self.followers : followers // ignore: cast_nullable_to_non_nullable
+as int?,following: freezed == following ? _self.following : following // ignore: cast_nullable_to_non_nullable
+as int?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String login, @JsonKey(name: "avatar_url")  String? avatarUrl, @JsonKey(name: "html_url")  String? htmlUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String login,  int? followers,  int? following, @JsonKey(name: "avatar_url")  String? avatarUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserResponse() when $default != null:
-return $default(_that.id,_that.login,_that.avatarUrl,_that.htmlUrl);case _:
+return $default(_that.id,_that.login,_that.followers,_that.following,_that.avatarUrl);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.id,_that.login,_that.avatarUrl,_that.htmlUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String login, @JsonKey(name: "avatar_url")  String? avatarUrl, @JsonKey(name: "html_url")  String? htmlUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String login,  int? followers,  int? following, @JsonKey(name: "avatar_url")  String? avatarUrl)  $default,) {final _that = this;
 switch (_that) {
 case _UserResponse():
-return $default(_that.id,_that.login,_that.avatarUrl,_that.htmlUrl);case _:
+return $default(_that.id,_that.login,_that.followers,_that.following,_that.avatarUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.id,_that.login,_that.avatarUrl,_that.htmlUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String login, @JsonKey(name: "avatar_url")  String? avatarUrl, @JsonKey(name: "html_url")  String? htmlUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String login,  int? followers,  int? following, @JsonKey(name: "avatar_url")  String? avatarUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _UserResponse() when $default != null:
-return $default(_that.id,_that.login,_that.avatarUrl,_that.htmlUrl);case _:
+return $default(_that.id,_that.login,_that.followers,_that.following,_that.avatarUrl);case _:
   return null;
 
 }
@@ -212,13 +213,14 @@ return $default(_that.id,_that.login,_that.avatarUrl,_that.htmlUrl);case _:
 @JsonSerializable()
 
 class _UserResponse implements UserResponse {
-  const _UserResponse({required this.id, required this.login, @JsonKey(name: "avatar_url") this.avatarUrl, @JsonKey(name: "html_url") this.htmlUrl});
+  const _UserResponse({required this.id, required this.login, this.followers, this.following, @JsonKey(name: "avatar_url") this.avatarUrl});
   factory _UserResponse.fromJson(Map<String, dynamic> json) => _$UserResponseFromJson(json);
 
 @override final  int id;
 @override final  String login;
+@override final  int? followers;
+@override final  int? following;
 @override@JsonKey(name: "avatar_url") final  String? avatarUrl;
-@override@JsonKey(name: "html_url") final  String? htmlUrl;
 
 /// Create a copy of UserResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.login, login) || other.login == login)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.htmlUrl, htmlUrl) || other.htmlUrl == htmlUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserResponse&&(identical(other.id, id) || other.id == id)&&(identical(other.login, login) || other.login == login)&&(identical(other.followers, followers) || other.followers == followers)&&(identical(other.following, following) || other.following == following)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,login,avatarUrl,htmlUrl);
+int get hashCode => Object.hash(runtimeType,id,login,followers,following,avatarUrl);
 
 @override
 String toString() {
-  return 'UserResponse(id: $id, login: $login, avatarUrl: $avatarUrl, htmlUrl: $htmlUrl)';
+  return 'UserResponse(id: $id, login: $login, followers: $followers, following: $following, avatarUrl: $avatarUrl)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$UserResponseCopyWith<$Res> implements $UserResponseCopyWi
   factory _$UserResponseCopyWith(_UserResponse value, $Res Function(_UserResponse) _then) = __$UserResponseCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String login,@JsonKey(name: "avatar_url") String? avatarUrl,@JsonKey(name: "html_url") String? htmlUrl
+ int id, String login, int? followers, int? following,@JsonKey(name: "avatar_url") String? avatarUrl
 });
 
 
@@ -270,12 +272,13 @@ class __$UserResponseCopyWithImpl<$Res>
 
 /// Create a copy of UserResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? login = null,Object? avatarUrl = freezed,Object? htmlUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? login = null,Object? followers = freezed,Object? following = freezed,Object? avatarUrl = freezed,}) {
   return _then(_UserResponse(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,login: null == login ? _self.login : login // ignore: cast_nullable_to_non_nullable
-as String,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,htmlUrl: freezed == htmlUrl ? _self.htmlUrl : htmlUrl // ignore: cast_nullable_to_non_nullable
+as String,followers: freezed == followers ? _self.followers : followers // ignore: cast_nullable_to_non_nullable
+as int?,following: freezed == following ? _self.following : following // ignore: cast_nullable_to_non_nullable
+as int?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
