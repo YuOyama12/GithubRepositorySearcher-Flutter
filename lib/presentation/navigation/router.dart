@@ -1,6 +1,7 @@
 import 'package:github_repository_searcher/presentation/const/routes.dart';
-import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/repository_detail_page.dart';
+import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
+import 'package:github_repository_searcher/presentation/ui/user_detail/user_detail_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../ui/home/home_page.dart';
@@ -11,6 +12,7 @@ final goRouter = GoRouter(
   routes: [
     _homePageRoute,
     _repositoryDetailPageRoute,
+    _userDetailPageRoute
   ],
 );
 
@@ -30,4 +32,16 @@ final _repositoryDetailPageRoute = GoRoute(
         ),
     );
   }
+);
+
+final _userDetailPageRoute = GoRoute(
+    path: RouteConsts.userDetailPagePath,
+    builder: (_, state) {
+      final data = state.extra as Map<String, dynamic>;
+      return UserDetailPage(
+        args: UserDetailArgs(
+          userId: data[UserDetailArgs.userIdKey],
+        ),
+      );
+    }
 );

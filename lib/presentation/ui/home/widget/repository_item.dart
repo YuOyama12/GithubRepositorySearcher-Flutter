@@ -9,9 +9,11 @@ class RepositoryItem extends StatelessWidget {
   const RepositoryItem({
     super.key,
     required this.repository,
+    required this.onOwnerTap,
   });
   
   final Repository repository;
+  final Function(int) onOwnerTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,10 @@ class RepositoryItem extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsetsGeometry.all(8.0),
-            child: _ProfileWidget(owner: repository.owner),
+            child: _ProfileWidget(
+              owner: repository.owner,
+              onTap: onOwnerTap,
+            ),
           ),
           Expanded(
             child: Padding(
@@ -71,34 +76,48 @@ class RepositoryItem extends StatelessWidget {
 
 class _ProfileWidget extends StatelessWidget {
   final UserResponse owner;
+  final Function(int) onTap;
 
   const _ProfileWidget({
     required this.owner,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final widgetWidth = 72.0;
-    return Column(
-        children: [
-          AvatarIcon(
-            avatarUrl: owner.avatarUrl,
-            size: widgetWidth,
-          ),
-          SizedBox(height: 6.0),
-          Container(
-            width: widgetWidth,
-            alignment: Alignment.center,
-            child: Text(
-              owner.login,
-              style: TextStyle(
-                fontSize: 12.5,
+    return Stack(
+      children: [
+        Column(
+          children: [
+            AvatarIcon(
+              avatarUrl: owner.avatarUrl,
+              size: widgetWidth,
+            ),
+            SizedBox(height: 6.0),
+            Container(
+              width: widgetWidth,
+              alignment: Alignment.center,
+              child: Text(
+                owner.login,
+                style: TextStyle(
+                  fontSize: 12.5,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            ),
+          ]
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => onTap(owner.id),
             ),
           ),
-        ]
+        )
+      ],
     );
   }
 }
