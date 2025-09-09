@@ -1,4 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
+
+final _logger = Logger(
+  printer: PrettyPrinter(
+    colors: false,
+    printEmojis: false
+  )
+);
 
 class AppDio extends DioMixin {
   factory AppDio()  {
@@ -16,26 +24,17 @@ class AppDio extends DioMixin {
       ..options = options
       ..httpClientAdapter = HttpClientAdapter()
       ..interceptors.add(
-        //FIXME: printではなくログパッケージを採用する。
           InterceptorsWrapper(
             onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-              print('######## Request Log ########');
-              print('--> ${options.method} ${options.path}');
-              print('URL: ${options.uri}');
-              print('Headers: ${options.headers}');
-              print('Request Data: ${options.data}');
+              _logger.i(_createRequestLog(options));
               return handler.next(options);
             },
             onResponse: (Response response, ResponseInterceptorHandler handler) {
-              print('######## Response Log ########');
-              print('<-- ${response.statusCode} ${response.requestOptions.path}');
-              print('Headers: ${response.headers}');
-              print('Response Data: ${response.data}');
+              _logger.i(_createResponseLog(response));
               return handler.next(response);
             },
             onError: (DioException e, ErrorInterceptorHandler handler) {
-              print('######## Error Log ########');
-              print('<-- Error --> ${e.message}');
+              _logger.e('######## Error Log ########', error: e, stackTrace: e.stackTrace);
               return handler.next(e);
             },
           ),
@@ -47,4 +46,25 @@ class AppDio extends DioMixin {
   AppDio._();
 
   static AppDio? _instance;
+
+  static String _createRequestLog(RequestOptions options) {
+    final buffer = StringBuffer();
+    buffer.writeln('######## Request Log ########');
+    buffer.writeln('${options.method} ${options.path}');
+    buffer.writeln('URL: ${options.uri}');
+    buffer.writeln('Headers: ${options.headers}');
+    buffer.write('Request Data: ${options.data}');
+
+    return buffer.toString();
+  }
+
+  static String _createResponseLog(Response response) {
+    final buffer = StringBuffer();
+    buffer.writeln('######## Response Log ########');
+    buffer.writeln('${response.statusCode} ${response.requestOptions.path}');
+    buffer.writeln('Headers: ${response.headers}');
+    buffer.write('Response Data: ${response.data}');
+
+    return buffer.toString();
+  }
 }
