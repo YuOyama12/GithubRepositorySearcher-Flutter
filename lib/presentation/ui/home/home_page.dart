@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
+import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
 import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../provider/repositories_response_notifier.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -14,7 +13,7 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueryController = TextEditingController();
-    final repositoryResponse = ref.watch(repositoriesResponseNotifierProvider);
+    final repositoriesResponse = ref.watch(repositoriesStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +44,7 @@ class HomePage extends HookConsumerWidget {
                     return FilledButton(
                       onPressed: (value.text.isNotEmpty)
                       ? () {
-                        ref.read(repositoriesResponseNotifierProvider.notifier)
+                        ref.read(repositoriesStateProvider.notifier)
                             .searchRepositories(query: searchQueryController.text);
                       }
                       : null,
@@ -56,13 +55,18 @@ class HomePage extends HookConsumerWidget {
               ],
             ),
           ),
-          (repositoryResponse == null || repositoryResponse.items.isEmpty)
+          (repositoriesResponse?.items.isEmpty ?? true)
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
               child: ListView.builder(
-                  itemCount: repositoryResponse.items.length,
+                  itemCount: repositoriesResponse?.items.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final repository = repositoryResponse.items[index];
+                    final repository = repositoriesResponse?.items[index];
+
+                    if (repository == null) {
+                      return SizedBox.shrink();
+                    }
+
                     return InkWell(
                       onTap: () {
                         NavigationUtils.toRepositoryDetail(
