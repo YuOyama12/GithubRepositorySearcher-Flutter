@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
+import 'package:github_repository_searcher/presentation/provider/fetch_user_provider/fetch_user_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
 import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../domain/entity/response/user_response/user_response.dart';
-import '../../provider/user_response_notifier.dart';
 
 class UserDetailPage extends HookConsumerWidget {
   const UserDetailPage({
@@ -18,17 +17,8 @@ class UserDetailPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userResponse = ref.watch(userResponseNotifierProvider);
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(userResponseNotifierProvider.notifier)
-            .fetchUserById(userId: args.userId);
-      });
-
-      return ref.read(userResponseNotifierProvider.notifier)
-          .initialize;
-    }, []);
+    final userResponseData = ref.watch(fetchUserProvider(userId: args.userId));
+    final userResponse = userResponseData.value;
 
     return Scaffold(
       appBar: AppBar(
