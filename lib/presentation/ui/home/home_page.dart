@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
@@ -13,7 +14,25 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueryController = TextEditingController();
+    final scrollController = useScrollController();
     final repositoriesResponse = ref.watch(repositoriesStateProvider);
+
+    useEffect(() {
+      void scrollListener() {
+        const threshold = 0.85;
+
+        final scrollValue =
+            scrollController.offset / scrollController.position.maxScrollExtent;
+
+        if (scrollValue > threshold) {
+          // TODO: ページング処理を入れる
+        }
+      }
+
+      scrollController.addListener(scrollListener);
+
+      return () => scrollController.removeListener(scrollListener);
+    }, [scrollController]);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +78,7 @@ class HomePage extends HookConsumerWidget {
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
               child: ListView.builder(
+                  controller: scrollController,
                   itemCount: repositoriesResponse?.items.length,
                   itemBuilder: (BuildContext context, int index) {
                     final repository = repositoriesResponse?.items[index];
