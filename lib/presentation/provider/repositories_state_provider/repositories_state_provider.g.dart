@@ -10,7 +10,7 @@ part of 'repositories_state_provider.dart';
 const repositoriesStateProvider = RepositoriesStateProvider._();
 
 final class RepositoriesStateProvider
-    extends $NotifierProvider<RepositoriesState, RepositoriesResponse?> {
+    extends $AsyncNotifierProvider<RepositoriesState, RepositoriesResponse?> {
   const RepositoriesStateProvider._()
     : super(
         from: null,
@@ -28,30 +28,28 @@ final class RepositoriesStateProvider
   @$internal
   @override
   RepositoriesState create() => RepositoriesState();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(RepositoriesResponse? value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<RepositoriesResponse?>(value),
-    );
-  }
 }
 
-String _$repositoriesStateHash() => r'78d54d1850d5cb0c25342f161af47b2a0b1339b8';
+String _$repositoriesStateHash() => r'98778bec8e0d84ac9d9e4452ced0830c82753032';
 
-abstract class _$RepositoriesState extends $Notifier<RepositoriesResponse?> {
-  RepositoriesResponse? build();
+abstract class _$RepositoriesState
+    extends $AsyncNotifier<RepositoriesResponse?> {
+  FutureOr<RepositoriesResponse?> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<RepositoriesResponse?, RepositoriesResponse?>;
+    final ref =
+        this.ref
+            as $Ref<AsyncValue<RepositoriesResponse?>, RepositoriesResponse?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<RepositoriesResponse?, RepositoriesResponse?>,
-              RepositoriesResponse?,
+              AnyNotifier<
+                AsyncValue<RepositoriesResponse?>,
+                RepositoriesResponse?
+              >,
+              AsyncValue<RepositoriesResponse?>,
               Object?,
               Object?
             >;

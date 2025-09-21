@@ -74,14 +74,14 @@ class HomePage extends HookConsumerWidget {
               ],
             ),
           ),
-          (repositoriesResponse?.items.isEmpty ?? true)
+          (repositoriesResponse.value?.items.isEmpty ?? true)
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
               child: ListView.builder(
                   controller: scrollController,
-                  itemCount: repositoriesResponse?.items.length,
+                  itemCount: repositoriesResponse.value?.items.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final repository = repositoriesResponse?.items[index];
+                    final repository = repositoriesResponse.value?.items[index];
 
                     if (repository == null) {
                       return SizedBox.shrink();

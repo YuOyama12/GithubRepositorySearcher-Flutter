@@ -9,7 +9,7 @@ part 'repositories_state_provider.g.dart';
 @riverpod
 class RepositoriesState extends _$RepositoriesState {
   @override
-  RepositoriesResponse? build() => null;
+  Future<RepositoriesResponse?> build() => Future.value(null);
 
   Future<void> searchRepositories({
     required String query
@@ -19,7 +19,10 @@ class RepositoriesState extends _$RepositoriesState {
 
     try {
       loadingController.setLoading(isLoading: true);
-      state = await searchRepoRepository.searchRepositories(query: query);
+      state = AsyncLoading();
+      state = await AsyncValue.guard(() =>
+        searchRepoRepository.searchRepositories(query: query)
+      );
     } finally {
       loadingController.setLoading(isLoading: false);
     }
