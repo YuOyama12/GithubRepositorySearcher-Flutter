@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
@@ -17,16 +19,23 @@ class HomePage extends HookConsumerWidget {
     final scrollController = useScrollController();
     final repositoriesResponse = ref.watch(repositoriesStateProvider);
 
+    Timer? debounce;
     useEffect(() {
       void scrollListener() {
-        const threshold = 0.85;
+        const threshold = 0.8;
 
         final scrollValue =
             scrollController.offset / scrollController.position.maxScrollExtent;
 
-        if (scrollValue > threshold) {
-          // TODO: ページング処理を入れる
+        if (debounce?.isActive ?? false) {
+          debounce?.cancel();
         }
+
+        debounce = Timer(const Duration(milliseconds: 100), () {
+          if (scrollValue > threshold) {
+            // TODO: ページング処理を入れる
+          }
+        });
       }
 
       scrollController.addListener(scrollListener);
