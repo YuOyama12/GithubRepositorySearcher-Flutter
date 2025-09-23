@@ -12,8 +12,9 @@ class SearchRepoRepository {
   SearchRepoRepository(this.apiClient);
 
   Future<RepositoriesResponse> searchRepositories({
-    required String query
+    required String query,
+    int? page,
   }) async {
-    return apiClient.fetchRepositoriesByQuery(query: query);
+    return apiClient.fetchRepositoriesByQuery(query: query, page: page);
   }
 }

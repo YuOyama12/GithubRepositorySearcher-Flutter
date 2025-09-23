@@ -20,9 +20,11 @@ class _ApiClient implements ApiClient {
   @override
   Future<RepositoriesResponse> fetchRepositoriesByQuery({
     required String query,
+    int? page,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'q': query};
+    final queryParameters = <String, dynamic>{r'q': query, r'page': page};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<RepositoriesResponse>(

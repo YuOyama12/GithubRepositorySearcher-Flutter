@@ -33,7 +33,7 @@ class HomePage extends HookConsumerWidget {
 
         debounce = Timer(const Duration(milliseconds: 100), () {
           if (scrollValue > threshold) {
-            // TODO: ページング処理を入れる
+            ref.read(repositoriesStateProvider.notifier).fetchNextPage();
           }
         });
       }

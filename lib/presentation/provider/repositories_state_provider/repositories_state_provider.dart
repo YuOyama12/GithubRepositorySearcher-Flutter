@@ -11,20 +11,48 @@ class RepositoriesState extends _$RepositoriesState {
   @override
   Future<RepositoriesResponse?> build() => Future.value(null);
 
+  String? _latestQueryCache;
+  int? _latestPageRequestCache;
+
   Future<void> searchRepositories({
-    required String query
+    required String query,
+    int? page,
   }) async {
-    final searchRepoRepository = ref.watch(searchRepoRepositoryProvider);
+    if (_latestQueryCache == null || _latestQueryCache != query) {
+      state = AsyncData(null);
+      _latestQueryCache = query;
+    }
+    _latestPageRequestCache = page;
+
     final loadingController = ref.read(loadingProgressController.notifier);
 
     try {
       loadingController.setLoading(isLoading: true);
-      state = AsyncLoading();
-      state = await AsyncValue.guard(() =>
-        searchRepoRepository.searchRepositories(query: query)
+      state = await AsyncValue.guard(() async {
+        final current = state.value?.items;
+        final newResult = await ref.read(searchRepoRepositoryProvider)
+            .searchRepositories(query: query, page: page);
+        return state.value?.copyWith(
+          items: (current ?? []) + newResult.items
+        ) ?? newResult;
+      }
+
       );
+      print("testtest::${state.value}");
     } finally {
       loadingController.setLoading(isLoading: false);
     }
+  }
+
+  Future<void> fetchNextPage() async {
+    if (state.isLoading || state.isRefreshing) {
+      return;
+    }
+    state = AsyncLoading();
+
+    searchRepositories(
+      query: _latestQueryCache ?? '',
+      page: (_latestPageRequestCache ?? 1) + 1
+    );
   }
 }
