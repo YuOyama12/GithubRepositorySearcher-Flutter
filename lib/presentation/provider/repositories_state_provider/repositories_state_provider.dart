@@ -14,6 +14,10 @@ class RepositoriesState extends _$RepositoriesState {
   String? _latestQueryCache;
   int? _latestPageRequestCache;
 
+  bool _isTerminal() {
+    return state.value?.items.length == state.value?.totalCount;
+  }
+
   Future<void> searchRepositories({
     required String query,
     int? page,
@@ -38,14 +42,13 @@ class RepositoriesState extends _$RepositoriesState {
       }
 
       );
-      print("testtest::${state.value}");
     } finally {
       loadingController.setLoading(isLoading: false);
     }
   }
 
   Future<void> fetchNextPage() async {
-    if (state.isLoading || state.isRefreshing) {
+    if (state.isLoading || state.isRefreshing || _isTerminal()) {
       return;
     }
     state = AsyncLoading();
