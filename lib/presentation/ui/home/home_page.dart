@@ -52,8 +52,8 @@ class HomePage extends HookConsumerWidget {
         children: [
           Padding(
             padding: EdgeInsetsGeometry.symmetric(
-                vertical: 6.0,
-                horizontal: 12.0
+              vertical: 6.0,
+              horizontal: 12.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,18 +64,21 @@ class HomePage extends HookConsumerWidget {
                     decoration: InputDecoration(
                       hintText: StringConsts.searchPlaceholder,
                     ),
-                  )
+                  ),
                 ),
                 ValueListenableBuilder<TextEditingValue>(
                   valueListenable: searchQueryController,
                   builder: (context, value, child) {
                     return FilledButton(
                       onPressed: (value.text.isNotEmpty)
-                      ? () {
-                        ref.read(repositoriesStateProvider.notifier)
-                            .searchRepositories(query: searchQueryController.text);
-                      }
-                      : null,
+                          ? () {
+                              ref
+                                  .read(repositoriesStateProvider.notifier)
+                                  .searchRepositories(
+                                    query: searchQueryController.text,
+                                  );
+                            }
+                          : null,
                       child: Text(StringConsts.search),
                     );
                   },
@@ -130,9 +133,6 @@ class HomePage extends HookConsumerWidget {
 class _NoRepositoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Text(StringConsts.noRepositoryResult),
-      );
+    return Center(child: Text(StringConsts.noRepositoryResult));
   }
-
 }

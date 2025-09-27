@@ -18,10 +18,7 @@ class RepositoriesState extends _$RepositoriesState {
     return state.value?.items.length == state.value?.totalCount;
   }
 
-  Future<void> searchRepositories({
-    required String query,
-    int? page,
-  }) async {
+  Future<void> searchRepositories({required String query, int? page}) async {
     if (_latestQueryCache == null || _latestQueryCache != query) {
       state = AsyncData(null);
       _latestQueryCache = query;
@@ -34,14 +31,14 @@ class RepositoriesState extends _$RepositoriesState {
       loadingController.setLoading(isLoading: true);
       state = await AsyncValue.guard(() async {
         final current = state.value?.items;
-        final newResult = await ref.read(searchRepoRepositoryProvider)
+        final newResult = await ref
+            .read(searchRepoRepositoryProvider)
             .searchRepositories(query: query, page: page);
         return state.value?.copyWith(
-          items: (current ?? []) + newResult.items
-        ) ?? newResult;
-      }
-
-      );
+              items: (current ?? []) + newResult.items,
+            ) ??
+            newResult;
+      });
     } finally {
       loadingController.setLoading(isLoading: false);
     }
@@ -55,7 +52,7 @@ class RepositoriesState extends _$RepositoriesState {
 
     searchRepositories(
       query: _latestQueryCache ?? '',
-      page: (_latestPageRequestCache ?? 1) + 1
+      page: (_latestPageRequestCache ?? 1) + 1,
     );
   }
 }
