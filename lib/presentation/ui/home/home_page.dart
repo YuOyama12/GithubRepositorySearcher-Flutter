@@ -93,9 +93,22 @@ class HomePage extends HookConsumerWidget {
                     onRefresh: () => ref
                         .read(repositoriesStateProvider.notifier)
                         .manualRefresh(),
-                    child: ListView.builder(
+                    child: ListView.separated(
                       controller: scrollController,
-                      itemCount: repositoriesResponse.value?.items.length,
+                      itemCount: repositoriesResponse.value?.items.length ?? 0,
+                      separatorBuilder: (BuildContext context, int index) {
+                        final lastIndex =
+                            (repositoriesResponse.value?.items.length ?? 0) - 1;
+
+                        if (index == lastIndex) {
+                          return SizedBox.shrink();
+                        }
+                        return Container(
+                          color: Colors.grey,
+                          width: double.infinity,
+                          height: 1,
+                        );
+                      },
                       itemBuilder: (BuildContext context, int index) {
                         final repository =
                             repositoriesResponse.value?.items[index];

@@ -11,7 +11,7 @@ class RepositoryItem extends StatelessWidget {
     required this.repository,
     required this.onOwnerTap,
   });
-  
+
   final Repository repository;
   final Function(int) onOwnerTap;
 
@@ -19,57 +19,45 @@ class RepositoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final description = repository.description;
 
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.zero,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsetsGeometry.all(8.0),
+          child: _ProfileWidget(owner: repository.owner, onTap: onOwnerTap),
+        ),
+        Expanded(
+          child: Padding(
             padding: EdgeInsetsGeometry.all(8.0),
-            child: _ProfileWidget(
-              owner: repository.owner,
-              onTap: onOwnerTap,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  repository.name,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Padding(
+                  padding: EdgeInsetsGeometry.symmetric(vertical: 6.0),
+                  child: Text(
+                    description ?? '',
+                    style: TextStyle(fontSize: 11.5),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(StringConsts.usedLanguage(repository.language)),
+                Padding(
+                  padding: EdgeInsetsGeometry.all(4.0),
+                  child: _StarsAndWatchers(
+                    stargazersCount: repository.stargazersCount,
+                    watchersCount: repository.watchersCount,
+                  ),
+                ),
+              ],
             ),
           ),
-          Expanded(
-            child: Padding(
-                padding: EdgeInsetsGeometry.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      repository.name,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Padding(
-                      padding: EdgeInsetsGeometry.symmetric(vertical: 6.0),
-                      child: Text(
-                        description ?? '',
-                        style: TextStyle(fontSize: 11.5),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Text(StringConsts.usedLanguage(repository.language)),
-                    Padding(
-                      padding: EdgeInsetsGeometry.all(4.0),
-                      child: _StarsAndWatchers(
-                          stargazersCount: repository.stargazersCount,
-                          watchersCount: repository.watchersCount
-                      ),
-                    )
-                  ],
-                )
-            )
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -78,10 +66,7 @@ class _ProfileWidget extends StatelessWidget {
   final UserResponse owner;
   final Function(int) onTap;
 
-  const _ProfileWidget({
-    required this.owner,
-    required this.onTap,
-  });
+  const _ProfileWidget({required this.owner, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -90,33 +75,26 @@ class _ProfileWidget extends StatelessWidget {
       children: [
         Column(
           children: [
-            AvatarIcon(
-              avatarUrl: owner.avatarUrl,
-              size: widgetWidth,
-            ),
+            AvatarIcon(avatarUrl: owner.avatarUrl, size: widgetWidth),
             SizedBox(height: 6.0),
             Container(
               width: widgetWidth,
               alignment: Alignment.center,
               child: Text(
                 owner.login,
-                style: TextStyle(
-                  fontSize: 12.5,
-                ),
+                style: TextStyle(fontSize: 12.5),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-          ]
+          ],
         ),
         Positioned.fill(
           child: Material(
             color: Colors.transparent,
-            child: InkWell(
-              onTap: () => onTap(owner.id),
-            ),
+            child: InkWell(onTap: () => onTap(owner.id)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -136,24 +114,10 @@ class _StarsAndWatchers extends StatelessWidget {
     return Row(
       spacing: 6.0,
       children: [
-        Icon(
-          Icons.star,
-          color: ColorConsts.starYellow,
-        ),
-        Expanded(
-          child: Text(
-            stargazersCount.toString()
-          ),
-        ),
-        Icon(
-          Icons.remove_red_eye_rounded,
-          color: ColorConsts.watcherGray,
-        ),
-        Expanded(
-          child: Text(
-              watchersCount.toString()
-          ),
-        ),
+        Icon(Icons.star, color: ColorConsts.starYellow),
+        Expanded(child: Text(stargazersCount.toString())),
+        Icon(Icons.remove_red_eye_rounded, color: ColorConsts.watcherGray),
+        Expanded(child: Text(watchersCount.toString())),
       ],
     );
   }
