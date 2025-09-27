@@ -89,41 +89,45 @@ class HomePage extends HookConsumerWidget {
           (repositoriesResponse.value?.items.isEmpty ?? true)
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
-              child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: repositoriesResponse.value?.items.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final repository = repositoriesResponse.value?.items[index];
+                  child: RefreshIndicator(
+                    onRefresh: () => ref
+                        .read(repositoriesStateProvider.notifier)
+                        .manualRefresh(),
+                    child: ListView.builder(
+                      controller: scrollController,
+                      itemCount: repositoriesResponse.value?.items.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final repository =
+                            repositoriesResponse.value?.items[index];
 
-                    if (repository == null) {
-                      return SizedBox.shrink();
-                    }
+                        if (repository == null) {
+                          return SizedBox.shrink();
+                        }
 
-                    return InkWell(
-                      onTap: () {
-                        NavigationUtils.toRepositoryDetail(
-                            context: context,
-                            args: RepositoryDetailArgs(
+                        return InkWell(
+                          onTap: () {
+                            NavigationUtils.toRepositoryDetail(
+                              context: context,
+                              args: RepositoryDetailArgs(
                                 repositoryName: repository.name,
                                 repositoryUrl: repository.htmlUrl ?? '',
-                            ),
+                              ),
+                            );
+                          },
+                          child: RepositoryItem(
+                            repository: repository,
+                            onOwnerTap: (id) {
+                              NavigationUtils.toUserDetail(
+                                context: context,
+                                args: UserDetailArgs(userId: id),
+                              );
+                            },
+                          ),
                         );
                       },
-                      child: RepositoryItem(
-                        repository: repository,
-                        onOwnerTap: (id) {
-                          NavigationUtils.toUserDetail(
-                            context: context,
-                            args: UserDetailArgs(
-                              userId: id,
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-              )
-          )
+                    ),
+                  ),
+                ),
         ],
       ),
     );

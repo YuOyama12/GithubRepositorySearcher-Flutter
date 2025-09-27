@@ -55,4 +55,12 @@ class RepositoriesState extends _$RepositoriesState {
       page: (_latestPageRequestCache ?? 1) + 1,
     );
   }
+
+  Future<void> manualRefresh() async {
+    state = AsyncData(null);
+    final query = _latestQueryCache;
+    if (query != null) {
+      searchRepositories(query: query, page: null);
+    }
+  }
 }
