@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/presentation/navigation/router.dart';
-import 'package:github_repository_searcher/presentation/provider/loading_progress_controller.dart';
+import 'package:github_repository_searcher/presentation/provider/loading_state_controller.dart';
 import 'package:github_repository_searcher/presentation/ui/core/loading_indicator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    )
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -17,11 +13,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = MaterialApp.router(
-      routerConfig: goRouter,
-    );
+    final appRouter = MaterialApp.router(routerConfig: goRouter);
 
-    final loading = ref.watch(loadingProgressController);
+    final loading = ref.watch(loadingStateController);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -34,7 +28,7 @@ class MyApp extends ConsumerWidget {
           appRouter,
           LoadingIndicator(isLoading: loading),
         ],
-      )
+      ),
     );
   }
 }

@@ -7,13 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../provider/loading_progress_controller.dart';
+import '../../provider/loading_state_controller.dart';
 
 class RepositoryDetailPage extends HookConsumerWidget {
-  const RepositoryDetailPage({
-    super.key,
-    required this.args,
-  });
+  const RepositoryDetailPage({super.key, required this.args});
 
   final RepositoryDetailArgs args;
 
@@ -38,8 +35,15 @@ class RepositoryDetailPage extends HookConsumerWidget {
         ..setNavigationDelegate(
           NavigationDelegate(
             onProgress: (int progress) {
-              ref.read(loadingProgressController.notifier)
-                  .setLoading(isLoading: (progress < 100));
+              final loadingController = ref.read(
+                loadingStateController.notifier,
+              );
+
+              if (progress < 100) {
+                loadingController.showLoading();
+              } else {
+                loadingController.hideLoading();
+              }
             },
             onNavigationRequest: (NavigationRequest request) {
               if (request.url.startsWith(args.repositoryUrl)) {
@@ -48,7 +52,7 @@ class RepositoryDetailPage extends HookConsumerWidget {
 
               _showLoadPreventionSnackBar(context);
               return NavigationDecision.prevent;
-            }
+            },
           ),
         )
         ..loadRequest(Uri.parse(args.repositoryUrl));
@@ -58,9 +62,7 @@ class RepositoryDetailPage extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(args.repositoryName),
-        leading: CloseButton(
-          onPressed: () => context.pop(),
-        ),
+        leading: CloseButton(onPressed: () => context.pop()),
       ),
       body: Stack(
         children: [
@@ -71,30 +73,31 @@ class RepositoryDetailPage extends HookConsumerWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                  padding: EdgeInsetsGeometry.symmetric(horizontal: 36.0, vertical: 48.0),
-                  child: _WebPageController(
-                    onBackPressed: () async {
-                      if (await controller.canGoBack()) {
-                        controller.goBack();
-                      }
-                    },
-                    onForwardPressed: () async {
-                      if (await controller.canGoForward()) {
-                        controller.goForward();
-                      }
-                    },
-                  )
+                padding: EdgeInsetsGeometry.symmetric(
+                  horizontal: 36.0,
+                  vertical: 48.0,
+                ),
+                child: _WebPageController(
+                  onBackPressed: () async {
+                    if (await controller.canGoBack()) {
+                      controller.goBack();
+                    }
+                  },
+                  onForwardPressed: () async {
+                    if (await controller.canGoForward()) {
+                      controller.goForward();
+                    }
+                  },
+                ),
               ),
-            )
+            ),
           ),
-        ]
-      )
+        ],
+      ),
     );
   }
 
-  void _showLoadPreventionSnackBar(
-      BuildContext context
-  ) {
+  void _showLoadPreventionSnackBar(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(StringConsts.loadPreventionErrorMessage),
       backgroundColor: ColorConsts.errorRed,

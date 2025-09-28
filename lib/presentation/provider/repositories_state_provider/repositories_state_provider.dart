@@ -2,7 +2,7 @@ import 'package:github_repository_searcher/domain/entity/response/repositories_r
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../data/repository/search_repo_repository.dart';
-import '../loading_progress_controller.dart';
+import '../loading_state_controller.dart';
 
 part 'repositories_state_provider.g.dart';
 
@@ -25,10 +25,10 @@ class RepositoriesState extends _$RepositoriesState {
     }
     _latestPageRequestCache = page;
 
-    final loadingController = ref.read(loadingProgressController.notifier);
+    final loadingController = ref.read(loadingStateController.notifier);
 
     try {
-      loadingController.setLoading(isLoading: true);
+      loadingController.showLoading();
       state = await AsyncValue.guard(() async {
         final current = state.value?.items;
         final newResult = await ref
@@ -40,7 +40,7 @@ class RepositoriesState extends _$RepositoriesState {
             newResult;
       });
     } finally {
-      loadingController.setLoading(isLoading: false);
+      loadingController.hideLoading();
     }
   }
 
