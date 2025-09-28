@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
+import 'package:github_repository_searcher/presentation/ui/core/paging_list_view.dart';
 import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
 import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
@@ -18,30 +17,6 @@ class HomePage extends HookConsumerWidget {
     final searchQueryController = TextEditingController();
     final scrollController = useScrollController();
     final repositoriesResponse = ref.watch(repositoriesStateProvider);
-
-    Timer? debounce;
-    useEffect(() {
-      void scrollListener() {
-        const threshold = 0.8;
-
-        final scrollValue =
-            scrollController.offset / scrollController.position.maxScrollExtent;
-
-        if (debounce?.isActive ?? false) {
-          debounce?.cancel();
-        }
-
-        debounce = Timer(const Duration(milliseconds: 100), () {
-          if (scrollValue > threshold) {
-            ref.read(repositoriesStateProvider.notifier).fetchNextPage();
-          }
-        });
-      }
-
-      scrollController.addListener(scrollListener);
-
-      return () => scrollController.removeListener(scrollListener);
-    }, [scrollController]);
 
     return Scaffold(
       appBar: AppBar(
@@ -90,13 +65,16 @@ class HomePage extends HookConsumerWidget {
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () => ref
+                    onRefresh: ref
                         .read(repositoriesStateProvider.notifier)
-                        .manualRefresh(),
-                    child: ListView.separated(
+                        .manualRefresh,
+                    child: PagingListView(
                       controller: scrollController,
+                      fetchNextPage: ref
+                          .read(repositoriesStateProvider.notifier)
+                          .fetchNextPage,
                       itemCount: repositoriesResponse.value?.items.length ?? 0,
-                      separatorBuilder: (BuildContext context, int index) {
+                      itemSeparator: (BuildContext context, int index) {
                         final lastIndex =
                             (repositoriesResponse.value?.items.length ?? 0) - 1;
 
@@ -109,7 +87,7 @@ class HomePage extends HookConsumerWidget {
                           height: 1,
                         );
                       },
-                      itemBuilder: (BuildContext context, int index) {
+                      item: (BuildContext context, int index) {
                         final repository =
                             repositoriesResponse.value?.items[index];
 
