@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
+import 'package:github_repository_searcher/presentation/ui/core/paging_list_view.dart';
 import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
 import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
@@ -13,6 +15,7 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueryController = TextEditingController();
+    final scrollController = useScrollController();
     final repositoriesResponse = ref.watch(repositoriesStateProvider);
 
     return Scaffold(
@@ -24,8 +27,8 @@ class HomePage extends HookConsumerWidget {
         children: [
           Padding(
             padding: EdgeInsetsGeometry.symmetric(
-                vertical: 6.0,
-                horizontal: 12.0
+              vertical: 6.0,
+              horizontal: 12.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -36,18 +39,21 @@ class HomePage extends HookConsumerWidget {
                     decoration: InputDecoration(
                       hintText: StringConsts.searchPlaceholder,
                     ),
-                  )
+                  ),
                 ),
                 ValueListenableBuilder<TextEditingValue>(
                   valueListenable: searchQueryController,
                   builder: (context, value, child) {
                     return FilledButton(
                       onPressed: (value.text.isNotEmpty)
-                      ? () {
-                        ref.read(repositoriesStateProvider.notifier)
-                            .searchRepositories(query: searchQueryController.text);
-                      }
-                      : null,
+                          ? () {
+                              ref
+                                  .read(repositoriesStateProvider.notifier)
+                                  .searchRepositories(
+                                    query: searchQueryController.text,
+                                  );
+                            }
+                          : null,
                       child: Text(StringConsts.search),
                     );
                   },
@@ -55,43 +61,64 @@ class HomePage extends HookConsumerWidget {
               ],
             ),
           ),
-          (repositoriesResponse?.items.isEmpty ?? true)
+          (repositoriesResponse.value?.items.isEmpty ?? true)
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
-              child: ListView.builder(
-                  itemCount: repositoriesResponse?.items.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final repository = repositoriesResponse?.items[index];
+                  child: RefreshIndicator(
+                    onRefresh: ref
+                        .read(repositoriesStateProvider.notifier)
+                        .manualRefresh,
+                    child: PagingListView(
+                      controller: scrollController,
+                      fetchNextPage: ref
+                          .read(repositoriesStateProvider.notifier)
+                          .fetchNextPage,
+                      itemCount: repositoriesResponse.value?.items.length ?? 0,
+                      itemSeparator: (BuildContext context, int index) {
+                        final lastIndex =
+                            (repositoriesResponse.value?.items.length ?? 0) - 1;
 
-                    if (repository == null) {
-                      return SizedBox.shrink();
-                    }
-
-                    return InkWell(
-                      onTap: () {
-                        NavigationUtils.toRepositoryDetail(
-                            context: context,
-                            args: RepositoryDetailArgs(
-                                repositoryName: repository.name,
-                                repositoryUrl: repository.htmlUrl ?? '',
-                            ),
+                        if (index == lastIndex) {
+                          return SizedBox.shrink();
+                        }
+                        return Container(
+                          color: Colors.grey,
+                          width: double.infinity,
+                          height: 1,
                         );
                       },
-                      child: RepositoryItem(
-                        repository: repository,
-                        onOwnerTap: (id) {
-                          NavigationUtils.toUserDetail(
-                            context: context,
-                            args: UserDetailArgs(
-                              userId: id,
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-              )
-          )
+                      item: (BuildContext context, int index) {
+                        final repository =
+                            repositoriesResponse.value?.items[index];
+
+                        if (repository == null) {
+                          return SizedBox.shrink();
+                        }
+
+                        return InkWell(
+                          onTap: () {
+                            NavigationUtils.toRepositoryDetail(
+                              context: context,
+                              args: RepositoryDetailArgs(
+                                repositoryName: repository.name,
+                                repositoryUrl: repository.htmlUrl ?? '',
+                              ),
+                            );
+                          },
+                          child: RepositoryItem(
+                            repository: repository,
+                            onOwnerTap: (id) {
+                              NavigationUtils.toUserDetail(
+                                context: context,
+                                args: UserDetailArgs(userId: id),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -101,9 +128,6 @@ class HomePage extends HookConsumerWidget {
 class _NoRepositoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Text(StringConsts.noRepositoryResult),
-      );
+    return Center(child: Text(StringConsts.noRepositoryResult));
   }
-
 }

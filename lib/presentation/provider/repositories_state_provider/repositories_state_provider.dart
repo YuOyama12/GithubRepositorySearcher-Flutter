@@ -9,19 +9,58 @@ part 'repositories_state_provider.g.dart';
 @riverpod
 class RepositoriesState extends _$RepositoriesState {
   @override
-  RepositoriesResponse? build() => null;
+  Future<RepositoriesResponse?> build() => Future.value(null);
 
-  Future<void> searchRepositories({
-    required String query
-  }) async {
-    final searchRepoRepository = ref.watch(searchRepoRepositoryProvider);
+  String? _latestQueryCache;
+  int? _latestPageRequestCache;
+
+  bool _isTerminal() {
+    return state.value?.items.length == state.value?.totalCount;
+  }
+
+  Future<void> searchRepositories({required String query, int? page}) async {
+    if (_latestQueryCache == null || _latestQueryCache != query) {
+      state = AsyncData(null);
+      _latestQueryCache = query;
+    }
+    _latestPageRequestCache = page;
+
     final loadingController = ref.read(loadingProgressController.notifier);
 
     try {
       loadingController.setLoading(isLoading: true);
-      state = await searchRepoRepository.searchRepositories(query: query);
+      state = await AsyncValue.guard(() async {
+        final current = state.value?.items;
+        final newResult = await ref
+            .read(searchRepoRepositoryProvider)
+            .searchRepositories(query: query, page: page);
+        return state.value?.copyWith(
+              items: (current ?? []) + newResult.items,
+            ) ??
+            newResult;
+      });
     } finally {
       loadingController.setLoading(isLoading: false);
+    }
+  }
+
+  Future<void> fetchNextPage() async {
+    if (state.isLoading || state.isRefreshing || _isTerminal()) {
+      return;
+    }
+    state = AsyncLoading();
+
+    searchRepositories(
+      query: _latestQueryCache ?? '',
+      page: (_latestPageRequestCache ?? 1) + 1,
+    );
+  }
+
+  Future<void> manualRefresh() async {
+    state = AsyncData(null);
+    final query = _latestQueryCache;
+    if (query != null) {
+      searchRepositories(query: query, page: null);
     }
   }
 }
