@@ -2,29 +2,17 @@ import 'package:github_repository_searcher/data/repository/user_repository.dart'
 import 'package:github_repository_searcher/domain/entity/response/user_response/user_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../loading_state_controller.dart';
+import '../core/base_api_state_provider.dart';
 
 part 'fetch_user_provider.g.dart';
 
 @riverpod
-class FetchUser extends _$FetchUser {
+class FetchUser extends BaseApiState<UserResponse, int> {
   @override
-  Future<UserResponse?> build(int userId) {
-    Future.microtask(() => _fetchUser(userId: userId));
-    return Future.value(null);
-  }
+  Future<UserResponse?> build(int request) => super.build(request);
 
-  Future<void> _fetchUser({required int userId}) async {
-    final userRepository = ref.watch(userRepositoryProvider);
-    final loadingController = ref.read(loadingStateController.notifier);
-
-    try {
-      loadingController.showLoading();
-      state = await AsyncValue.guard(() async {
-        return userRepository.fetchUserById(userId: userId);
-      });
-    } finally {
-      loadingController.hideLoading();
-    }
+  @override
+  Future<UserResponse?> fetch(int userId) async {
+    return ref.read(userRepositoryProvider).fetchUserById(userId: userId);
   }
 }
