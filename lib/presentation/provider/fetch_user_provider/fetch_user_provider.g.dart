@@ -6,17 +6,11 @@ part of 'fetch_user_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(fetchUser)
+@ProviderFor(FetchUser)
 const fetchUserProvider = FetchUserFamily._();
 
 final class FetchUserProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<UserResponse>,
-          UserResponse,
-          FutureOr<UserResponse>
-        >
-    with $FutureModifier<UserResponse>, $FutureProvider<UserResponse> {
+    extends $AsyncNotifierProvider<FetchUser, UserResponse?> {
   const FetchUserProvider._({
     required FetchUserFamily super.from,
     required int super.argument,
@@ -40,15 +34,7 @@ final class FetchUserProvider
 
   @$internal
   @override
-  $FutureProviderElement<UserResponse> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<UserResponse> create(Ref ref) {
-    final argument = this.argument as int;
-    return fetchUser(ref, userId: argument);
-  }
+  FetchUser create() => FetchUser();
 
   @override
   bool operator ==(Object other) {
@@ -61,10 +47,17 @@ final class FetchUserProvider
   }
 }
 
-String _$fetchUserHash() => r'351a3dc6422ecb541f495ec31c0fd6969268205e';
+String _$fetchUserHash() => r'3620a22020451c56589216676a0f4bf85c99b82a';
 
 final class FetchUserFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<UserResponse>, int> {
+    with
+        $ClassFamilyOverride<
+          FetchUser,
+          AsyncValue<UserResponse?>,
+          UserResponse?,
+          FutureOr<UserResponse?>,
+          int
+        > {
   const FetchUserFamily._()
     : super(
         retry: null,
@@ -74,11 +67,33 @@ final class FetchUserFamily extends $Family
         isAutoDispose: true,
       );
 
-  FetchUserProvider call({required int userId}) =>
+  FetchUserProvider call(int userId) =>
       FetchUserProvider._(argument: userId, from: this);
 
   @override
   String toString() => r'fetchUserProvider';
+}
+
+abstract class _$FetchUser extends $AsyncNotifier<UserResponse?> {
+  late final _$args = ref.$arg as int;
+  int get userId => _$args;
+
+  FutureOr<UserResponse?> build(int userId);
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final created = build(_$args);
+    final ref = this.ref as $Ref<AsyncValue<UserResponse?>, UserResponse?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<UserResponse?>, UserResponse?>,
+              AsyncValue<UserResponse?>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, created);
+  }
 }
 
 // ignore_for_file: type=lint

@@ -30,7 +30,7 @@ final class RepositoriesStateProvider
   RepositoriesState create() => RepositoriesState();
 }
 
-String _$repositoriesStateHash() => r'ca3d5bdd742c715ae96bb6d409020f94385ef6e9';
+String _$repositoriesStateHash() => r'a6429e8ebf57efdbf17af2db09b6786800e0f8ae';
 
 abstract class _$RepositoriesState
     extends $AsyncNotifier<RepositoriesResponse?> {
