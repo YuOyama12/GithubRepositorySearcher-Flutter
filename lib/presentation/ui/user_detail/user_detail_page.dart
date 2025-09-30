@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/provider/fetch_user_provider/fetch_user_provider.dart';
-import 'package:github_repository_searcher/presentation/ui/core/loading_indicator.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
 import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,41 +8,32 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../domain/entity/response/user_response/user_response.dart';
 
 class UserDetailPage extends HookConsumerWidget {
-  const UserDetailPage({
-    super.key,
-    required this.args,
-  });
+  const UserDetailPage({super.key, required this.args});
 
   final UserDetailArgs args;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userResponse = ref.watch(fetchUserProvider(userId: args.userId));
+    final userResponse = ref.watch(fetchUserProvider(args.userId));
+    final user = userResponse.value;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(userResponse.value?.login ?? ''),
       ),
-      body: userResponse.when(
-        data: (user) {
-          return Padding(
-            padding: EdgeInsetsGeometry.all(8.0),
-            child: _Body(userResponse: user),
-          );
-        },
-        loading: () => LoadingIndicator(isLoading: true),
-        error: (Object error, StackTrace stackTrace) =>
-          const SizedBox.shrink()
-      )
+      body: (user == null)
+          ? SizedBox.shrink()
+          : Padding(
+              padding: EdgeInsetsGeometry.all(8.0),
+              child: _Body(userResponse: user),
+            ),
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body({
-    required this.userResponse,
-  });
+  const _Body({required this.userResponse});
 
   final UserResponse userResponse;
 
@@ -54,19 +44,14 @@ class _Body extends StatelessWidget {
       children: [
         Row(
           children: [
-            AvatarIcon(
-                avatarUrl: userResponse.avatarUrl
-            ),
+            AvatarIcon(avatarUrl: userResponse.avatarUrl),
             SizedBox(width: 24.0),
             Expanded(
               child: Text(
                 userResponse.login,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              )
-            )
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+              ),
+            ),
           ],
         ),
         SizedBox(height: 8.0),
@@ -78,7 +63,7 @@ class _Body extends StatelessWidget {
             Text(StringConsts.followersCount(userResponse.followers)),
           ],
         ),
-      ]
+      ],
     );
   }
 }
