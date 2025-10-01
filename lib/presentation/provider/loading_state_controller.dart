@@ -8,7 +8,17 @@ class LoadingState extends Notifier<bool> {
   @override
   bool build() => false;
 
-  void showLoading() => state = true;
+  int _activeLoadingCount = 0;
 
-  void hideLoading() => state = false;
+  bool _hasActiveLoading() => _activeLoadingCount > 0;
+
+  void showLoading() {
+    _activeLoadingCount = ++_activeLoadingCount;
+    state = _hasActiveLoading();
+  }
+
+  void hideLoading() {
+    _activeLoadingCount = (_activeLoadingCount > 0) ? --_activeLoadingCount : 0;
+    state = _hasActiveLoading();
+  }
 }
