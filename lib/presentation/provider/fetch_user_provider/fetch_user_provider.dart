@@ -9,10 +9,13 @@ part 'fetch_user_provider.g.dart';
 @riverpod
 class FetchUser extends BaseApiState<UserResponse, int> {
   @override
+  bool shouldCallApiOnBuilding() => true;
+
+  @override
   Future<UserResponse?> build(int request) => super.build(request);
 
   @override
-  Future<UserResponse?> fetch(int userId) async {
+  Future<UserResponse?> callApi(int userId) async {
     return ref.read(userRepositoryProvider).fetchUserById(userId: userId);
   }
 }

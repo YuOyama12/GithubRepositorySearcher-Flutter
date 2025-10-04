@@ -47,7 +47,7 @@ final class FetchUserProvider
   }
 }
 
-String _$fetchUserHash() => r'd727e0f5c60e546229e692752f7619c90725b139';
+String _$fetchUserHash() => r'ae13031cceca74aa32429088d9b94951356a0684';
 
 final class FetchUserFamily extends $Family
     with
