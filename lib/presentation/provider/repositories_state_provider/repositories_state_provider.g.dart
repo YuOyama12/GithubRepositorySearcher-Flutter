@@ -7,38 +7,83 @@ part of 'repositories_state_provider.dart';
 // **************************************************************************
 
 @ProviderFor(RepositoriesState)
-const repositoriesStateProvider = RepositoriesStateProvider._();
+const repositoriesStateProvider = RepositoriesStateFamily._();
 
 final class RepositoriesStateProvider
     extends $AsyncNotifierProvider<RepositoriesState, RepositoriesResponse?> {
-  const RepositoriesStateProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'repositoriesStateProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  const RepositoriesStateProvider._({
+    required RepositoriesStateFamily super.from,
+    required SearchRepositoriesRequest super.argument,
+  }) : super(
+         retry: null,
+         name: r'repositoriesStateProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$repositoriesStateHash();
 
+  @override
+  String toString() {
+    return r'repositoriesStateProvider'
+        ''
+        '($argument)';
+  }
+
   @$internal
   @override
   RepositoriesState create() => RepositoriesState();
+
+  @override
+  bool operator ==(Object other) {
+    return other is RepositoriesStateProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
-String _$repositoriesStateHash() => r'a6429e8ebf57efdbf17af2db09b6786800e0f8ae';
+String _$repositoriesStateHash() => r'b0cc8a6d284ffffa650ddb3c880ca4c5de8a37c9';
+
+final class RepositoriesStateFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          RepositoriesState,
+          AsyncValue<RepositoriesResponse?>,
+          RepositoriesResponse?,
+          FutureOr<RepositoriesResponse?>,
+          SearchRepositoriesRequest
+        > {
+  const RepositoriesStateFamily._()
+    : super(
+        retry: null,
+        name: r'repositoriesStateProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  RepositoriesStateProvider call(SearchRepositoriesRequest request) =>
+      RepositoriesStateProvider._(argument: request, from: this);
+
+  @override
+  String toString() => r'repositoriesStateProvider';
+}
 
 abstract class _$RepositoriesState
     extends $AsyncNotifier<RepositoriesResponse?> {
-  FutureOr<RepositoriesResponse?> build();
+  late final _$args = ref.$arg as SearchRepositoriesRequest;
+  SearchRepositoriesRequest get request => _$args;
+
+  FutureOr<RepositoriesResponse?> build(SearchRepositoriesRequest request);
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
+    final created = build(_$args);
     final ref =
         this.ref
             as $Ref<AsyncValue<RepositoriesResponse?>, RepositoriesResponse?>;

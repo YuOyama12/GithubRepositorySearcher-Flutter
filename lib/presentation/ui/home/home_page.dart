@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
@@ -16,7 +17,10 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueryController = TextEditingController();
     final scrollController = useScrollController();
-    final repositoriesResponse = ref.watch(repositoriesStateProvider);
+    final repoProvider = repositoriesStateProvider(
+      SearchRepositoriesRequest(query: searchQueryController.text),
+    );
+    final repositoriesResponse = ref.watch(repoProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +52,7 @@ class HomePage extends HookConsumerWidget {
                       onPressed: (value.text.isNotEmpty)
                           ? () {
                               ref
-                                  .read(repositoriesStateProvider.notifier)
+                                  .read(repoProvider.notifier)
                                   .searchRepositories(
                                     query: searchQueryController.text,
                                   );
@@ -65,13 +69,11 @@ class HomePage extends HookConsumerWidget {
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
                   child: RefreshIndicator(
-                    onRefresh: ref
-                        .read(repositoriesStateProvider.notifier)
-                        .manualRefresh,
+                    onRefresh: ref.read(repoProvider.notifier).manualRefresh,
                     child: PagingListView(
                       controller: scrollController,
                       fetchNextPage: ref
-                          .read(repositoriesStateProvider.notifier)
+                          .read(repoProvider.notifier)
                           .fetchNextPage,
                       itemCount: repositoriesResponse.value?.items.length ?? 0,
                       itemSeparator: (BuildContext context, int index) {
