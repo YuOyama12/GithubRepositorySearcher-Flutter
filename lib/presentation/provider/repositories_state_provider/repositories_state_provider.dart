@@ -1,66 +1,53 @@
+import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repositories_response.dart';
+import 'package:github_repository_searcher/presentation/provider/core/base_paging_api_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../data/repository/search_repo_repository.dart';
-import '../loading_progress_controller.dart';
+import '../core/api_dispatcher.dart';
 
 part 'repositories_state_provider.g.dart';
 
 @riverpod
-class RepositoriesState extends _$RepositoriesState {
-  @override
-  Future<RepositoriesResponse?> build() => Future.value(null);
-
+class RepositoriesState
+    extends
+        BasePagingApiState<RepositoriesResponse, SearchRepositoriesRequest> {
   String? _latestQueryCache;
-  int? _latestPageRequestCache;
 
-  bool _isTerminal() {
+  @override
+  Future<RepositoriesResponse?> build(SearchRepositoriesRequest request) =>
+      super.build(request);
+
+  @override
+  bool shouldCallApiOnBuilding() => false;
+
+  @override
+  bool isTerminal() {
     return state.value?.items.length == state.value?.totalCount;
   }
 
-  Future<void> searchRepositories({required String query, int? page}) async {
-    if (_latestQueryCache == null || _latestQueryCache != query) {
+  @override
+  Future<void> fetch(SearchRepositoriesRequest request) async {
+    if (_latestQueryCache == null || _latestQueryCache != request.query) {
       state = AsyncData(null);
-      _latestQueryCache = query;
+      _latestQueryCache = request.query;
     }
-    _latestPageRequestCache = page;
+    latestPagingDataRequestCache = request;
 
-    final loadingController = ref.read(loadingProgressController.notifier);
-
-    try {
-      loadingController.setLoading(isLoading: true);
-      state = await AsyncValue.guard(() async {
-        final current = state.value?.items;
-        final newResult = await ref
-            .read(searchRepoRepositoryProvider)
-            .searchRepositories(query: query, page: page);
-        return state.value?.copyWith(
-              items: (current ?? []) + newResult.items,
+    ApiDispatcher<RepositoriesResponse>(
+      ref: ref,
+      request: () => ref
+          .read(searchRepoRepositoryProvider)
+          .searchRepositories(query: request.query, page: request.page),
+      onSuccess: (newData) {
+        final oldData = state.value;
+        final mergedData =
+            state.value?.copyWith(
+              items: (oldData?.items ?? []) + (newData.value?.items ?? []),
             ) ??
-            newResult;
-      });
-    } finally {
-      loadingController.setLoading(isLoading: false);
-    }
-  }
-
-  Future<void> fetchNextPage() async {
-    if (state.isLoading || state.isRefreshing || _isTerminal()) {
-      return;
-    }
-    state = AsyncLoading();
-
-    searchRepositories(
-      query: _latestQueryCache ?? '',
-      page: (_latestPageRequestCache ?? 1) + 1,
+            newData.value;
+        state = AsyncData(mergedData);
+      },
     );
-  }
-
-  Future<void> manualRefresh() async {
-    state = AsyncData(null);
-    final query = _latestQueryCache;
-    if (query != null) {
-      searchRepositories(query: query, page: null);
-    }
   }
 }
