@@ -4,6 +4,7 @@ import 'package:github_repository_searcher/presentation/provider/core/base_pagin
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../data/repository/search_repo_repository.dart';
+import '../core/api_dispatcher.dart';
 
 part 'repositories_state_provider.g.dart';
 
@@ -25,29 +26,28 @@ class RepositoriesState
     return state.value?.items.length == state.value?.totalCount;
   }
 
-  Future<void> searchRepositories({required String query}) async {
-    if (_latestQueryCache == null || _latestQueryCache != query) {
+  @override
+  Future<void> fetch(SearchRepositoriesRequest request) async {
+    if (_latestQueryCache == null || _latestQueryCache != request.query) {
       state = AsyncData(null);
-      _latestQueryCache = query;
+      _latestQueryCache = request.query;
     }
-    super.fetch(SearchRepositoriesRequest(query: query, page: null));
-  }
+    latestPagingDataRequestCache = request;
 
-  @override
-  Future<RepositoriesResponse?> callApi(SearchRepositoriesRequest request) {
-    return ref
-        .read(searchRepoRepositoryProvider)
-        .searchRepositories(query: request.query, page: request.page);
-  }
-
-  @override
-  RepositoriesResponse? mergeList(
-    RepositoriesResponse? oldData,
-    RepositoriesResponse? newData,
-  ) {
-    return state.value?.copyWith(
-          items: (oldData?.items ?? []) + (newData?.items ?? []),
-        ) ??
-        newData;
+    ApiDispatcher<RepositoriesResponse>(
+      ref: ref,
+      request: () => ref
+          .read(searchRepoRepositoryProvider)
+          .searchRepositories(query: request.query, page: request.page),
+      onSuccess: (newData) {
+        final oldData = state.value;
+        final mergedData =
+            state.value?.copyWith(
+              items: (oldData?.items ?? []) + (newData.value?.items ?? []),
+            ) ??
+            newData.value;
+        state = AsyncData(mergedData);
+      },
+    );
   }
 }

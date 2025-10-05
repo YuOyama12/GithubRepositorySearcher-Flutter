@@ -53,8 +53,10 @@ class HomePage extends HookConsumerWidget {
                           ? () {
                               ref
                                   .read(repoProvider.notifier)
-                                  .searchRepositories(
-                                    query: searchQueryController.text,
+                                  .fetch(
+                                    SearchRepositoriesRequest(
+                                      query: searchQueryController.text,
+                                    ),
                                   );
                             }
                           : null,
