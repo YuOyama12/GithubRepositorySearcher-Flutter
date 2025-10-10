@@ -9,11 +9,7 @@ import '../ui/repository_detail/navigation/repository_detail_args.dart';
 
 final goRouter = GoRouter(
   initialLocation: RouteConsts.homePagePath,
-  routes: [
-    _homePageRoute,
-    _repositoryDetailPageRoute,
-    _userDetailPageRoute
-  ],
+  routes: [_homePageRoute, _repositoryDetailPageRoute, _userDetailPageRoute],
 );
 
 final _homePageRoute = GoRoute(
@@ -26,22 +22,23 @@ final _repositoryDetailPageRoute = GoRoute(
   builder: (_, state) {
     final data = state.extra as Map<String, dynamic>;
     return RepositoryDetailPage(
-        args: RepositoryDetailArgs(
-          repositoryName: data[RepositoryDetailArgs.repositoryNameKey],
-          repositoryUrl: data[RepositoryDetailArgs.repositoryUrlKey],
-        ),
+      args: RepositoryDetailArgs(
+        repositoryName: data[RepositoryDetailArgs.repositoryNameKey],
+        repositoryUrl: data[RepositoryDetailArgs.repositoryUrlKey],
+      ),
     );
-  }
+  },
 );
 
 final _userDetailPageRoute = GoRoute(
-    path: RouteConsts.userDetailPagePath,
-    builder: (_, state) {
-      final data = state.extra as Map<String, dynamic>;
-      return UserDetailPage(
-        args: UserDetailArgs(
-          userId: data[UserDetailArgs.userIdKey],
-        ),
-      );
-    }
+  path: RouteConsts.userDetailPagePath,
+  builder: (_, state) {
+    final data = state.extra as Map<String, dynamic>;
+    return UserDetailPage(
+      args: UserDetailArgs(
+        userId: data[UserDetailArgs.userIdKey],
+        userName: data[UserDetailArgs.userNameKey],
+      ),
+    );
+  },
 );

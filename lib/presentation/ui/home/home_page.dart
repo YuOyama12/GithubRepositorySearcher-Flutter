@@ -111,10 +111,13 @@ class HomePage extends HookConsumerWidget {
                           },
                           child: RepositoryItem(
                             repository: repository,
-                            onOwnerTap: (id) {
+                            onOwnerTap: (userId, userName) {
                               NavigationUtils.toUserDetail(
                                 context: context,
-                                args: UserDetailArgs(userId: id),
+                                args: UserDetailArgs(
+                                  userId: userId,
+                                  userName: userName,
+                                ),
                               );
                             },
                           ),

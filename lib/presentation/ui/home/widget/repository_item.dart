@@ -13,7 +13,7 @@ class RepositoryItem extends StatelessWidget {
   });
 
   final Repository repository;
-  final Function(int) onOwnerTap;
+  final Function(int, String) onOwnerTap;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class RepositoryItem extends StatelessWidget {
 
 class _ProfileWidget extends StatelessWidget {
   final UserResponse owner;
-  final Function(int) onTap;
+  final Function(int, String) onTap;
 
   const _ProfileWidget({required this.owner, required this.onTap});
 
@@ -92,7 +92,7 @@ class _ProfileWidget extends StatelessWidget {
         Positioned.fill(
           child: Material(
             color: Colors.transparent,
-            child: InkWell(onTap: () => onTap(owner.id)),
+            child: InkWell(onTap: () => onTap(owner.id, owner.login)),
           ),
         ),
       ],

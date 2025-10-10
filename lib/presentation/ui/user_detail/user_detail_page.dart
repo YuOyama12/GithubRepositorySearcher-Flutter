@@ -24,9 +24,15 @@ class UserDetailPage extends HookConsumerWidget {
       ),
       body: (user == null)
           ? SizedBox.shrink()
-          : Padding(
-              padding: EdgeInsetsGeometry.all(8.0),
-              child: _Body(userResponse: user),
+          : Column(
+              children: [
+                Padding(
+                  padding: EdgeInsetsGeometry.all(8.0),
+                  child: _Body(userResponse: user),
+                ),
+                // つなぎこむ
+                Text(args.userName),
+              ],
             ),
     );
   }
