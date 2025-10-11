@@ -94,8 +94,8 @@ class HomePage extends HookConsumerWidget {
                         );
                       },
                       item: (_, int index) {
-                        final repository =
-                            repositoriesResponse.value?.items[index];
+                        final repository = repositoriesResponse.value?.items
+                            .getOrNull(index);
 
                         if (repository == null) {
                           return SizedBox.shrink();
