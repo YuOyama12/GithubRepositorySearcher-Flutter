@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
+import 'package:github_repository_searcher/extension/list.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
@@ -81,7 +82,7 @@ class HomePage extends HookConsumerWidget {
                       itemCount: repositoriesResponse.value?.items.length ?? 0,
                       itemSeparator: (_, int index) {
                         final lastIndex =
-                            (repositoriesResponse.value?.items.length ?? 0) - 1;
+                            repositoriesResponse.value?.items.lastIndex;
 
                         if (index == lastIndex) {
                           return SizedBox.shrink();
