@@ -9,55 +9,67 @@ class RepositoryItem extends StatelessWidget {
   const RepositoryItem({
     super.key,
     required this.repository,
+    required this.onItemTap,
     required this.onOwnerTap,
   });
 
   final Repository repository;
-  final Function(int, String) onOwnerTap;
+  final Function(Repository) onItemTap;
+  final Function(int userId, String userName)? onOwnerTap;
 
   @override
   Widget build(BuildContext context) {
     final description = repository.description;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsetsGeometry.all(8.0),
-          child: _ProfileWidget(owner: repository.owner, onTap: onOwnerTap),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsetsGeometry.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  repository.name,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Padding(
-                  padding: EdgeInsetsGeometry.symmetric(vertical: 6.0),
-                  child: Text(
-                    description ?? '',
-                    style: TextStyle(fontSize: 11.5),
+    return InkWell(
+      onTap: () => onItemTap(repository),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (onOwnerTap != null) ...[
+            Padding(
+              padding: EdgeInsetsGeometry.all(8.0),
+              child: _ProfileWidget(
+                owner: repository.owner,
+                onTap: onOwnerTap ?? (_, _) {},
+              ),
+            ),
+          ],
+          Expanded(
+            child: Padding(
+              padding: EdgeInsetsGeometry.all(
+                (onOwnerTap == null) ? 12.0 : 8.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    repository.name,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Text(StringConsts.usedLanguage(repository.language)),
-                Padding(
-                  padding: EdgeInsetsGeometry.all(4.0),
-                  child: _StarsAndWatchers(
-                    stargazersCount: repository.stargazersCount,
-                    watchersCount: repository.watchersCount,
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(vertical: 6.0),
+                    child: Text(
+                      description ?? '',
+                      style: TextStyle(fontSize: 11.5),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              ],
+                  Text(StringConsts.usedLanguage(repository.language)),
+                  Padding(
+                    padding: EdgeInsetsGeometry.all(4.0),
+                    child: _StarsAndWatchers(
+                      stargazersCount: repository.stargazersCount,
+                      watchersCount: repository.watchersCount,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
