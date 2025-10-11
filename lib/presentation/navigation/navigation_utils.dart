@@ -10,7 +10,7 @@ import '../const/routes.dart';
 class NavigationUtils {
   static final NavigationUtils _instance = NavigationUtils._internal();
 
-  factory NavigationUtils(){
+  factory NavigationUtils() {
     return _instance;
   }
 
@@ -18,30 +18,31 @@ class NavigationUtils {
 
   static void toRepositoryDetail({
     required BuildContext context,
-    required RepositoryDetailArgs args
+    required RepositoryDetailArgs args,
   }) {
     if (kIsWeb) {
       js.context.callMethod("open", [args.repositoryUrl]);
     } else {
       context.push(
-          RouteConsts.repositoryDetailPagePath,
-          extra: {
-            RepositoryDetailArgs.repositoryNameKey: args.repositoryName,
-            RepositoryDetailArgs.repositoryUrlKey: args.repositoryUrl
-          }
+        RouteConsts.repositoryDetailPagePath,
+        extra: {
+          RepositoryDetailArgs.repositoryNameKey: args.repositoryName,
+          RepositoryDetailArgs.repositoryUrlKey: args.repositoryUrl,
+        },
       );
     }
   }
 
   static void toUserDetail({
     required BuildContext context,
-    required UserDetailArgs args
+    required UserDetailArgs args,
   }) {
     context.push(
-        RouteConsts.userDetailPagePath,
-        extra: {
-          UserDetailArgs.userIdKey: args.userId,
-        }
+      RouteConsts.userDetailPagePath,
+      extra: {
+        UserDetailArgs.userIdKey: args.userId,
+        UserDetailArgs.userNameKey: args.userName,
+      },
     );
   }
 }

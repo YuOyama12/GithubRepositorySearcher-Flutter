@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserDetailArgs {
 
- int get userId;
+ int get userId; String get userName;
 /// Create a copy of UserDetailArgs
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $UserDetailArgsCopyWith<UserDetailArgs> get copyWith => _$UserDetailArgsCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDetailArgs&&(identical(other.userId, userId) || other.userId == userId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDetailArgs&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.userName, userName) || other.userName == userName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId);
+int get hashCode => Object.hash(runtimeType,userId,userName);
 
 @override
 String toString() {
-  return 'UserDetailArgs(userId: $userId)';
+  return 'UserDetailArgs(userId: $userId, userName: $userName)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $UserDetailArgsCopyWith<$Res>  {
   factory $UserDetailArgsCopyWith(UserDetailArgs value, $Res Function(UserDetailArgs) _then) = _$UserDetailArgsCopyWithImpl;
 @useResult
 $Res call({
- int userId
+ int userId, String userName
 });
 
 
@@ -62,10 +62,11 @@ class _$UserDetailArgsCopyWithImpl<$Res>
 
 /// Create a copy of UserDetailArgs
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? userName = null,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,userName: null == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -150,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int userId,  String userName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserDetailArgs() when $default != null:
-return $default(_that.userId);case _:
+return $default(_that.userId,_that.userName);case _:
   return orElse();
 
 }
@@ -171,10 +172,10 @@ return $default(_that.userId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int userId,  String userName)  $default,) {final _that = this;
 switch (_that) {
 case _UserDetailArgs():
-return $default(_that.userId);case _:
+return $default(_that.userId,_that.userName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +192,10 @@ return $default(_that.userId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int userId,  String userName)?  $default,) {final _that = this;
 switch (_that) {
 case _UserDetailArgs() when $default != null:
-return $default(_that.userId);case _:
+return $default(_that.userId,_that.userName);case _:
   return null;
 
 }
@@ -206,10 +207,11 @@ return $default(_that.userId);case _:
 
 
 class _UserDetailArgs implements UserDetailArgs {
-  const _UserDetailArgs({required this.userId});
+  const _UserDetailArgs({required this.userId, required this.userName});
   
 
 @override final  int userId;
+@override final  String userName;
 
 /// Create a copy of UserDetailArgs
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +223,16 @@ _$UserDetailArgsCopyWith<_UserDetailArgs> get copyWith => __$UserDetailArgsCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDetailArgs&&(identical(other.userId, userId) || other.userId == userId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDetailArgs&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.userName, userName) || other.userName == userName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId);
+int get hashCode => Object.hash(runtimeType,userId,userName);
 
 @override
 String toString() {
-  return 'UserDetailArgs(userId: $userId)';
+  return 'UserDetailArgs(userId: $userId, userName: $userName)';
 }
 
 
@@ -241,7 +243,7 @@ abstract mixin class _$UserDetailArgsCopyWith<$Res> implements $UserDetailArgsCo
   factory _$UserDetailArgsCopyWith(_UserDetailArgs value, $Res Function(_UserDetailArgs) _then) = __$UserDetailArgsCopyWithImpl;
 @override @useResult
 $Res call({
- int userId
+ int userId, String userName
 });
 
 
@@ -258,10 +260,11 @@ class __$UserDetailArgsCopyWithImpl<$Res>
 
 /// Create a copy of UserDetailArgs
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? userName = null,}) {
   return _then(_UserDetailArgs(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,
+as int,userName: null == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
