@@ -38,8 +38,13 @@ class RepositoryDetailPage extends HookConsumerWidget {
               final loadingController = ref.read(
                 loadingStateController.notifier,
               );
+              final isLoading = ref.read(loadingStateController);
 
               if (progress < 100) {
+                if (isLoading) {
+                  return;
+                }
+
                 loadingController.showLoading();
               } else {
                 loadingController.hideLoading();
