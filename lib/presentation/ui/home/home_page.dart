@@ -11,6 +11,7 @@ import 'package:github_repository_searcher/presentation/ui/user_detail/navigatio
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../core/widget/repository_item.dart';
+import '../core/widget/repository_item_separator.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -87,11 +88,7 @@ class HomePage extends HookConsumerWidget {
                         if (index == lastIndex) {
                           return SizedBox.shrink();
                         }
-                        return Container(
-                          color: Colors.grey,
-                          width: double.infinity,
-                          height: 1,
-                        );
+                        return RepositoryItemSeparator();
                       },
                       item: (_, int index) {
                         final repository = repositoriesResponse.value?.items
