@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:github_repository_searcher/data/service/api_client/app_dio.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repositories_response.dart';
+import 'package:github_repository_searcher/domain/entity/response/repositories_response/repository/repository.dart';
 import 'package:github_repository_searcher/domain/entity/response/user_response/user_response.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,7 +11,7 @@ final apiClient = ApiClient(AppDio());
 
 @RestApi()
 abstract class ApiClient {
-  factory ApiClient(Dio dio)= _ApiClient;
+  factory ApiClient(Dio dio) = _ApiClient;
 
   @GET('search/repositories')
   Future<RepositoriesResponse> fetchRepositoriesByQuery({
@@ -19,7 +20,10 @@ abstract class ApiClient {
   });
 
   @GET('user/{account_id}')
-  Future<UserResponse> fetchUserById({
-    @Path('account_id') required int id,
+  Future<UserResponse> fetchUserById({@Path('account_id') required int id});
+
+  @GET('users/{username}/repos')
+  Future<List<Repository>> fetchUserRepositories({
+    @Path('username') required String userName,
   });
 }

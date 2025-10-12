@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
+import 'package:github_repository_searcher/extension/list.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/paging_list_view.dart';
-import 'package:github_repository_searcher/presentation/ui/home/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
 import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../core/widget/repository_item.dart';
+import '../core/widget/repository_item_separator.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -78,46 +81,42 @@ class HomePage extends HookConsumerWidget {
                           .read(repoProvider.notifier)
                           .fetchNextPage,
                       itemCount: repositoriesResponse.value?.items.length ?? 0,
-                      itemSeparator: (BuildContext context, int index) {
+                      itemSeparator: (_, int index) {
                         final lastIndex =
-                            (repositoriesResponse.value?.items.length ?? 0) - 1;
+                            repositoriesResponse.value?.items.lastIndex;
 
                         if (index == lastIndex) {
                           return SizedBox.shrink();
                         }
-                        return Container(
-                          color: Colors.grey,
-                          width: double.infinity,
-                          height: 1,
-                        );
+                        return RepositoryItemSeparator();
                       },
-                      item: (BuildContext context, int index) {
-                        final repository =
-                            repositoriesResponse.value?.items[index];
+                      item: (_, int index) {
+                        final repository = repositoriesResponse.value?.items
+                            .getOrNull(index);
 
                         if (repository == null) {
                           return SizedBox.shrink();
                         }
 
-                        return InkWell(
-                          onTap: () {
-                            NavigationUtils.toRepositoryDetail(
+                        return RepositoryItem(
+                          repository: repository,
+                          onItemTap: (repo) =>
+                              NavigationUtils.toRepositoryDetail(
+                                context: context,
+                                args: RepositoryDetailArgs(
+                                  repositoryName: repo.name,
+                                  repositoryUrl: repo.htmlUrl ?? '',
+                                ),
+                              ),
+                          onOwnerTap: (userId, userName) {
+                            NavigationUtils.toUserDetail(
                               context: context,
-                              args: RepositoryDetailArgs(
-                                repositoryName: repository.name,
-                                repositoryUrl: repository.htmlUrl ?? '',
+                              args: UserDetailArgs(
+                                userId: userId,
+                                userName: userName,
                               ),
                             );
                           },
-                          child: RepositoryItem(
-                            repository: repository,
-                            onOwnerTap: (id) {
-                              NavigationUtils.toUserDetail(
-                                context: context,
-                                args: UserDetailArgs(userId: id),
-                              );
-                            },
-                          ),
                         );
                       },
                     ),
