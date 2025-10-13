@@ -69,6 +69,16 @@ class SearchPage extends HookConsumerWidget {
               ],
             ),
           ),
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(
+              vertical: 2.0,
+              horizontal: 16.0,
+            ),
+            child: _SearchResultInfo(
+              queryText: ref.read(repoProvider.notifier).latestQuery,
+              resultCount: repositoriesResponse.value?.totalCount,
+            ),
+          ),
           (repositoriesResponse.value?.items.isEmpty ?? true)
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
@@ -131,5 +141,29 @@ class _NoRepositoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: Text(StringConsts.noRepositoryResult));
+  }
+}
+
+class _SearchResultInfo extends StatelessWidget {
+  const _SearchResultInfo({required this.queryText, required this.resultCount});
+
+  final String? queryText;
+  final int? resultCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Text(
+            StringConsts.queryTextResult(queryText),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Text(StringConsts.queryResultCount(resultCount), maxLines: 1),
+      ],
+    );
   }
 }

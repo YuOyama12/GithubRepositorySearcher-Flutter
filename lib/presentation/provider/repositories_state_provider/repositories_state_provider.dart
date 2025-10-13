@@ -13,6 +13,7 @@ class RepositoriesState
     extends
         BasePagingApiState<RepositoriesResponse, SearchRepositoriesRequest> {
   String? _latestQueryCache;
+  String get latestQuery => _latestQueryCache ?? '';
 
   @override
   Future<RepositoriesResponse?> build(SearchRepositoriesRequest request) =>
