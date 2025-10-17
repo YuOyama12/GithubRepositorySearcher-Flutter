@@ -4,17 +4,17 @@ import 'package:github_repository_searcher/presentation/ui/user_detail/navigatio
 import 'package:github_repository_searcher/presentation/ui/user_detail/user_detail_page.dart';
 import 'package:go_router/go_router.dart';
 
-import '../ui/home/home_page.dart';
 import '../ui/repository_detail/navigation/repository_detail_args.dart';
+import '../ui/search//search_page.dart';
 
 final goRouter = GoRouter(
-  initialLocation: RouteConsts.homePagePath,
-  routes: [_homePageRoute, _repositoryDetailPageRoute, _userDetailPageRoute],
+  initialLocation: RouteConsts.searchPagePath,
+  routes: [_searchPageRoute, _repositoryDetailPageRoute, _userDetailPageRoute],
 );
 
-final _homePageRoute = GoRoute(
-  path: RouteConsts.homePagePath,
-  builder: (_, _) => HomePage(),
+final _searchPageRoute = GoRoute(
+  path: RouteConsts.searchPagePath,
+  builder: (_, _) => SearchPage(),
 );
 
 final _repositoryDetailPageRoute = GoRoute(

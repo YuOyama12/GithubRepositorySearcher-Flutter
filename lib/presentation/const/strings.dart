@@ -1,8 +1,16 @@
 class StringConsts {
-  static const String homePageTitle = 'GithubRepositorySearcher';
+  static const String searchPageTitle = 'Githubリポジトリ検索';
   static const String searchPlaceholder = 'キーワードを入力';
   static const String search = '検索';
   static const String noRepositoryResult = 'なし';
+  static String queryTextResult(String? queryText) {
+    return '検索：${(queryText ?? '-')}';
+  }
+
+  static String queryResultCount(int? resultCount) {
+    return '検索結果：${(resultCount ?? '-')}件';
+  }
+
   static String usedLanguage(String? language) {
     return '使用言語：${language ?? '-'}';
   }
