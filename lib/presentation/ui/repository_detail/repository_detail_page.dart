@@ -63,6 +63,12 @@ class RepositoryDetailPage extends HookConsumerWidget {
         ..loadRequest(Uri.parse(args.repositoryUrl));
     }, [args.repositoryUrl]);
 
+    // ページ読み込み中にこの画面を離れるとインジケータが表示され続けるので
+    // 画面を離れる際にインジケータを非表示にする
+    useEffect(() {
+      return ref.read(loadingStateController.notifier).hideLoading;
+    }, const []);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
