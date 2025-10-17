@@ -44,6 +44,18 @@ class SearchPage extends HookConsumerWidget {
                     controller: searchQueryController,
                     decoration: InputDecoration(
                       hintText: StringConsts.searchPlaceholder,
+                      suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                        valueListenable: searchQueryController,
+                        builder: (context, value, child) {
+                          return (searchQueryController.text.isNotEmpty)
+                              ? IconButton(
+                                  onPressed: () =>
+                                      searchQueryController.text = '',
+                                  icon: Icon(Icons.clear_rounded),
+                                )
+                              : SizedBox.shrink();
+                        },
+                      ),
                     ),
                   ),
                 ),
