@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:github_repository_searcher/util/logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../loading_state_controller.dart';
@@ -7,28 +9,53 @@ class ApiDispatcher<T> {
   final Ref ref;
   final Future<T> Function() request;
   final void Function(AsyncValue<T> data) onSuccess;
+  final void Function(Object? error, StackTrace?) onFailure;
   final bool shouldShowLoading;
 
   ApiDispatcher({
     required this.ref,
     required this.request,
     required this.onSuccess,
+    this.onFailure = defaultErrorHandling,
     this.shouldShowLoading = true,
   }) {
     _dispatch();
   }
 
+  static void defaultErrorHandling(Object? error, StackTrace? stackTrace) {
+    switch (error) {
+      case DioException _:
+        handleResponseError(error, stackTrace);
+    }
+  }
+
+  static void handleResponseError(DioException error, StackTrace? stackTrace) {
+    logger.e(
+      'ApiDispatcher::responseError::statusCode::${error.response?.statusCode}::${error.response?.data}',
+      error: error,
+    );
+  }
+
   Future<void> _dispatch() async {
-    final loadingController = (shouldShowLoading)
-        ? ref.read(loadingStateController.notifier)
-        : null;
+    LoadingState? loadingController;
 
     try {
+      loadingController = (shouldShowLoading)
+          ? ref.read(loadingStateController.notifier)
+          : null;
+
       loadingController?.showLoading();
       final result = await AsyncValue.guard(() async {
         return request();
       });
-      onSuccess(result);
+
+      if (result.hasError) {
+        onFailure(result.error, result.stackTrace);
+      } else {
+        onSuccess(result);
+      }
+    } catch (e) {
+      logger.e('ApiDispatcher::dispatchError::$e', error: e);
     } finally {
       loadingController?.hideLoading();
     }
