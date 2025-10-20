@@ -25,14 +25,38 @@ class ApiDispatcher<T> {
   static void defaultErrorHandling(Object? error, StackTrace? stackTrace) {
     switch (error) {
       case DioException _:
-        handleResponseError(error, stackTrace);
+        switch (error.type) {
+          case DioExceptionType.badResponse:
+            handleResponseError(error, stackTrace);
+          default:
+            handleServerError(error, stackTrace);
+        }
+      default:
+        logger.e(
+          'ApiDispatcher::UnExpectedError::${error}',
+          error: error,
+          stackTrace: stackTrace,
+        );
     }
   }
 
-  static void handleResponseError(DioException error, StackTrace? stackTrace) {
+  static void handleResponseError(
+    DioException exception,
+    StackTrace? stackTrace,
+  ) {
     logger.e(
-      'ApiDispatcher::responseError::statusCode::${error.response?.statusCode}::${error.response?.data}',
-      error: error,
+      'ApiDispatcher::responseError::statusCode::${exception.response?.statusCode}::${exception.response?.data}',
+      error: exception,
+    );
+  }
+
+  static void handleServerError(
+    DioException exception,
+    StackTrace? stackTrace,
+  ) {
+    logger.e(
+      'ApiDispatcher::serverError::type::${exception.type}::${exception.error}',
+      error: exception,
     );
   }
 
