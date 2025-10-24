@@ -1,4 +1,6 @@
 class StringConsts {
+  static const String ok = 'OK';
+  static const String cancel = 'キャンセル';
   static const String searchPageTitle = 'Githubリポジトリ検索';
   static const String searchPlaceholder = 'キーワードを入力';
   static const String search = '検索';
