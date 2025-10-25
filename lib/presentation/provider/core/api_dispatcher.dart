@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:github_repository_searcher/domain/entity/core/api_error_entity/api_error_entity.dart';
+import 'package:github_repository_searcher/presentation/const/strings.dart';
+import 'package:github_repository_searcher/presentation/provider/api_error_state_controller.dart';
 import 'package:github_repository_searcher/util/logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,7 +12,7 @@ class ApiDispatcher<T> {
   final Ref ref;
   final Future<T> Function() request;
   final void Function(AsyncValue<T> data) onSuccess;
-  final void Function(Object? error, StackTrace?) onFailure;
+  final void Function(Ref, Object? error, StackTrace?) onFailure;
   final bool shouldShowLoading;
 
   ApiDispatcher({
@@ -22,18 +25,22 @@ class ApiDispatcher<T> {
     _dispatch();
   }
 
-  static void defaultErrorHandling(Object? error, StackTrace? stackTrace) {
+  static void defaultErrorHandling(
+    Ref ref,
+    Object? error,
+    StackTrace? stackTrace,
+  ) {
     switch (error) {
       case DioException _:
         switch (error.type) {
           case DioExceptionType.badResponse:
-            handleResponseError(error, stackTrace);
+            handleResponseError(ref, error, stackTrace);
           default:
-            handleServerError(error, stackTrace);
+            handleServerError(ref, error, stackTrace);
         }
       default:
         logger.e(
-          'ApiDispatcher::UnExpectedError::${error}',
+          'ApiDispatcher::UnExpectedError::$error',
           error: error,
           stackTrace: stackTrace,
         );
@@ -41,6 +48,7 @@ class ApiDispatcher<T> {
   }
 
   static void handleResponseError(
+    Ref ref,
     DioException exception,
     StackTrace? stackTrace,
   ) {
@@ -51,6 +59,7 @@ class ApiDispatcher<T> {
   }
 
   static void handleServerError(
+    Ref ref,
     DioException exception,
     StackTrace? stackTrace,
   ) {
@@ -58,6 +67,22 @@ class ApiDispatcher<T> {
       'ApiDispatcher::serverError::type::${exception.type}::${exception.error}',
       error: exception,
     );
+
+    switch (exception.type) {
+      case DioExceptionType.connectionTimeout ||
+          DioExceptionType.sendTimeout ||
+          DioExceptionType.receiveTimeout ||
+          DioExceptionType.connectionError:
+        ref
+            .read(apiErrorStateController.notifier)
+            .notify(
+              ApiErrorEntity(errorMessage: StringConsts.connectionTimeoutError),
+            );
+      default:
+        ref
+            .read(apiErrorStateController.notifier)
+            .notify(ApiErrorEntity(errorMessage: StringConsts.defaultError));
+    }
   }
 
   Future<void> _dispatch() async {
@@ -74,7 +99,7 @@ class ApiDispatcher<T> {
       });
 
       if (result.hasError) {
-        onFailure(result.error, result.stackTrace);
+        onFailure(ref, result.error, result.stackTrace);
       } else {
         onSuccess(result);
       }
