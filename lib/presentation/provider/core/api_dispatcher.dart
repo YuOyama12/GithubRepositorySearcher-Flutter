@@ -56,6 +56,23 @@ class ApiDispatcher<T> {
       'ApiDispatcher::responseError::statusCode::${exception.response?.statusCode}::${exception.response?.data}',
       error: exception,
     );
+    ref
+        .read(apiErrorStateController.notifier)
+        .notify(ApiErrorEntity(errorMessage: createErrorMessage(exception)));
+  }
+
+  static String createErrorMessage(DioException exception) {
+    try {
+      final json = exception.response?.data as Map<String, dynamic>;
+      final message = json['message'];
+      return StringConsts.defaultResponseError(
+        message,
+        exception.response?.statusCode,
+      );
+    } catch (e) {
+      logger.e('ApiDispatcher::jsonDecodingError::$e', error: e);
+      return StringConsts.defaultError;
+    }
   }
 
   static void handleServerError(

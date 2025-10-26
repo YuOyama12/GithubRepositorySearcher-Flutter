@@ -3,6 +3,8 @@ class StringConsts {
   static const String connectionTimeoutError =
       '通信に失敗しました。通信環境の良いところで再度お試しください。';
   static const String defaultError = 'エラーが発生しました。時間をおいて再度お試しください。';
+  static String defaultResponseError(String message, int? statusCode) =>
+      '$message (ErrorCode:${statusCode == null ? '-' : statusCode.toString()})';
 
   static const String ok = 'OK';
   static const String cancel = 'キャンセル';
