@@ -40,10 +40,13 @@ class ApiDispatcher<T> {
         }
       default:
         logger.e(
-          'ApiDispatcher::UnExpectedError::$error',
+          'ApiDispatcher::UnExpectedError::$error::stackTrace::${stackTrace}',
           error: error,
           stackTrace: stackTrace,
         );
+        ref
+            .read(apiErrorStateController.notifier)
+            .notify(ApiErrorEntity(errorMessage: StringConsts.defaultError));
     }
   }
 
