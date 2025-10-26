@@ -47,7 +47,7 @@ final class RepositoriesStateProvider
   }
 }
 
-String _$repositoriesStateHash() => r'7740b866acd58ec4ee96acc035114efbfff879c6';
+String _$repositoriesStateHash() => r'b41e6ac36c15eaeac4c08b37099383e6a9a38aef';
 
 final class RepositoriesStateFamily extends $Family
     with
