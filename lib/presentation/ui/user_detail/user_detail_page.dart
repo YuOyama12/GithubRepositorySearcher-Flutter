@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/extension/list.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/repository_detail_route.dart';
 import 'package:github_repository_searcher/presentation/provider/fetch_user_provider/fetch_user_provider.dart';
 import 'package:github_repository_searcher/presentation/provider/fetch_user_repositories_provider/fetch_user_repositories_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
-import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../domain/entity/response/user_response/user_response.dart';
-import '../../navigation/navigation_utils.dart';
 import '../core/widget/repository_item.dart';
 import '../core/widget/repository_item_separator.dart';
-import '../repository_detail/navigation/repository_detail_args.dart';
 
 class UserDetailPage extends HookConsumerWidget {
-  const UserDetailPage({super.key, required this.args});
+  const UserDetailPage({
+    super.key,
+    required this.userId,
+    required this.userName,
+  });
 
-  final UserDetailArgs args;
+  final int userId;
+  final String userName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userResponse = ref.watch(fetchUserProvider(args.userId));
+    final userResponse = ref.watch(fetchUserProvider(userId));
     final user = userResponse.value;
 
     final userReposResponse = ref.watch(
-      fetchUserRepositoriesProvider(args.userName),
+      fetchUserRepositoriesProvider(userName),
     );
 
     return Scaffold(
@@ -78,14 +81,10 @@ class UserDetailPage extends HookConsumerWidget {
 
                             return RepositoryItem(
                               repository: repository,
-                              onItemTap: (repo) =>
-                                  NavigationUtils.toRepositoryDetail(
-                                    context: context,
-                                    args: RepositoryDetailArgs(
-                                      repositoryName: repo.name,
-                                      repositoryUrl: repo.htmlUrl ?? '',
-                                    ),
-                                  ),
+                              onItemTap: (repo) => RepositoryDetailRoute(
+                                repositoryName: repo.name,
+                                repositoryUrl: repo.htmlUrl ?? '',
+                              ).push<void>(context),
                               onOwnerTap: null,
                             );
                           },
