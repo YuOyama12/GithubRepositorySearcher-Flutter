@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/colors.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
-import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -10,9 +9,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../provider/loading_state_controller.dart';
 
 class RepositoryDetailPage extends HookConsumerWidget {
-  const RepositoryDetailPage({super.key, required this.args});
+  const RepositoryDetailPage({
+    super.key,
+    required this.repositoryName,
+    required this.repositoryUrl,
+  });
 
-  final RepositoryDetailArgs args;
+  final String repositoryName;
+  final String repositoryUrl;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +55,7 @@ class RepositoryDetailPage extends HookConsumerWidget {
               }
             },
             onNavigationRequest: (NavigationRequest request) {
-              if (request.url.startsWith(args.repositoryUrl)) {
+              if (request.url.startsWith(repositoryUrl)) {
                 return NavigationDecision.navigate;
               }
 
@@ -60,8 +64,8 @@ class RepositoryDetailPage extends HookConsumerWidget {
             },
           ),
         )
-        ..loadRequest(Uri.parse(args.repositoryUrl));
-    }, [args.repositoryUrl]);
+        ..loadRequest(Uri.parse(repositoryUrl));
+    }, [repositoryUrl]);
 
     // ページ読み込み中にこの画面を離れるとインジケータが表示され続けるので
     // 画面を離れる際にインジケータを非表示にする
@@ -72,7 +76,7 @@ class RepositoryDetailPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(args.repositoryName),
+        title: Text(repositoryName),
         leading: CloseButton(onPressed: () => context.pop()),
       ),
       body: Stack(

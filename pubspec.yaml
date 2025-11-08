@@ -37,7 +37,7 @@ dependencies:
   hooks_riverpod: ^3.0.0-dev.17 # https://pub.dev/packages/hooks_riverpod
   flutter_hooks: ^0.21.2 # https://pub.dev/packages/flutter_hooks
   riverpod_annotation: ^3.0.0-dev.17 # https://pub.dev/packages/riverpod_annotation
-  go_router: ^16.1.0 # https://pub.dev/packages/go_router
+  go_router: ^16.2.0 # https://pub.dev/packages/go_router
   webview_flutter: ^4.13.0 # https://pub.dev/packages/webview_flutter
   universal_html: ^2.2.4 # universal_html: ^2.2.4
   logger: ^2.6.1 # https://pub.dev/packages/logger
@@ -62,6 +62,7 @@ dev_dependencies:
   retrofit_generator: ^10.0.0
   riverpod_generator: ^3.0.0-dev.17
   riverpod_lint: ^3.0.0-dev.17
+  go_router_builder: ^4.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

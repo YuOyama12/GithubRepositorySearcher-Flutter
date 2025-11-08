@@ -3,13 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
 import 'package:github_repository_searcher/extension/list.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
-import 'package:github_repository_searcher/presentation/navigation/navigation_utils.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/repository_detail_route.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/user_detail_route.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/paging_list_view.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item_separator.dart';
-import 'package:github_repository_searcher/presentation/ui/repository_detail/navigation/repository_detail_args.dart';
-import 'package:github_repository_searcher/presentation/ui/user_detail/navigation/user_detail_args.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchPage extends HookConsumerWidget {
@@ -121,23 +120,14 @@ class SearchPage extends HookConsumerWidget {
 
                         return RepositoryItem(
                           repository: repository,
-                          onItemTap: (repo) =>
-                              NavigationUtils.toRepositoryDetail(
-                                context: context,
-                                args: RepositoryDetailArgs(
-                                  repositoryName: repo.name,
-                                  repositoryUrl: repo.htmlUrl ?? '',
-                                ),
-                              ),
-                          onOwnerTap: (userId, userName) {
-                            NavigationUtils.toUserDetail(
-                              context: context,
-                              args: UserDetailArgs(
-                                userId: userId,
-                                userName: userName,
-                              ),
-                            );
-                          },
+                          onItemTap: (repo) => RepositoryDetailRoute(
+                            repositoryName: repo.name,
+                            repositoryUrl: repo.htmlUrl ?? '',
+                          ).push<void>(context),
+                          onOwnerTap: (userId, userName) => UserDetailRoute(
+                            userId: userId,
+                            userName: userName,
+                          ).push<void>(context),
                         );
                       },
                     ),
