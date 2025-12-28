@@ -35,4 +35,6 @@ class StringConsts {
   }
 
   static String createdRepositoryList = '作成したリポジトリ一覧';
+
+  static const String myPage = 'マイページ';
 }
