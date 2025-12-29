@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/extension/list.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
-import 'package:github_repository_searcher/presentation/navigation/route/repository_detail_route.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/repository_detail/repository_detail_route.dart';
 import 'package:github_repository_searcher/presentation/provider/fetch_user_provider/fetch_user_provider.dart';
 import 'package:github_repository_searcher/presentation/provider/fetch_user_repositories_provider/fetch_user_repositories_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/base_app_bar.dart';

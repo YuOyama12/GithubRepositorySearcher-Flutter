@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:github_repository_searcher/presentation/const/routes.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/my_page_route.dart';
-import 'package:github_repository_searcher/presentation/navigation/route/repository_detail_route.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/repository_detail/repository_detail_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/search_route.dart';
-import 'package:github_repository_searcher/presentation/navigation/route/user_detail_route.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/user_detail/user_detail_route.dart';
 import 'package:github_repository_searcher/presentation/ui/top/top_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,25 +14,16 @@ final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final goRouter = GoRouter(
   initialLocation: RouteConsts.searchScreenPath,
-  routes: $appRoutes,
+  routes: <RouteBase>[...$appRoutes, $repositoryDetailRoute, $userDetailRoute],
   navigatorKey: rootNavigatorKey,
 );
 
+// NOTE: トップ画面とつながるBottomNavigationを表示させたいページはここに配置する。
 @TypedStatefulShellRoute<TopRoute>(
   branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
     TypedStatefulShellBranch<SearchBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<SearchRoute>(
-          path: RouteConsts.searchScreenPath,
-          routes: <TypedGoRoute<GoRouteData>>[
-            TypedGoRoute<RepositoryDetailRoute>(
-              path: RouteConsts.repositoryDetailScreenPath,
-            ),
-            TypedGoRoute<UserDetailRoute>(
-              path: RouteConsts.userDetailScreenPath,
-            ),
-          ],
-        ),
+        TypedGoRoute<SearchRoute>(path: RouteConsts.searchScreenPath),
       ],
     ),
     TypedStatefulShellBranch<MyPageBranchData>(
