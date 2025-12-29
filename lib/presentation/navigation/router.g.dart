@@ -6,28 +6,46 @@ part of 'router.dart';
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [$searchRoute];
+List<RouteBase> get $appRoutes => [$topRoute];
 
-RouteBase get $searchRoute => GoRouteData.$route(
-  path: '/',
-  factory: $SearchRoute._fromState,
-  routes: [
-    GoRouteData.$route(
-      path: '/repository_detail',
-      factory: $RepositoryDetailRoute._fromState,
+RouteBase get $topRoute => StatefulShellRouteData.$route(
+  factory: $TopRouteExtension._fromState,
+  branches: [
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(
+          path: '/search',
+          factory: $SearchRoute._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'repository_detail',
+              factory: $RepositoryDetailRoute._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'user_detail',
+              factory: $UserDetailRoute._fromState,
+            ),
+          ],
+        ),
+      ],
     ),
-    GoRouteData.$route(
-      path: '/user_detail',
-      factory: $UserDetailRoute._fromState,
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(path: '/my_page', factory: $MyPageRoute._fromState),
+      ],
     ),
   ],
 );
+
+extension $TopRouteExtension on TopRoute {
+  static TopRoute _fromState(GoRouterState state) => const TopRoute();
+}
 
 mixin $SearchRoute on GoRouteData {
   static SearchRoute _fromState(GoRouterState state) => const SearchRoute();
 
   @override
-  String get location => GoRouteData.$location('/');
+  String get location => GoRouteData.$location('/search');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -54,7 +72,7 @@ mixin $RepositoryDetailRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location(
-    '/repository_detail',
+    '/search/repository_detail',
     queryParams: {
       'repository-name': _self.repositoryName,
       'repository-url': _self.repositoryUrl,
@@ -85,12 +103,32 @@ mixin $UserDetailRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location(
-    '/user_detail',
+    '/search/user_detail',
     queryParams: {
       'user-id': _self.userId.toString(),
       'user-name': _self.userName,
     },
   );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $MyPageRoute on GoRouteData {
+  static MyPageRoute _fromState(GoRouterState state) => const MyPageRoute();
+
+  @override
+  String get location => GoRouteData.$location('/my_page');
 
   @override
   void go(BuildContext context) => context.go(location);
