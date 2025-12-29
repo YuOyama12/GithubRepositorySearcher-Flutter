@@ -11,6 +11,10 @@ class StringConsts {
   static const String ok = 'OK';
   static const String cancel = 'キャンセル';
   static const String error = 'エラー';
+  static const String later = 'あとで';
+  static const String login = 'ログイン';
+  static const String loginDialogTitle = 'ログインが必要です';
+  static const String loginDialogMessage = 'この機能を利用するにはログインが必要です。';
   static const String searchPageTitle = 'Githubリポジトリ検索';
   static const String searchPlaceholder = 'キーワードを入力';
   static const String search = '検索';

@@ -5,6 +5,10 @@ import 'package:github_repository_searcher/presentation/navigation/route/search_
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../const/strings.dart';
+import '../../navigation/route/login/login_route.dart';
+import '../core/base_dialog.dart';
+
 class TopScreen extends HookConsumerWidget {
   const TopScreen({super.key, required this.child});
 
@@ -24,6 +28,8 @@ class TopScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final int selectedIndex = _getCurrentIndex(context);
 
+    final bool isAuth = false;
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         items: BottomNavigationType.values.map((type) {
@@ -37,7 +43,23 @@ class TopScreen extends HookConsumerWidget {
             case BottomNavigationType.search:
               const SearchRoute().go(context);
             case BottomNavigationType.myPage:
-              const MyPageRoute().go(context);
+              if (isAuth) {
+                const MyPageRoute().go(context);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => BaseDialog(
+                    title: StringConsts.loginDialogTitle,
+                    message: StringConsts.loginDialogMessage,
+                    positiveButtonText: StringConsts.login,
+                    onPositiveButtonTap: () {
+                      Navigator.pop(dialogContext);
+                      LoginRoute().push(context);
+                    },
+                    negativeButtonText: StringConsts.later,
+                  ),
+                );
+              }
           }
         },
         currentIndex: selectedIndex,
