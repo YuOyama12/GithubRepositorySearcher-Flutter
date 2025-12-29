@@ -4,6 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../router.dart';
 
+class MyPageBranchData extends StatefulShellBranchData {
+  const MyPageBranchData();
+}
+
 class MyPageRoute extends GoRouteData with $MyPageRoute {
   const MyPageRoute();
 

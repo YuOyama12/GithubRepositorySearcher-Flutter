@@ -8,25 +8,32 @@ part of 'router.dart';
 
 List<RouteBase> get $appRoutes => [$topRoute];
 
-RouteBase get $topRoute => ShellRouteData.$route(
-  navigatorKey: TopRoute.$navigatorKey,
+RouteBase get $topRoute => StatefulShellRouteData.$route(
   factory: $TopRouteExtension._fromState,
-  routes: [
-    GoRouteData.$route(
-      path: '/search',
-      factory: $SearchRoute._fromState,
+  branches: [
+    StatefulShellBranchData.$branch(
       routes: [
         GoRouteData.$route(
-          path: 'repository_detail',
-          factory: $RepositoryDetailRoute._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'user_detail',
-          factory: $UserDetailRoute._fromState,
+          path: '/search',
+          factory: $SearchRoute._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'repository_detail',
+              factory: $RepositoryDetailRoute._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'user_detail',
+              factory: $UserDetailRoute._fromState,
+            ),
+          ],
         ),
       ],
     ),
-    GoRouteData.$route(path: '/my_page', factory: $MyPageRoute._fromState),
+    StatefulShellBranchData.$branch(
+      routes: [
+        GoRouteData.$route(path: '/my_page', factory: $MyPageRoute._fromState),
+      ],
+    ),
   ],
 );
 

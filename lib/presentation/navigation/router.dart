@@ -18,27 +18,39 @@ final goRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
 );
 
-@TypedShellRoute<TopRoute>(
-  routes: <TypedRoute<RouteData>>[
-    TypedGoRoute<SearchRoute>(
-      path: RouteConsts.searchPagePath,
-      routes: <TypedGoRoute<GoRouteData>>[
-        TypedGoRoute<RepositoryDetailRoute>(
-          path: RouteConsts.repositoryDetailPagePath,
+@TypedStatefulShellRoute<TopRoute>(
+  branches: <TypedStatefulShellBranch<StatefulShellBranchData>>[
+    TypedStatefulShellBranch<SearchBranchData>(
+      routes: <TypedRoute<RouteData>>[
+        TypedGoRoute<SearchRoute>(
+          path: RouteConsts.searchPagePath,
+          routes: <TypedGoRoute<GoRouteData>>[
+            TypedGoRoute<RepositoryDetailRoute>(
+              path: RouteConsts.repositoryDetailPagePath,
+            ),
+            TypedGoRoute<UserDetailRoute>(path: RouteConsts.userDetailPagePath),
+          ],
         ),
-        TypedGoRoute<UserDetailRoute>(path: RouteConsts.userDetailPagePath),
       ],
     ),
-    TypedGoRoute<MyPageRoute>(path: RouteConsts.myPagePath),
+    TypedStatefulShellBranch<MyPageBranchData>(
+      routes: <TypedRoute<RouteData>>[
+        TypedGoRoute<MyPageRoute>(path: RouteConsts.myPagePath),
+      ],
+    ),
   ],
 )
-class TopRoute extends ShellRouteData {
+class TopRoute extends StatefulShellRouteData {
   const TopRoute();
 
   static final GlobalKey<NavigatorState> $navigatorKey = shellNavigatorKey;
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
-    return TopPage(child: navigator);
+  Widget builder(
+    BuildContext context,
+    GoRouterState state,
+    Widget navigationShell,
+  ) {
+    return TopPage(child: navigationShell);
   }
 }
