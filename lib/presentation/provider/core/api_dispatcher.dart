@@ -40,7 +40,7 @@ class ApiDispatcher<T> {
         }
       default:
         logger.e(
-          'ApiDispatcher::UnExpectedError::$error::stackTrace::${stackTrace}',
+          'ApiDispatcher::UnExpectedError::$error::stackTrace::$stackTrace',
           error: error,
           stackTrace: stackTrace,
         );
