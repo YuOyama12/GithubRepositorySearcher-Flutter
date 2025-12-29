@@ -6,6 +6,7 @@ import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/repository_detail_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/user_detail_route.dart';
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
+import 'package:github_repository_searcher/presentation/ui/core/base_app_bar.dart';
 import 'package:github_repository_searcher/presentation/ui/core/paging_list_view.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item_separator.dart';
@@ -24,10 +25,7 @@ class SearchPage extends HookConsumerWidget {
     final repositoriesResponse = ref.watch(repoProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(StringConsts.searchPageTitle),
-      ),
+      appBar: BaseAppBar(title: StringConsts.searchPageTitle),
       body: Column(
         children: [
           Padding(
