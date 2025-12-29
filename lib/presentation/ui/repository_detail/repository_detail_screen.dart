@@ -9,8 +9,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../provider/loading_state_controller.dart';
 
-class RepositoryDetailPage extends HookConsumerWidget {
-  const RepositoryDetailPage({
+class RepositoryDetailScreen extends HookConsumerWidget {
+  const RepositoryDetailScreen({
     super.key,
     required this.repositoryName,
     required this.repositoryUrl,

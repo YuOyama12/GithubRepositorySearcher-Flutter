@@ -12,8 +12,8 @@ import '../../../domain/entity/response/user_response/user_response.dart';
 import '../core/widget/repository_item.dart';
 import '../core/widget/repository_item_separator.dart';
 
-class UserDetailPage extends HookConsumerWidget {
-  const UserDetailPage({
+class UserDetailScreen extends HookConsumerWidget {
+  const UserDetailScreen({
     super.key,
     required this.userId,
     required this.userName,

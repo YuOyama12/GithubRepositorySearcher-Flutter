@@ -12,8 +12,8 @@ import 'package:github_repository_searcher/presentation/ui/core/widget/repositor
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item_separator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SearchPage extends HookConsumerWidget {
-  const SearchPage({super.key});
+class SearchScreen extends HookConsumerWidget {
+  const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../const/strings.dart';
 
-class MyPage extends HookConsumerWidget {
-  const MyPage({super.key});
+class MyPageScreen extends HookConsumerWidget {
+  const MyPageScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
