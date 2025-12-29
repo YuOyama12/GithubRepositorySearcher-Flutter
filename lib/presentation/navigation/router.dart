@@ -4,7 +4,7 @@ import 'package:github_repository_searcher/presentation/navigation/route/my_page
 import 'package:github_repository_searcher/presentation/navigation/route/repository_detail_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/search_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/user_detail_route.dart';
-import 'package:github_repository_searcher/presentation/ui/top/top_page.dart';
+import 'package:github_repository_searcher/presentation/ui/top/top_screen.dart';
 import 'package:go_router/go_router.dart';
 
 part 'router.g.dart';
@@ -13,7 +13,7 @@ final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final goRouter = GoRouter(
-  initialLocation: RouteConsts.searchPagePath,
+  initialLocation: RouteConsts.searchScreenPath,
   routes: $appRoutes,
   navigatorKey: rootNavigatorKey,
 );
@@ -23,19 +23,21 @@ final goRouter = GoRouter(
     TypedStatefulShellBranch<SearchBranchData>(
       routes: <TypedRoute<RouteData>>[
         TypedGoRoute<SearchRoute>(
-          path: RouteConsts.searchPagePath,
+          path: RouteConsts.searchScreenPath,
           routes: <TypedGoRoute<GoRouteData>>[
             TypedGoRoute<RepositoryDetailRoute>(
-              path: RouteConsts.repositoryDetailPagePath,
+              path: RouteConsts.repositoryDetailScreenPath,
             ),
-            TypedGoRoute<UserDetailRoute>(path: RouteConsts.userDetailPagePath),
+            TypedGoRoute<UserDetailRoute>(
+              path: RouteConsts.userDetailScreenPath,
+            ),
           ],
         ),
       ],
     ),
     TypedStatefulShellBranch<MyPageBranchData>(
       routes: <TypedRoute<RouteData>>[
-        TypedGoRoute<MyPageRoute>(path: RouteConsts.myPagePath),
+        TypedGoRoute<MyPageRoute>(path: RouteConsts.myPageScreenPath),
       ],
     ),
   ],
@@ -51,6 +53,6 @@ class TopRoute extends StatefulShellRouteData {
     GoRouterState state,
     Widget navigationShell,
   ) {
-    return TopPage(child: navigationShell);
+    return TopScreen(child: navigationShell);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:github_repository_searcher/presentation/ui/user_detail/user_detail_page.dart';
+import 'package:github_repository_searcher/presentation/ui/user_detail/user_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../router.dart';
@@ -12,6 +12,6 @@ class UserDetailRoute extends GoRouteData with $UserDetailRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return UserDetailPage(userId: userId, userName: userName);
+    return UserDetailScreen(userId: userId, userName: userName);
   }
 }

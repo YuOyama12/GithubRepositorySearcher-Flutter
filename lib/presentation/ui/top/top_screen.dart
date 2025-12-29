@@ -5,8 +5,8 @@ import 'package:github_repository_searcher/presentation/navigation/route/search_
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TopPage extends HookConsumerWidget {
-  const TopPage({super.key, required this.child});
+class TopScreen extends HookConsumerWidget {
+  const TopScreen({super.key, required this.child});
 
   final Widget child;
 

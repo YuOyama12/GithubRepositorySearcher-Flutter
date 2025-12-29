@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:github_repository_searcher/presentation/ui/repository_detail/repository_detail_page.dart';
+import 'package:github_repository_searcher/presentation/ui/repository_detail/repository_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../router.dart';
@@ -15,7 +15,7 @@ class RepositoryDetailRoute extends GoRouteData with $RepositoryDetailRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return RepositoryDetailPage(
+    return RepositoryDetailScreen(
       repositoryName: repositoryName,
       repositoryUrl: repositoryUrl,
     );

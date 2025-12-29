@@ -4,12 +4,12 @@ import 'package:github_repository_searcher/presentation/const/strings.dart';
 
 enum BottomNavigationType {
   search(
-    path: RouteConsts.searchPagePath,
+    path: RouteConsts.searchScreenPath,
     label: StringConsts.search,
     icon: Icons.search,
   ),
   myPage(
-    path: RouteConsts.myPagePath,
+    path: RouteConsts.myPageScreenPath,
     label: StringConsts.myPage,
     icon: Icons.person,
   );
