@@ -43,4 +43,8 @@ class StringConsts {
   static String createdRepositoryList = '作成したリポジトリ一覧';
 
   static const String myPage = 'マイページ';
+
+  static const String loginDescription =
+      '自分のGitHubアカウントで作成したPersonal Access Tokenを入力してください。';
+  static const personalAccessToken = 'Personal Access Token';
 }
