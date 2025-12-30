@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:github_repository_searcher/presentation/provider/auth_provider/auth_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../const/strings.dart';
@@ -16,6 +17,10 @@ class LoginScreen extends HookConsumerWidget {
     final isTokenFilled = useListenableSelector(
       accessTokenController,
       () => accessTokenController.text.isNotEmpty,
+    );
+
+    final provider = ref.watch(
+      authProvider(accessTokenController.text).notifier,
     );
 
     return Scaffold(
@@ -59,7 +64,11 @@ class LoginScreen extends HookConsumerWidget {
                       onChanged: (value) => accessTokenController.text = value,
                     ),
                     FilledButton(
-                      onPressed: isTokenFilled ? () {} : null,
+                      onPressed: isTokenFilled
+                          ? () {
+                              provider.fetch(accessTokenController.text);
+                            }
+                          : null,
                       child: SizedBox(
                         width: double.infinity,
                         child: Text(
