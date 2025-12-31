@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/domain/entity/type/bottom_navigation_type.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/my_page_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/search_route.dart';
+import 'package:github_repository_searcher/presentation/provider/access_token_provider/access_token_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -27,8 +28,7 @@ class TopScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int selectedIndex = _getCurrentIndex(context);
-
-    final bool isAuth = false;
+    final accessToken = ref.watch(accessTokenProvider);
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -43,7 +43,7 @@ class TopScreen extends HookConsumerWidget {
             case BottomNavigationType.search:
               const SearchRoute().go(context);
             case BottomNavigationType.myPage:
-              if (isAuth) {
+              if (accessToken.value?.isNotEmpty == true) {
                 const MyPageRoute().go(context);
               } else {
                 showDialog(
