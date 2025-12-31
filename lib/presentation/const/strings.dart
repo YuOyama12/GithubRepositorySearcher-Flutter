@@ -47,4 +47,5 @@ class StringConsts {
   static const String loginDescription =
       '自分のGitHubアカウントで作成したPersonal Access Tokenを入力してください。';
   static const personalAccessToken = 'Personal Access Token';
+  static const authSuccessfulMessage = '認証に成功しました';
 }

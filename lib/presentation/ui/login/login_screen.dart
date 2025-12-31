@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/search_route.dart';
 import 'package:github_repository_searcher/presentation/provider/auth_provider/auth_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,9 +21,19 @@ class LoginScreen extends HookConsumerWidget {
       () => accessTokenController.text.isNotEmpty,
     );
 
-    final provider = ref.watch(
-      authProvider(accessTokenController.text).notifier,
-    );
+    final apiState = ref.watch(authProvider(accessTokenController.text));
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // 認証成功タイミングでトップ画面へ戻す
+        if (apiState.hasValue && context.mounted) {
+          Fluttertoast.showToast(msg: StringConsts.authSuccessfulMessage);
+          SearchRoute().go(context);
+        }
+      });
+
+      return null;
+    }, [if (!apiState.hasError) apiState.value]);
 
     return Scaffold(
       appBar: BaseAppBar(title: StringConsts.login),
@@ -66,7 +78,13 @@ class LoginScreen extends HookConsumerWidget {
                     FilledButton(
                       onPressed: isTokenFilled
                           ? () {
-                              provider.fetch(accessTokenController.text);
+                              ref
+                                  .watch(
+                                    authProvider(
+                                      accessTokenController.text,
+                                    ).notifier,
+                                  )
+                                  .fetch(accessTokenController.text);
                             }
                           : null,
                       child: SizedBox(
