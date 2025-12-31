@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:github_repository_searcher/domain/entity/type/bottom_navigation_type.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/my_page_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/search_route.dart';
+import 'package:github_repository_searcher/presentation/provider/access_token_provider/access_token_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../const/strings.dart';
+import '../../navigation/route/login/login_route.dart';
+import '../core/base_dialog.dart';
 
 class TopScreen extends HookConsumerWidget {
   const TopScreen({super.key, required this.child});
@@ -23,6 +28,7 @@ class TopScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int selectedIndex = _getCurrentIndex(context);
+    final accessToken = ref.watch(accessTokenProvider);
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -37,7 +43,23 @@ class TopScreen extends HookConsumerWidget {
             case BottomNavigationType.search:
               const SearchRoute().go(context);
             case BottomNavigationType.myPage:
-              const MyPageRoute().go(context);
+              if (accessToken.value?.isNotEmpty == true) {
+                const MyPageRoute().go(context);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => BaseDialog(
+                    title: StringConsts.loginDialogTitle,
+                    message: StringConsts.loginDialogMessage,
+                    positiveButtonText: StringConsts.login,
+                    onPositiveButtonTap: () {
+                      Navigator.pop(dialogContext);
+                      LoginRoute().push(context);
+                    },
+                    negativeButtonText: StringConsts.later,
+                  ),
+                );
+              }
           }
         },
         currentIndex: selectedIndex,

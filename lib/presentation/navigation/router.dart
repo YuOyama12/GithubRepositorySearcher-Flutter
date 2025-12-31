@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:github_repository_searcher/presentation/const/routes.dart';
+import 'package:github_repository_searcher/presentation/navigation/route/login/login_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/my_page_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/repository_detail/repository_detail_route.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/search_route.dart';
@@ -14,7 +15,12 @@ final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final goRouter = GoRouter(
   initialLocation: RouteConsts.searchScreenPath,
-  routes: <RouteBase>[...$appRoutes, $repositoryDetailRoute, $userDetailRoute],
+  routes: <RouteBase>[
+    ...$appRoutes,
+    $repositoryDetailRoute,
+    $userDetailRoute,
+    $loginRoute,
+  ],
   navigatorKey: rootNavigatorKey,
 );
 

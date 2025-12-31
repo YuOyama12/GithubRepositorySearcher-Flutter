@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.8.0+1 # https://pub.dev/packages/dio
+  fluttertoast: ^8.2.11 # https://pub.dev/packages/fluttertoast
+  flutter_secure_storage: ^10.0.0 # https://pub.dev/packages/flutter_secure_storage
   retrofit: ^4.6.0 # https://pub.dev/packages/retrofit
   freezed_annotation: ^3.1.0 # https://pub.dev/packages/freezed_annotation
   json_annotation: ^4.9.0 # https://pub.dev/packages/json_annotation

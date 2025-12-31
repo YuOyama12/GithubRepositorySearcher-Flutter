@@ -11,6 +11,10 @@ class StringConsts {
   static const String ok = 'OK';
   static const String cancel = 'キャンセル';
   static const String error = 'エラー';
+  static const String later = 'あとで';
+  static const String login = 'ログイン';
+  static const String loginDialogTitle = 'ログインが必要です';
+  static const String loginDialogMessage = 'この機能を利用するにはログインが必要です。';
   static const String searchPageTitle = 'Githubリポジトリ検索';
   static const String searchPlaceholder = 'キーワードを入力';
   static const String search = '検索';
@@ -39,4 +43,9 @@ class StringConsts {
   static String createdRepositoryList = '作成したリポジトリ一覧';
 
   static const String myPage = 'マイページ';
+
+  static const String loginDescription =
+      '自分のGitHubアカウントで作成したPersonal Access Tokenを入力してください。';
+  static const personalAccessToken = 'Personal Access Token';
+  static const authSuccessfulMessage = '認証に成功しました';
 }
