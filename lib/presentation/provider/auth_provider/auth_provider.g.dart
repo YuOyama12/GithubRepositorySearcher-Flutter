@@ -46,7 +46,7 @@ final class AuthProvider extends $AsyncNotifierProvider<Auth, UserResponse?> {
   }
 }
 
-String _$authHash() => r'572ca2d1934b4abb120f84f42ae6c39567f9449d';
+String _$authHash() => r'b3214d1a2069f491645f0b3083a15289c950e339';
 
 final class AuthFamily extends $Family
     with

@@ -1,15 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:github_repository_searcher/data/service/api_client/auth_interceptor.dart';
 import 'package:logger/logger.dart';
 
 final _logger = Logger(
-  printer: PrettyPrinter(
-    colors: false,
-    printEmojis: false
-  )
+  printer: PrettyPrinter(colors: false, printEmojis: false),
 );
 
 class AppDio extends DioMixin {
-  factory AppDio()  {
+  factory AppDio() {
     final instance = _instance;
     if (instance != null) {
       return instance;
@@ -23,22 +21,28 @@ class AppDio extends DioMixin {
     dio
       ..options = options
       ..httpClientAdapter = HttpClientAdapter()
-      ..interceptors.add(
-          InterceptorsWrapper(
-            onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-              _logger.i(_createRequestLog(options));
-              return handler.next(options);
-            },
-            onResponse: (Response response, ResponseInterceptorHandler handler) {
-              _logger.i(_createResponseLog(response));
-              return handler.next(response);
-            },
-            onError: (DioException e, ErrorInterceptorHandler handler) {
-              _logger.e('######## Error Log ########', error: e, stackTrace: e.stackTrace);
-              return handler.next(e);
-            },
-          ),
-      );
+      ..interceptors.addAll([
+        AuthInterceptor(),
+        InterceptorsWrapper(
+          onRequest:
+              (RequestOptions options, RequestInterceptorHandler handler) {
+                _logger.i(_createRequestLog(options));
+                return handler.next(options);
+              },
+          onResponse: (Response response, ResponseInterceptorHandler handler) {
+            _logger.i(_createResponseLog(response));
+            return handler.next(response);
+          },
+          onError: (DioException e, ErrorInterceptorHandler handler) {
+            _logger.e(
+              '######## Error Log ########',
+              error: e,
+              stackTrace: e.stackTrace,
+            );
+            return handler.next(e);
+          },
+        ),
+      ]);
     _instance = dio;
     return dio;
   }

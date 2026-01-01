@@ -30,7 +30,7 @@ final class AccessTokenProvider
   AccessToken create() => AccessToken();
 }
 
-String _$accessTokenHash() => r'a9e891745f82bf524c43fff273e0bfe469ba488d';
+String _$accessTokenHash() => r'8447f23d7a788e0c8f36014fc0a52a60b345d1d3';
 
 abstract class _$AccessToken extends $AsyncNotifier<String?> {
   FutureOr<String?> build();
