@@ -20,8 +20,11 @@ class Auth extends BaseApiState<UserResponse, String> {
   Future<void> fetch(String request) async {
     ApiDispatcher<UserResponse>(
       ref: ref,
-      request: () =>
-          ref.read(authRepositoryProvider).auth(header: 'Bearer $request'),
+      request: () async {
+        // 不正確なトークンを送らないようにトークン情報を削除しておく。
+        await ref.read(accessTokenProvider.notifier).updateToken(null);
+        return ref.read(authRepositoryProvider).auth(header: 'Bearer $request');
+      },
       onSuccess: (data) async {
         if (ref.mounted) {
           await ref.read(accessTokenProvider.notifier).updateToken(request);
