@@ -27,6 +27,9 @@ abstract class ApiClient {
     @Path('username') required String userName,
   });
 
+  @GET('user')
+  Future<UserResponse> fetchMyInfo();
+
   /// 認証用APIが存在していないので、こちらを認証目的で使用する。
   @GET('user')
   Future<UserResponse> auth({@Header('Authorization') required String header});

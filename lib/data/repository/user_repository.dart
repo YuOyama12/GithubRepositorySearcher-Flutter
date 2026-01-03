@@ -21,4 +21,8 @@ class UserRepository {
   }) async {
     return apiClient.fetchUserRepositories(userName: userName);
   }
+
+  Future<UserResponse> fetchMyInfo() async {
+    return apiClient.fetchMyInfo();
+  }
 }
