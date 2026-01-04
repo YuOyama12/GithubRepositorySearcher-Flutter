@@ -1,43 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_provider.dart';
+part of 'fetch_my_info_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(Auth)
-const authProvider = AuthFamily._();
+@ProviderFor(FetchMyInfo)
+const fetchMyInfoProvider = FetchMyInfoFamily._();
 
-final class AuthProvider extends $AsyncNotifierProvider<Auth, UserResponse?> {
-  const AuthProvider._({
-    required AuthFamily super.from,
-    required String super.argument,
+final class FetchMyInfoProvider
+    extends $AsyncNotifierProvider<FetchMyInfo, UserResponse?> {
+  const FetchMyInfoProvider._({
+    required FetchMyInfoFamily super.from,
+    required dynamic super.argument,
   }) : super(
          retry: null,
-         name: r'authProvider',
+         name: r'fetchMyInfoProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$authHash();
+  String debugGetCreateSourceHash() => _$fetchMyInfoHash();
 
   @override
   String toString() {
-    return r'authProvider'
+    return r'fetchMyInfoProvider'
         ''
         '($argument)';
   }
 
   @$internal
   @override
-  Auth create() => Auth();
+  FetchMyInfo create() => FetchMyInfo();
 
   @override
   bool operator ==(Object other) {
-    return other is AuthProvider && other.argument == argument;
+    return other is FetchMyInfoProvider && other.argument == argument;
   }
 
   @override
@@ -46,38 +47,38 @@ final class AuthProvider extends $AsyncNotifierProvider<Auth, UserResponse?> {
   }
 }
 
-String _$authHash() => r'8fc88643efc1471eecb6e3ff1ddb34cb7ca83b39';
+String _$fetchMyInfoHash() => r'6c5d88e2fae367a1b0fbc189ea1a90d283f2efb8';
 
-final class AuthFamily extends $Family
+final class FetchMyInfoFamily extends $Family
     with
         $ClassFamilyOverride<
-          Auth,
+          FetchMyInfo,
           AsyncValue<UserResponse?>,
           UserResponse?,
           FutureOr<UserResponse?>,
-          String
+          dynamic
         > {
-  const AuthFamily._()
+  const FetchMyInfoFamily._()
     : super(
         retry: null,
-        name: r'authProvider',
+        name: r'fetchMyInfoProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  AuthProvider call(String request) =>
-      AuthProvider._(argument: request, from: this);
+  FetchMyInfoProvider call(dynamic request) =>
+      FetchMyInfoProvider._(argument: request, from: this);
 
   @override
-  String toString() => r'authProvider';
+  String toString() => r'fetchMyInfoProvider';
 }
 
-abstract class _$Auth extends $AsyncNotifier<UserResponse?> {
-  late final _$args = ref.$arg as String;
-  String get request => _$args;
+abstract class _$FetchMyInfo extends $AsyncNotifier<UserResponse?> {
+  late final _$args = ref.$arg as dynamic;
+  dynamic get request => _$args;
 
-  FutureOr<UserResponse?> build(String request);
+  FutureOr<UserResponse?> build(dynamic request);
   @$mustCallSuper
   @override
   void runBuild() {

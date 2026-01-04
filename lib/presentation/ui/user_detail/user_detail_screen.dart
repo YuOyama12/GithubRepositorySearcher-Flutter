@@ -5,10 +5,9 @@ import 'package:github_repository_searcher/presentation/navigation/route/reposit
 import 'package:github_repository_searcher/presentation/provider/fetch_user_provider/fetch_user_provider.dart';
 import 'package:github_repository_searcher/presentation/provider/fetch_user_repositories_provider/fetch_user_repositories_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/base_app_bar.dart';
-import 'package:github_repository_searcher/presentation/ui/core/widget/avatar_icon.dart';
+import 'package:github_repository_searcher/presentation/ui/core/widget/user_info_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../domain/entity/response/user_response/user_response.dart';
 import '../core/widget/repository_item.dart';
 import '../core/widget/repository_item_separator.dart';
 
@@ -39,7 +38,7 @@ class UserDetailScreen extends HookConsumerWidget {
               children: [
                 Padding(
                   padding: EdgeInsetsGeometry.all(8.0),
-                  child: _Body(userResponse: user),
+                  child: UserInfoTile(userResponse: user),
                 ),
                 Container(
                   width: double.infinity,
@@ -90,42 +89,6 @@ class UserDetailScreen extends HookConsumerWidget {
                 ),
               ],
             ),
-    );
-  }
-}
-
-class _Body extends StatelessWidget {
-  const _Body({required this.userResponse});
-
-  final UserResponse userResponse;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            AvatarIcon(avatarUrl: userResponse.avatarUrl),
-            SizedBox(width: 24.0),
-            Expanded(
-              child: Text(
-                userResponse.login,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(StringConsts.followingCount(userResponse.following)),
-            SizedBox(width: 8.0),
-            Text(StringConsts.followersCount(userResponse.followers)),
-          ],
-        ),
-      ],
     );
   }
 }
