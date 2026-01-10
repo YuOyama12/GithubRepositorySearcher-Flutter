@@ -17,6 +17,8 @@ abstract class ApiClient {
   Future<RepositoriesResponse> fetchRepositoriesByQuery({
     @Query('q') required String query,
     @Query('page') int? page,
+    @Query('sort') String? sort,
+    @Query('order') String? order,
   });
 
   @GET('user/{account_id}')

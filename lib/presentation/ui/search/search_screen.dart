@@ -71,6 +71,8 @@ class SearchScreen extends HookConsumerWidget {
                                   .fetch(
                                     SearchRepositoriesRequest(
                                       query: searchQueryController.text,
+                                      sort: selectedSortType.value,
+                                      isDesc: isDescOrder.value,
                                     ),
                                   );
                             }
@@ -89,9 +91,15 @@ class SearchScreen extends HookConsumerWidget {
             ),
             child: _SortBar(
               selectedSortType: selectedSortType.value,
-              onSortTypeChange: (type) => selectedSortType.value = type,
               isDescOrder: isDescOrder.value,
-              onOrderChange: (isDesc) => isDescOrder.value = isDesc,
+              onSortStateChange: (sortType, isDesc) {
+                selectedSortType.value = sortType;
+                isDescOrder.value = isDesc;
+
+                ref
+                    .read(repoProvider.notifier)
+                    .refreshWithSortType(sortType, isDesc);
+              },
             ),
           ),
           Padding(
@@ -163,15 +171,13 @@ class _NoRepositoryWidget extends StatelessWidget {
 class _SortBar extends StatelessWidget {
   const _SortBar({
     required this.selectedSortType,
-    required this.onSortTypeChange,
     required this.isDescOrder,
-    required this.onOrderChange,
+    required this.onSortStateChange,
   });
 
   final SortType selectedSortType;
-  final Function(SortType) onSortTypeChange;
   final bool isDescOrder;
-  final Function(bool isDesc) onOrderChange;
+  final Function(SortType, bool isDesc) onSortStateChange;
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +213,7 @@ class _SortBar extends StatelessWidget {
                     .toList(),
                 onChanged: (newValue) {
                   if (newValue != null) {
-                    onSortTypeChange(newValue);
+                    onSortStateChange(newValue, isDescOrder);
                   }
                 },
               ),
@@ -215,7 +221,9 @@ class _SortBar extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () => onOrderChange(!isDescOrder),
+          onPressed: () {
+            onSortStateChange(selectedSortType, !isDescOrder);
+          },
           child: Text(
             isDescOrder ? StringConsts.descOrder : StringConsts.ascOrder,
           ),
