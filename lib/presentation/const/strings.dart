@@ -21,6 +21,12 @@ class StringConsts {
   static const String searchPageTitle = 'Githubリポジトリ検索';
   static const String searchPlaceholder = 'キーワードを入力';
   static const String search = '検索';
+  static const String sortBarHeader = '並び替え：';
+  static const String ascOrder = '昇順';
+  static const String descOrder = '降順';
+  static const String bestMatchOrder = '関連度順';
+  static const String starsCountOrder = 'スター数順';
+  static const String updatedTimeOrder = '更新日順';
   static const String noRepositoryResult = 'なし';
   static String queryTextResult(String? queryText) {
     return '検索：${(queryText ?? '-')}';

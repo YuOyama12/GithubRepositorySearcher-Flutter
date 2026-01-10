@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
+import 'package:github_repository_searcher/domain/entity/type/search/sort_type.dart';
 import 'package:github_repository_searcher/extension/list.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/navigation/route/repository_detail/repository_detail_route.dart';
@@ -18,6 +19,9 @@ class SearchScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueryController = TextEditingController();
+    final selectedSortType = useState(SortType.values.first);
+    final isDescOrder = useState(true);
+
     final scrollController = useScrollController();
     final repoProvider = repositoriesStateProvider(
       SearchRepositoriesRequest(query: searchQueryController.text),
@@ -76,6 +80,18 @@ class SearchScreen extends HookConsumerWidget {
                   },
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(
+              vertical: 6.0,
+              horizontal: 12.0,
+            ),
+            child: _SortBar(
+              selectedSortType: selectedSortType.value,
+              onSortTypeChange: (type) => selectedSortType.value = type,
+              isDescOrder: isDescOrder.value,
+              onOrderChange: (isDesc) => isDescOrder.value = isDesc,
             ),
           ),
           Padding(
@@ -141,6 +157,71 @@ class _NoRepositoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: Text(StringConsts.noRepositoryResult));
+  }
+}
+
+class _SortBar extends StatelessWidget {
+  const _SortBar({
+    required this.selectedSortType,
+    required this.onSortTypeChange,
+    required this.isDescOrder,
+    required this.onOrderChange,
+  });
+
+  final SortType selectedSortType;
+  final Function(SortType) onSortTypeChange;
+  final bool isDescOrder;
+  final Function(bool isDesc) onOrderChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      spacing: 12.0,
+      children: [
+        Text(StringConsts.sortBarHeader),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / (100 / 32.5),
+          child: InputDecorator(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0.0),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(1.0),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                isExpanded: true,
+                value: selectedSortType,
+                items: SortType.values
+                    .map(
+                      (item) => DropdownMenuItem(
+                        value: item,
+                        alignment: AlignmentDirectional.center,
+                        child: Text(
+                          item.label,
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (newValue) {
+                  if (newValue != null) {
+                    onSortTypeChange(newValue);
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () => onOrderChange(!isDescOrder),
+          child: Text(
+            isDescOrder ? StringConsts.descOrder : StringConsts.ascOrder,
+          ),
+        ),
+      ],
+    );
   }
 }
 
