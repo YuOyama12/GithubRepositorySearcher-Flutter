@@ -58,7 +58,7 @@ class RepositoriesState
     );
   }
 
-  Future<void> refreshWithSortType(SortType? sort, bool? isDesc) async {
+  Future<void> refreshWithSortType(SortType sort, bool isDesc) async {
     if (state.isLoading || state.isRefreshing) {
       return;
     }
@@ -66,7 +66,7 @@ class RepositoriesState
     final requestWithNewSortType = latestPagingDataRequestCache?.copyWith(
       page: null,
       sort: sort,
-      isDesc: isDesc,
+      isDesc: (sort.shouldIgnoreOrder) ? null : isDesc,
     );
 
     if (requestWithNewSortType != null) {

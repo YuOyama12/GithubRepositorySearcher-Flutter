@@ -12,6 +12,7 @@ class StringConsts {
   static const String cancel = 'キャンセル';
   static const String error = 'エラー';
   static const String confirm = '確認';
+  static const String none = '―';
   static const String later = 'あとで';
   static const String login = 'ログイン';
   static const String loginDialogTitle = 'ログインが必要です';
@@ -24,9 +25,9 @@ class StringConsts {
   static const String sortBarHeader = '並び替え：';
   static const String ascOrder = '昇順';
   static const String descOrder = '降順';
-  static const String bestMatchOrder = '関連度順';
-  static const String starsCountOrder = 'スター数順';
-  static const String updatedTimeOrder = '更新日順';
+  static const String sortedByBestMatch = '関連度順';
+  static const String sortedByStarsCount = 'スター数順';
+  static const String sortedByUpdatedTime = '更新日順';
   static const String noRepositoryResult = 'なし';
   static String queryTextResult(String? queryText) {
     return '検索：${(queryText ?? '-')}';

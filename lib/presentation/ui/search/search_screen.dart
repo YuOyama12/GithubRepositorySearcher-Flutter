@@ -221,11 +221,17 @@ class _SortBar extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () {
-            onSortStateChange(selectedSortType, !isDescOrder);
-          },
+          onPressed: (selectedSortType.shouldIgnoreOrder)
+              ? null
+              : () {
+                  onSortStateChange(selectedSortType, !isDescOrder);
+                },
           child: Text(
-            isDescOrder ? StringConsts.descOrder : StringConsts.ascOrder,
+            (selectedSortType.shouldIgnoreOrder)
+                ? StringConsts.none
+                : (isDescOrder)
+                ? StringConsts.descOrder
+                : StringConsts.ascOrder,
           ),
         ),
       ],
