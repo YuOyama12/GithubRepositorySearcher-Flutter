@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:github_repository_searcher/domain/entity/type/search/sort_type.dart';
 
 import '../../core/paging_data/paging_data.dart';
 
@@ -10,8 +11,12 @@ abstract class SearchRepositoriesRequest
         _$SearchRepositoriesRequest,
         PagingDataRequest<SearchRepositoriesRequest> {
   const SearchRepositoriesRequest._();
-  const factory SearchRepositoriesRequest({required String query, int? page}) =
-      _SearchRepositoriesRequest;
+  const factory SearchRepositoriesRequest({
+    required String query,
+    int? page,
+    SortType? sort,
+    bool? isDesc,
+  }) = _SearchRepositoriesRequest;
 
   @override
   SearchRepositoriesRequest incPage() {

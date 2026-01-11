@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SearchRepositoriesRequest {
 
- String get query; int? get page;
+ String get query; int? get page; SortType? get sort; bool? get isDesc;
 /// Create a copy of SearchRepositoriesRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SearchRepositoriesRequestCopyWith<SearchRepositoriesRequest> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchRepositoriesRequest&&(identical(other.query, query) || other.query == query)&&(identical(other.page, page) || other.page == page));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchRepositoriesRequest&&(identical(other.query, query) || other.query == query)&&(identical(other.page, page) || other.page == page)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.isDesc, isDesc) || other.isDesc == isDesc));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,query,page);
+int get hashCode => Object.hash(runtimeType,query,page,sort,isDesc);
 
 @override
 String toString() {
-  return 'SearchRepositoriesRequest(query: $query, page: $page)';
+  return 'SearchRepositoriesRequest(query: $query, page: $page, sort: $sort, isDesc: $isDesc)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SearchRepositoriesRequestCopyWith<$Res>  {
   factory $SearchRepositoriesRequestCopyWith(SearchRepositoriesRequest value, $Res Function(SearchRepositoriesRequest) _then) = _$SearchRepositoriesRequestCopyWithImpl;
 @useResult
 $Res call({
- String query, int? page
+ String query, int? page, SortType? sort, bool? isDesc
 });
 
 
@@ -62,11 +62,13 @@ class _$SearchRepositoriesRequestCopyWithImpl<$Res>
 
 /// Create a copy of SearchRepositoriesRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? page = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? page = freezed,Object? sort = freezed,Object? isDesc = freezed,}) {
   return _then(_self.copyWith(
 query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String,page: freezed == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as SortType?,isDesc: freezed == isDesc ? _self.isDesc : isDesc // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -151,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String query,  int? page)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String query,  int? page,  SortType? sort,  bool? isDesc)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SearchRepositoriesRequest() when $default != null:
-return $default(_that.query,_that.page);case _:
+return $default(_that.query,_that.page,_that.sort,_that.isDesc);case _:
   return orElse();
 
 }
@@ -172,10 +174,10 @@ return $default(_that.query,_that.page);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String query,  int? page)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String query,  int? page,  SortType? sort,  bool? isDesc)  $default,) {final _that = this;
 switch (_that) {
 case _SearchRepositoriesRequest():
-return $default(_that.query,_that.page);case _:
+return $default(_that.query,_that.page,_that.sort,_that.isDesc);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +194,10 @@ return $default(_that.query,_that.page);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String query,  int? page)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String query,  int? page,  SortType? sort,  bool? isDesc)?  $default,) {final _that = this;
 switch (_that) {
 case _SearchRepositoriesRequest() when $default != null:
-return $default(_that.query,_that.page);case _:
+return $default(_that.query,_that.page,_that.sort,_that.isDesc);case _:
   return null;
 
 }
@@ -207,11 +209,13 @@ return $default(_that.query,_that.page);case _:
 
 
 class _SearchRepositoriesRequest extends SearchRepositoriesRequest {
-  const _SearchRepositoriesRequest({required this.query, this.page}): super._();
+  const _SearchRepositoriesRequest({required this.query, this.page, this.sort, this.isDesc}): super._();
   
 
 @override final  String query;
 @override final  int? page;
+@override final  SortType? sort;
+@override final  bool? isDesc;
 
 /// Create a copy of SearchRepositoriesRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -223,16 +227,16 @@ _$SearchRepositoriesRequestCopyWith<_SearchRepositoriesRequest> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchRepositoriesRequest&&(identical(other.query, query) || other.query == query)&&(identical(other.page, page) || other.page == page));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchRepositoriesRequest&&(identical(other.query, query) || other.query == query)&&(identical(other.page, page) || other.page == page)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.isDesc, isDesc) || other.isDesc == isDesc));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,query,page);
+int get hashCode => Object.hash(runtimeType,query,page,sort,isDesc);
 
 @override
 String toString() {
-  return 'SearchRepositoriesRequest(query: $query, page: $page)';
+  return 'SearchRepositoriesRequest(query: $query, page: $page, sort: $sort, isDesc: $isDesc)';
 }
 
 
@@ -243,7 +247,7 @@ abstract mixin class _$SearchRepositoriesRequestCopyWith<$Res> implements $Searc
   factory _$SearchRepositoriesRequestCopyWith(_SearchRepositoriesRequest value, $Res Function(_SearchRepositoriesRequest) _then) = __$SearchRepositoriesRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String query, int? page
+ String query, int? page, SortType? sort, bool? isDesc
 });
 
 
@@ -260,11 +264,13 @@ class __$SearchRepositoriesRequestCopyWithImpl<$Res>
 
 /// Create a copy of SearchRepositoriesRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? query = null,Object? page = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? query = null,Object? page = freezed,Object? sort = freezed,Object? isDesc = freezed,}) {
   return _then(_SearchRepositoriesRequest(
 query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String,page: freezed == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as SortType?,isDesc: freezed == isDesc ? _self.isDesc : isDesc // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
