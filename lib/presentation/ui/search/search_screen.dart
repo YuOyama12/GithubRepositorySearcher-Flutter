@@ -190,10 +190,10 @@ class _SortBar extends StatelessWidget {
           width: MediaQuery.of(context).size.width / (100 / 32.5),
           child: InputDecorator(
             decoration: InputDecoration(
+              // 0.0を指定しないと初期値のpaddingが設けられてしまうため
+              // 明示的に指定している。
               contentPadding: EdgeInsets.all(0.0),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(1.0),
-              ),
+              border: OutlineInputBorder(borderRadius: BorderRadius.zero),
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
