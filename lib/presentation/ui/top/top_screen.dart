@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../const/strings.dart';
+import '../../const/themes.dart';
 import '../../navigation/route/login/login_route.dart';
 import '../core/base_dialog.dart';
 
@@ -32,6 +33,9 @@ class TopScreen extends HookConsumerWidget {
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: AppTheme.bottomNavBarBackgroundColor,
+        selectedItemColor: AppTheme.bottomNavBarSelectedItemColor,
+        unselectedItemColor: AppTheme.bottomNavBarUnselectedItemColor,
         items: BottomNavigationType.values.map((type) {
           return BottomNavigationBarItem(
             icon: Icon(type.icon),
