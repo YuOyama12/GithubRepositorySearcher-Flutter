@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:github_repository_searcher/presentation/const/themes.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   const BaseAppBar({
@@ -19,6 +20,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: AppTheme.appBarBackgroundColor,
       title: Text(title),
       automaticallyImplyLeading: automaticallyImplyLeading,
       leading: leading,

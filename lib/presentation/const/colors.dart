@@ -3,6 +3,8 @@ import 'dart:ui';
 class ColorConsts {
   const ColorConsts._();
 
+  static const Color lightBlack = Color.fromARGB(255, 16, 16, 16);
+  static const Color lightGray = Color.fromARGB(255, 81, 81, 81);
   static const Color darkGray = Color.fromARGB(255, 36, 38, 43);
   static const Color green = Color.fromARGB(255, 6, 149, 59);
   static const Color darkGreen = Color.fromARGB(255, 6, 83, 32);

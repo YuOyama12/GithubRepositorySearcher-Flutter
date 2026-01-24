@@ -9,7 +9,7 @@ class AppTheme {
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
 
-      /// 活性化時のボタン、ボトムタブのテキスト・アイコン、インジケータなどの色
+      /// 活性化時のボタン、インジケータなどの色
       primary: ColorConsts.green,
       onPrimary: ColorConsts.ivoryWhite,
 
@@ -32,4 +32,10 @@ class AppTheme {
     ),
     useMaterial3: true,
   );
+
+  static const appBarBackgroundColor = ColorConsts.lightBlack;
+
+  static const bottomNavBarBackgroundColor = ColorConsts.lightBlack;
+  static const bottomNavBarSelectedItemColor = ColorConsts.ivoryWhite;
+  static const bottomNavBarUnselectedItemColor = ColorConsts.lightGray;
 }
