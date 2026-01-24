@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
+import 'package:github_repository_searcher/presentation/const/themes.dart';
 import 'package:github_repository_searcher/presentation/navigation/router.dart';
 import 'package:github_repository_searcher/presentation/provider/api_error_state_controller.dart';
 import 'package:github_repository_searcher/presentation/provider/loading_state_controller.dart';
@@ -17,17 +18,17 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appRouter = MaterialApp.router(routerConfig: goRouter);
+    final appRouter = MaterialApp.router(
+      routerConfig: goRouter,
+      theme: AppTheme.themeData,
+    );
 
     final loading = ref.watch(loadingStateController);
     final apiErrorState = ref.watch(apiErrorStateController);
 
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.themeData,
       home: HookBuilder(
         builder: (builderContext) {
           useEffect(() {
