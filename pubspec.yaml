@@ -41,7 +41,6 @@ dependencies:
   riverpod_annotation: ^3.0.0-dev.17 # https://pub.dev/packages/riverpod_annotation
   go_router: ^16.2.0 # https://pub.dev/packages/go_router
   webview_flutter: ^4.13.0 # https://pub.dev/packages/webview_flutter
-  universal_html: ^2.2.4 # universal_html: ^2.2.4
   logger: ^2.6.1 # https://pub.dev/packages/logger
 
   # The following adds the Cupertino Icons font to your application.
