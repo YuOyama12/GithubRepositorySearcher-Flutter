@@ -9,6 +9,7 @@ import 'package:github_repository_searcher/presentation/navigation/route/user_de
 import 'package:github_repository_searcher/presentation/provider/repositories_state_provider/repositories_state_provider.dart';
 import 'package:github_repository_searcher/presentation/ui/core/base_app_bar.dart';
 import 'package:github_repository_searcher/presentation/ui/core/paging_list_view.dart';
+import 'package:github_repository_searcher/presentation/ui/core/screen_size.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item.dart';
 import 'package:github_repository_searcher/presentation/ui/core/widget/repository_item_separator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -187,7 +188,7 @@ class _SortBar extends StatelessWidget {
       children: [
         Text(StringConsts.sortBarHeader),
         SizedBox(
-          width: MediaQuery.of(context).size.width / (100 / 32.5),
+          width: ScreenSize.getWidth(context, percent: 32.5),
           child: InputDecorator(
             decoration: InputDecoration(
               // 0.0を指定しないと初期値のpaddingが設けられてしまうため
