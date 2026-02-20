@@ -1,34 +1,27 @@
 import 'package:github_repository_searcher/domain/entity/request/search_repositories_request/search_repositories_request.dart';
 import 'package:github_repository_searcher/domain/entity/response/repositories_response/repositories_response.dart';
 import 'package:github_repository_searcher/domain/entity/type/search/sort_type.dart';
-import 'package:github_repository_searcher/presentation/provider/core/base_paging_api_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../data/repository/search_repo_repository.dart';
-import '../core/api_dispatcher.dart';
+import '../core/api_handler.dart';
 
 part 'repositories_state_provider.g.dart';
 
 @riverpod
-class RepositoriesState
-    extends
-        BasePagingApiState<RepositoriesResponse, SearchRepositoriesRequest> {
+class RepositoriesState extends _$RepositoriesState {
+  SearchRepositoriesRequest? latestPagingDataRequestCache;
+
   String? _latestQueryCache;
   String get latestQuery => _latestQueryCache ?? '';
 
   @override
-  Future<RepositoriesResponse?> build(SearchRepositoriesRequest request) =>
-      super.build(request);
+  FutureOr<RepositoriesResponse?> build() => null;
 
-  @override
-  bool shouldCallApiOnBuilding() => false;
-
-  @override
   bool isTerminal() {
     return state.value?.items.length == state.value?.totalCount;
   }
 
-  @override
   Future<void> fetch(SearchRepositoriesRequest request) async {
     if (_latestQueryCache == null || _latestQueryCache != request.query) {
       state = AsyncData(null);
@@ -36,7 +29,7 @@ class RepositoriesState
     }
     latestPagingDataRequestCache = request;
 
-    ApiDispatcher<RepositoriesResponse>(
+    final result = await ApiHandler().execute(
       ref: ref,
       request: () => ref
           .read(searchRepoRepositoryProvider)
@@ -46,16 +39,19 @@ class RepositoriesState
             sort: request.sort,
             isDesc: request.isDesc,
           ),
-      onSuccess: (newData) {
-        final oldData = state.value;
-        final mergedData =
-            state.value?.copyWith(
-              items: (oldData?.items ?? []) + (newData.value?.items ?? []),
-            ) ??
-            newData.value;
-        state = AsyncData(mergedData);
-      },
     );
+
+    if (!result.hasError) {
+      final oldData = state.value;
+      final newData = result.value;
+
+      final mergedData =
+          state.value?.copyWith(
+            items: (oldData?.items ?? []) + (newData?.items ?? []),
+          ) ??
+          newData;
+      state = AsyncData(mergedData);
+    }
   }
 
   Future<void> refreshWithSortType(SortType sort, bool isDesc) async {
@@ -72,6 +68,26 @@ class RepositoriesState
     if (requestWithNewSortType != null) {
       state = AsyncData(null);
       fetch(requestWithNewSortType);
+    }
+  }
+
+  Future<void> fetchNextPage() async {
+    if (state.isLoading || state.isRefreshing || isTerminal()) {
+      return;
+    }
+
+    final request = latestPagingDataRequestCache;
+    if (request != null) {
+      state = AsyncLoading();
+      fetch(request.incPage());
+    }
+  }
+
+  Future<void> manualRefresh() async {
+    state = AsyncData(null);
+    final request = latestPagingDataRequestCache;
+    if (request != null) {
+      fetch(request.resetPage());
     }
   }
 }

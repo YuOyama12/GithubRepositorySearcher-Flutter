@@ -14,7 +14,7 @@ class MyPageScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userResponse = ref.watch(fetchMyInfoProvider(null)).value;
+    final userResponse = ref.watch(fetchMyInfoProvider).value;
 
     return Scaffold(
       appBar: BaseAppBar(title: StringConsts.myPage),

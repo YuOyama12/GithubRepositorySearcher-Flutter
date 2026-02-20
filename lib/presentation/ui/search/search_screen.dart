@@ -24,10 +24,7 @@ class SearchScreen extends HookConsumerWidget {
     final isDescOrder = useState(true);
 
     final scrollController = useScrollController();
-    final repoProvider = repositoriesStateProvider(
-      SearchRepositoriesRequest(query: searchQueryController.text),
-    );
-    final repositoriesResponse = ref.watch(repoProvider);
+    final repositoriesResponse = ref.watch(repositoriesStateProvider);
 
     return Scaffold(
       appBar: BaseAppBar(title: StringConsts.searchPageTitle),
@@ -68,7 +65,7 @@ class SearchScreen extends HookConsumerWidget {
                       onPressed: (value.text.isNotEmpty)
                           ? () {
                               ref
-                                  .read(repoProvider.notifier)
+                                  .read(repositoriesStateProvider.notifier)
                                   .fetch(
                                     SearchRepositoriesRequest(
                                       query: searchQueryController.text,
@@ -98,7 +95,7 @@ class SearchScreen extends HookConsumerWidget {
                 isDescOrder.value = isDesc;
 
                 ref
-                    .read(repoProvider.notifier)
+                    .read(repositoriesStateProvider.notifier)
                     .refreshWithSortType(sortType, isDesc);
               },
             ),
@@ -109,7 +106,9 @@ class SearchScreen extends HookConsumerWidget {
               horizontal: 16.0,
             ),
             child: _SearchResultInfo(
-              queryText: ref.read(repoProvider.notifier).latestQuery,
+              queryText: ref
+                  .read(repositoriesStateProvider.notifier)
+                  .latestQuery,
               resultCount: repositoriesResponse.value?.totalCount,
             ),
           ),
@@ -117,11 +116,13 @@ class SearchScreen extends HookConsumerWidget {
               ? Expanded(child: _NoRepositoryWidget())
               : Expanded(
                   child: RefreshIndicator(
-                    onRefresh: ref.read(repoProvider.notifier).manualRefresh,
+                    onRefresh: ref
+                        .read(repositoriesStateProvider.notifier)
+                        .manualRefresh,
                     child: PagingListView(
                       controller: scrollController,
                       fetchNextPage: ref
-                          .read(repoProvider.notifier)
+                          .read(repositoriesStateProvider.notifier)
                           .fetchNextPage,
                       itemCount: repositoriesResponse.value?.items.length ?? 0,
                       itemSeparator: (_, int index) {

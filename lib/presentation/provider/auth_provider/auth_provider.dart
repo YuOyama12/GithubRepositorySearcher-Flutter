@@ -3,35 +3,26 @@ import 'package:github_repository_searcher/domain/entity/response/user_response/
 import 'package:github_repository_searcher/presentation/provider/access_token_provider/access_token_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../core/api_dispatcher.dart';
-import '../core/base_api_state_provider.dart';
+import '../core/api_handler.dart';
 
 part 'auth_provider.g.dart';
 
 @riverpod
-class Auth extends BaseApiState<UserResponse, String> {
+class Auth extends _$Auth {
   @override
-  bool shouldCallApiOnBuilding() => false;
+  FutureOr<UserResponse?> build() => null;
 
-  @override
-  Future<UserResponse?> build(String request) => super.build(request);
-
-  @override
-  Future<void> fetch(String request) async {
-    ApiDispatcher<UserResponse>(
+  Future<void> postToken(String token) async {
+    // 不正確なトークンを送らないようにトークン情報を削除しておく。
+    await ref.read(accessTokenProvider.notifier).updateToken(null);
+    state = await ApiHandler().execute(
       ref: ref,
-      request: () async {
-        // 不正確なトークンを送らないようにトークン情報を削除しておく。
-        await ref.read(accessTokenProvider.notifier).updateToken(null);
-        return ref.read(authRepositoryProvider).auth(header: 'Bearer $request');
-      },
-      onSuccess: (data) async {
-        if (ref.mounted) {
-          await ref.read(accessTokenProvider.notifier).updateToken(request);
-        }
-
-        state = data;
-      },
+      request: () =>
+          ref.read(authRepositoryProvider).auth(header: 'Bearer $token'),
     );
+
+    if (!state.hasError && ref.mounted) {
+      await ref.read(accessTokenProvider.notifier).updateToken(token);
+    }
   }
 }

@@ -8,22 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../loading_state_controller.dart';
 
 /// Provider内でAPIを呼び出すための汎用クラス
-class ApiDispatcher<T> {
-  final Ref ref;
-  final Future<T> Function() request;
-  final void Function(AsyncValue<T> data) onSuccess;
-  final void Function(Ref, Object? error, StackTrace?) onFailure;
-  final bool shouldShowLoading;
-
-  ApiDispatcher({
-    required this.ref,
-    required this.request,
-    required this.onSuccess,
-    this.onFailure = defaultErrorHandling,
-    this.shouldShowLoading = true,
-  }) {
-    _dispatch();
-  }
+class ApiHandler {
+  ApiHandler();
 
   static void defaultErrorHandling(
     Ref ref,
@@ -40,7 +26,7 @@ class ApiDispatcher<T> {
         }
       default:
         logger.e(
-          'ApiDispatcher::UnExpectedError::$error::stackTrace::$stackTrace',
+          'ApiHandler::UnExpectedError::$error::stackTrace::$stackTrace',
           error: error,
           stackTrace: stackTrace,
         );
@@ -56,7 +42,7 @@ class ApiDispatcher<T> {
     StackTrace? stackTrace,
   ) {
     logger.e(
-      'ApiDispatcher::responseError::statusCode::${exception.response?.statusCode}::${exception.response?.data}',
+      'ApiHandler::responseError::statusCode::${exception.response?.statusCode}::${exception.response?.data}',
       error: exception,
     );
     ref
@@ -73,7 +59,7 @@ class ApiDispatcher<T> {
         exception.response?.statusCode,
       );
     } catch (e) {
-      logger.e('ApiDispatcher::jsonDecodingError::$e', error: e);
+      logger.e('ApiHandler::jsonDecodingError::$e', error: e);
       return StringConsts.defaultError;
     }
   }
@@ -84,7 +70,7 @@ class ApiDispatcher<T> {
     StackTrace? stackTrace,
   ) {
     logger.e(
-      'ApiDispatcher::serverError::type::${exception.type}::${exception.error}',
+      'ApiHandler::serverError::type::${exception.type}::${exception.error}',
       error: exception,
     );
 
@@ -105,7 +91,11 @@ class ApiDispatcher<T> {
     }
   }
 
-  Future<void> _dispatch() async {
+  Future<AsyncValue<T>> execute<T>({
+    required Ref ref,
+    required Future<T> Function() request,
+    bool shouldShowLoading = true,
+  }) async {
     LoadingState? loadingController;
 
     try {
@@ -119,12 +109,13 @@ class ApiDispatcher<T> {
       });
 
       if (result.hasError) {
-        onFailure(ref, result.error, result.stackTrace);
-      } else {
-        onSuccess(result);
+        defaultErrorHandling(ref, result.error, result.stackTrace);
       }
-    } catch (e) {
-      logger.e('ApiDispatcher::dispatchError::$e', error: e);
+
+      return result;
+    } catch (e, stackTrace) {
+      logger.e('ApiHandler::dispatchError::$e', error: e);
+      return AsyncValue.error(e, stackTrace);
     } finally {
       loadingController?.hideLoading();
     }

@@ -21,7 +21,7 @@ class LoginScreen extends HookConsumerWidget {
       () => accessTokenController.text.isNotEmpty,
     );
 
-    final apiState = ref.watch(authProvider(accessTokenController.text));
+    final apiState = ref.watch(authProvider);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -79,12 +79,8 @@ class LoginScreen extends HookConsumerWidget {
                       onPressed: isTokenFilled
                           ? () {
                               ref
-                                  .watch(
-                                    authProvider(
-                                      accessTokenController.text,
-                                    ).notifier,
-                                  )
-                                  .fetch(accessTokenController.text);
+                                  .watch(authProvider.notifier)
+                                  .postToken(accessTokenController.text);
                             }
                           : null,
                       child: SizedBox(
