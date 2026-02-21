@@ -48,7 +48,7 @@ final class FetchUserRepositoriesProvider
 }
 
 String _$fetchUserRepositoriesHash() =>
-    r'43a5a8747098bc1e86b23316fd41edcbde010807';
+    r'6a94ce7d98117d66c04ef9971220699fb7e1749f';
 
 final class FetchUserRepositoriesFamily extends $Family
     with
@@ -68,8 +68,8 @@ final class FetchUserRepositoriesFamily extends $Family
         isAutoDispose: true,
       );
 
-  FetchUserRepositoriesProvider call(String request) =>
-      FetchUserRepositoriesProvider._(argument: request, from: this);
+  FetchUserRepositoriesProvider call(String userName) =>
+      FetchUserRepositoriesProvider._(argument: userName, from: this);
 
   @override
   String toString() => r'fetchUserRepositoriesProvider';
@@ -78,9 +78,9 @@ final class FetchUserRepositoriesFamily extends $Family
 abstract class _$FetchUserRepositories
     extends $AsyncNotifier<List<Repository>?> {
   late final _$args = ref.$arg as String;
-  String get request => _$args;
+  String get userName => _$args;
 
-  FutureOr<List<Repository>?> build(String request);
+  FutureOr<List<Repository>?> build(String userName);
   @$mustCallSuper
   @override
   void runBuild() {

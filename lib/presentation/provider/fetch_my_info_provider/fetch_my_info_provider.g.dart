@@ -7,82 +7,37 @@ part of 'fetch_my_info_provider.dart';
 // **************************************************************************
 
 @ProviderFor(FetchMyInfo)
-const fetchMyInfoProvider = FetchMyInfoFamily._();
+const fetchMyInfoProvider = FetchMyInfoProvider._();
 
 final class FetchMyInfoProvider
     extends $AsyncNotifierProvider<FetchMyInfo, UserResponse?> {
-  const FetchMyInfoProvider._({
-    required FetchMyInfoFamily super.from,
-    required dynamic super.argument,
-  }) : super(
-         retry: null,
-         name: r'fetchMyInfoProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
+  const FetchMyInfoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'fetchMyInfoProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$fetchMyInfoHash();
 
-  @override
-  String toString() {
-    return r'fetchMyInfoProvider'
-        ''
-        '($argument)';
-  }
-
   @$internal
   @override
   FetchMyInfo create() => FetchMyInfo();
-
-  @override
-  bool operator ==(Object other) {
-    return other is FetchMyInfoProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
 }
 
-String _$fetchMyInfoHash() => r'6c5d88e2fae367a1b0fbc189ea1a90d283f2efb8';
-
-final class FetchMyInfoFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          FetchMyInfo,
-          AsyncValue<UserResponse?>,
-          UserResponse?,
-          FutureOr<UserResponse?>,
-          dynamic
-        > {
-  const FetchMyInfoFamily._()
-    : super(
-        retry: null,
-        name: r'fetchMyInfoProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  FetchMyInfoProvider call(dynamic request) =>
-      FetchMyInfoProvider._(argument: request, from: this);
-
-  @override
-  String toString() => r'fetchMyInfoProvider';
-}
+String _$fetchMyInfoHash() => r'54288fe898690d2293d2c17a27ed747515ad0ab0';
 
 abstract class _$FetchMyInfo extends $AsyncNotifier<UserResponse?> {
-  late final _$args = ref.$arg as dynamic;
-  dynamic get request => _$args;
-
-  FutureOr<UserResponse?> build(dynamic request);
+  FutureOr<UserResponse?> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
+    final created = build();
     final ref = this.ref as $Ref<AsyncValue<UserResponse?>, UserResponse?>;
     final element =
         ref.element

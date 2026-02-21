@@ -47,7 +47,7 @@ final class FetchUserProvider
   }
 }
 
-String _$fetchUserHash() => r'2824e65a12fe363ff000a022e2d9185922608f29';
+String _$fetchUserHash() => r'3237c7eb2d2111157c06a4f89a020a266236c1c9';
 
 final class FetchUserFamily extends $Family
     with
@@ -67,8 +67,8 @@ final class FetchUserFamily extends $Family
         isAutoDispose: true,
       );
 
-  FetchUserProvider call(int request) =>
-      FetchUserProvider._(argument: request, from: this);
+  FetchUserProvider call(int userId) =>
+      FetchUserProvider._(argument: userId, from: this);
 
   @override
   String toString() => r'fetchUserProvider';
@@ -76,9 +76,9 @@ final class FetchUserFamily extends $Family
 
 abstract class _$FetchUser extends $AsyncNotifier<UserResponse?> {
   late final _$args = ref.$arg as int;
-  int get request => _$args;
+  int get userId => _$args;
 
-  FutureOr<UserResponse?> build(int request);
+  FutureOr<UserResponse?> build(int userId);
   @$mustCallSuper
   @override
   void runBuild() {
