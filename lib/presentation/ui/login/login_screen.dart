@@ -26,7 +26,7 @@ class LoginScreen extends HookConsumerWidget {
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         // 認証成功タイミングでトップ画面へ戻す
-        if (apiState.hasValue && context.mounted) {
+        if (apiState.value != null && context.mounted) {
           Fluttertoast.showToast(msg: StringConsts.authSuccessfulMessage);
           SearchRoute().go(context);
         }
@@ -57,7 +57,7 @@ class LoginScreen extends HookConsumerWidget {
                       decoration: InputDecoration(
                         hint: Text(
                           StringConsts.personalAccessToken,
-                          style: TextStyle(color: Colors.black54, fontSize: 14),
+                          style: TextStyle(fontSize: 14),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
