@@ -5,6 +5,7 @@ import 'package:github_repository_searcher/presentation/provider/api_error_state
 import 'package:github_repository_searcher/util/logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../access_token_provider/access_token_provider.dart';
 import '../loading_state_controller.dart';
 
 /// Provider内でAPIを呼び出すための汎用クラス
@@ -45,13 +46,27 @@ class ApiHandler {
       'ApiHandler::responseError::statusCode::${exception.response?.statusCode}::${exception.response?.data}',
       error: exception,
     );
+
+    if (exception.response?.statusCode == 401) {
+      ref.read(accessTokenProvider.notifier).updateToken(null);
+    }
+
     ref
         .read(apiErrorStateController.notifier)
-        .notify(ApiErrorEntity(errorMessage: createErrorMessage(exception)));
+        .notify(
+          ApiErrorEntity(
+            statusCode: exception.response?.statusCode,
+            errorMessage: createErrorMessage(exception),
+          ),
+        );
   }
 
   static String createErrorMessage(DioException exception) {
     try {
+      if (exception.response?.statusCode == 401) {
+        return StringConsts.authResponseErrorMessage;
+      }
+
       final json = exception.response?.data as Map<String, dynamic>;
       final message = json['message'];
       return StringConsts.defaultResponseError(

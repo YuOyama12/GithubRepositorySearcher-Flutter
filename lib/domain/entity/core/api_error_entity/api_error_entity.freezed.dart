@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ApiErrorEntity {
 
- String? get errorTitle; String get errorMessage; String? get positiveButtonText; String? get negativeButtonText;
+ int? get statusCode; String? get errorTitle; String get errorMessage; String? get positiveButtonText; String? get negativeButtonText;
 /// Create a copy of ApiErrorEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ApiErrorEntityCopyWith<ApiErrorEntity> get copyWith => _$ApiErrorEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ApiErrorEntity&&(identical(other.errorTitle, errorTitle) || other.errorTitle == errorTitle)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.positiveButtonText, positiveButtonText) || other.positiveButtonText == positiveButtonText)&&(identical(other.negativeButtonText, negativeButtonText) || other.negativeButtonText == negativeButtonText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ApiErrorEntity&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.errorTitle, errorTitle) || other.errorTitle == errorTitle)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.positiveButtonText, positiveButtonText) || other.positiveButtonText == positiveButtonText)&&(identical(other.negativeButtonText, negativeButtonText) || other.negativeButtonText == negativeButtonText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,errorTitle,errorMessage,positiveButtonText,negativeButtonText);
+int get hashCode => Object.hash(runtimeType,statusCode,errorTitle,errorMessage,positiveButtonText,negativeButtonText);
 
 @override
 String toString() {
-  return 'ApiErrorEntity(errorTitle: $errorTitle, errorMessage: $errorMessage, positiveButtonText: $positiveButtonText, negativeButtonText: $negativeButtonText)';
+  return 'ApiErrorEntity(statusCode: $statusCode, errorTitle: $errorTitle, errorMessage: $errorMessage, positiveButtonText: $positiveButtonText, negativeButtonText: $negativeButtonText)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ApiErrorEntityCopyWith<$Res>  {
   factory $ApiErrorEntityCopyWith(ApiErrorEntity value, $Res Function(ApiErrorEntity) _then) = _$ApiErrorEntityCopyWithImpl;
 @useResult
 $Res call({
- String? errorTitle, String errorMessage, String? positiveButtonText, String? negativeButtonText
+ int? statusCode, String? errorTitle, String errorMessage, String? positiveButtonText, String? negativeButtonText
 });
 
 
@@ -62,9 +62,10 @@ class _$ApiErrorEntityCopyWithImpl<$Res>
 
 /// Create a copy of ApiErrorEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? errorTitle = freezed,Object? errorMessage = null,Object? positiveButtonText = freezed,Object? negativeButtonText = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? statusCode = freezed,Object? errorTitle = freezed,Object? errorMessage = null,Object? positiveButtonText = freezed,Object? negativeButtonText = freezed,}) {
   return _then(_self.copyWith(
-errorTitle: freezed == errorTitle ? _self.errorTitle : errorTitle // ignore: cast_nullable_to_non_nullable
+statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int?,errorTitle: freezed == errorTitle ? _self.errorTitle : errorTitle // ignore: cast_nullable_to_non_nullable
 as String?,errorMessage: null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String,positiveButtonText: freezed == positiveButtonText ? _self.positiveButtonText : positiveButtonText // ignore: cast_nullable_to_non_nullable
 as String?,negativeButtonText: freezed == negativeButtonText ? _self.negativeButtonText : negativeButtonText // ignore: cast_nullable_to_non_nullable
@@ -153,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? errorTitle,  String errorMessage,  String? positiveButtonText,  String? negativeButtonText)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? statusCode,  String? errorTitle,  String errorMessage,  String? positiveButtonText,  String? negativeButtonText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ApiErrorEntity() when $default != null:
-return $default(_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_that.negativeButtonText);case _:
+return $default(_that.statusCode,_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_that.negativeButtonText);case _:
   return orElse();
 
 }
@@ -174,10 +175,10 @@ return $default(_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? errorTitle,  String errorMessage,  String? positiveButtonText,  String? negativeButtonText)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? statusCode,  String? errorTitle,  String errorMessage,  String? positiveButtonText,  String? negativeButtonText)  $default,) {final _that = this;
 switch (_that) {
 case _ApiErrorEntity():
-return $default(_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_that.negativeButtonText);case _:
+return $default(_that.statusCode,_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_that.negativeButtonText);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +195,10 @@ return $default(_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? errorTitle,  String errorMessage,  String? positiveButtonText,  String? negativeButtonText)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? statusCode,  String? errorTitle,  String errorMessage,  String? positiveButtonText,  String? negativeButtonText)?  $default,) {final _that = this;
 switch (_that) {
 case _ApiErrorEntity() when $default != null:
-return $default(_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_that.negativeButtonText);case _:
+return $default(_that.statusCode,_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_that.negativeButtonText);case _:
   return null;
 
 }
@@ -209,9 +210,10 @@ return $default(_that.errorTitle,_that.errorMessage,_that.positiveButtonText,_th
 
 
 class _ApiErrorEntity implements ApiErrorEntity {
-  const _ApiErrorEntity({this.errorTitle, required this.errorMessage, this.positiveButtonText, this.negativeButtonText});
+  const _ApiErrorEntity({this.statusCode, this.errorTitle, required this.errorMessage, this.positiveButtonText, this.negativeButtonText});
   
 
+@override final  int? statusCode;
 @override final  String? errorTitle;
 @override final  String errorMessage;
 @override final  String? positiveButtonText;
@@ -227,16 +229,16 @@ _$ApiErrorEntityCopyWith<_ApiErrorEntity> get copyWith => __$ApiErrorEntityCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ApiErrorEntity&&(identical(other.errorTitle, errorTitle) || other.errorTitle == errorTitle)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.positiveButtonText, positiveButtonText) || other.positiveButtonText == positiveButtonText)&&(identical(other.negativeButtonText, negativeButtonText) || other.negativeButtonText == negativeButtonText));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ApiErrorEntity&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.errorTitle, errorTitle) || other.errorTitle == errorTitle)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.positiveButtonText, positiveButtonText) || other.positiveButtonText == positiveButtonText)&&(identical(other.negativeButtonText, negativeButtonText) || other.negativeButtonText == negativeButtonText));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,errorTitle,errorMessage,positiveButtonText,negativeButtonText);
+int get hashCode => Object.hash(runtimeType,statusCode,errorTitle,errorMessage,positiveButtonText,negativeButtonText);
 
 @override
 String toString() {
-  return 'ApiErrorEntity(errorTitle: $errorTitle, errorMessage: $errorMessage, positiveButtonText: $positiveButtonText, negativeButtonText: $negativeButtonText)';
+  return 'ApiErrorEntity(statusCode: $statusCode, errorTitle: $errorTitle, errorMessage: $errorMessage, positiveButtonText: $positiveButtonText, negativeButtonText: $negativeButtonText)';
 }
 
 
@@ -247,7 +249,7 @@ abstract mixin class _$ApiErrorEntityCopyWith<$Res> implements $ApiErrorEntityCo
   factory _$ApiErrorEntityCopyWith(_ApiErrorEntity value, $Res Function(_ApiErrorEntity) _then) = __$ApiErrorEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String? errorTitle, String errorMessage, String? positiveButtonText, String? negativeButtonText
+ int? statusCode, String? errorTitle, String errorMessage, String? positiveButtonText, String? negativeButtonText
 });
 
 
@@ -264,9 +266,10 @@ class __$ApiErrorEntityCopyWithImpl<$Res>
 
 /// Create a copy of ApiErrorEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? errorTitle = freezed,Object? errorMessage = null,Object? positiveButtonText = freezed,Object? negativeButtonText = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? statusCode = freezed,Object? errorTitle = freezed,Object? errorMessage = null,Object? positiveButtonText = freezed,Object? negativeButtonText = freezed,}) {
   return _then(_ApiErrorEntity(
-errorTitle: freezed == errorTitle ? _self.errorTitle : errorTitle // ignore: cast_nullable_to_non_nullable
+statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int?,errorTitle: freezed == errorTitle ? _self.errorTitle : errorTitle // ignore: cast_nullable_to_non_nullable
 as String?,errorMessage: null == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String,positiveButtonText: freezed == positiveButtonText ? _self.positiveButtonText : positiveButtonText // ignore: cast_nullable_to_non_nullable
 as String?,negativeButtonText: freezed == negativeButtonText ? _self.negativeButtonText : negativeButtonText // ignore: cast_nullable_to_non_nullable
