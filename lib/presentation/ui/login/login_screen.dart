@@ -57,7 +57,7 @@ class LoginScreen extends HookConsumerWidget {
                       decoration: InputDecoration(
                         hint: Text(
                           StringConsts.personalAccessToken,
-                          style: TextStyle(color: Colors.black54, fontSize: 14),
+                          style: TextStyle(fontSize: 14),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
