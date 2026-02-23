@@ -7,6 +7,8 @@ class StringConsts {
   static const String defaultError = 'エラーが発生しました。時間をおいて再度お試しください。';
   static String defaultResponseError(String message, int? statusCode) =>
       '$message (ErrorCode:${statusCode == null ? '-' : statusCode.toString()})';
+  static const String authResponseErrorMessage =
+      'Personal Access Tokenの認証に失敗しました。再度ログインをお試しください。';
 
   static const String ok = 'OK';
   static const String cancel = 'キャンセル';
