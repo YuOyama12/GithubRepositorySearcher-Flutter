@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:github_repository_searcher/presentation/const/routes.dart';
 import 'package:github_repository_searcher/presentation/const/strings.dart';
 import 'package:github_repository_searcher/presentation/const/themes.dart';
 import 'package:github_repository_searcher/presentation/navigation/router.dart';
@@ -8,6 +9,8 @@ import 'package:github_repository_searcher/presentation/provider/loading_state_c
 import 'package:github_repository_searcher/presentation/ui/core/base_dialog.dart';
 import 'package:github_repository_searcher/presentation/ui/core/loading_indicator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'extension/go_router.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -36,11 +39,25 @@ class MyApp extends ConsumerWidget {
               if (apiErrorState case final apiError when apiError != null) {
                 showDialog(
                   context: builderContext,
-                  builder: (_) {
+                  builder: (dialogContext) {
                     return BaseDialog(
                       title: apiError.errorTitle ?? StringConsts.error,
                       message: apiError.errorMessage,
                       positiveButtonText: apiError.positiveButtonText,
+                      onPositiveButtonTap:
+                          // このダイアログそのものは、goRouterに紐づいていないため、
+                          // GoRouter.of(context)や
+                          // LoginRoute().push(context)ではエラーになって遷移ができない。
+                          // そのため、直接goRouterを使用している。
+                          (apiError.statusCode == 401 &&
+                              !goRouter.isCurrentLocation(
+                                RouteConsts.loginScreenPath,
+                              ))
+                          ? () {
+                              Navigator.pop(dialogContext);
+                              goRouter.push(RouteConsts.loginScreenPath);
+                            }
+                          : null,
                       negativeButtonText: apiError.negativeButtonText,
                     );
                   },
