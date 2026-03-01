@@ -6,12 +6,15 @@ part of 'fetch_my_info_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(FetchMyInfo)
-const fetchMyInfoProvider = FetchMyInfoProvider._();
+final fetchMyInfoProvider = FetchMyInfoProvider._();
 
 final class FetchMyInfoProvider
     extends $AsyncNotifierProvider<FetchMyInfo, UserResponse?> {
-  const FetchMyInfoProvider._()
+  FetchMyInfoProvider._()
     : super(
         from: null,
         argument: null,
@@ -37,7 +40,6 @@ abstract class _$FetchMyInfo extends $AsyncNotifier<UserResponse?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<UserResponse?>, UserResponse?>;
     final element =
         ref.element
@@ -47,9 +49,6 @@ abstract class _$FetchMyInfo extends $AsyncNotifier<UserResponse?> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

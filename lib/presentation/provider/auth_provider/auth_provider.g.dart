@@ -6,11 +6,14 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(Auth)
-const authProvider = AuthProvider._();
+final authProvider = AuthProvider._();
 
 final class AuthProvider extends $AsyncNotifierProvider<Auth, UserResponse?> {
-  const AuthProvider._()
+  AuthProvider._()
     : super(
         from: null,
         argument: null,
@@ -36,7 +39,6 @@ abstract class _$Auth extends $AsyncNotifier<UserResponse?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<UserResponse?>, UserResponse?>;
     final element =
         ref.element
@@ -46,9 +48,6 @@ abstract class _$Auth extends $AsyncNotifier<UserResponse?> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

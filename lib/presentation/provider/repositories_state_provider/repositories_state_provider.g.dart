@@ -6,12 +6,15 @@ part of 'repositories_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(RepositoriesState)
-const repositoriesStateProvider = RepositoriesStateProvider._();
+final repositoriesStateProvider = RepositoriesStateProvider._();
 
 final class RepositoriesStateProvider
     extends $AsyncNotifierProvider<RepositoriesState, RepositoriesResponse?> {
-  const RepositoriesStateProvider._()
+  RepositoriesStateProvider._()
     : super(
         from: null,
         argument: null,
@@ -38,7 +41,6 @@ abstract class _$RepositoriesState
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref =
         this.ref
             as $Ref<AsyncValue<RepositoriesResponse?>, RepositoriesResponse?>;
@@ -53,9 +55,6 @@ abstract class _$RepositoriesState
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
