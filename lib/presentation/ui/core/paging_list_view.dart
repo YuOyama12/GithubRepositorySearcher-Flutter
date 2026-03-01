@@ -19,7 +19,7 @@ class PagingListView extends HookConsumerWidget {
     this.itemExtent,
     this.itemExtentBuilder,
     this.prototypeItem,
-    this.findChildIndexCallback,
+    this.findItemIndexIndexCallback,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
@@ -46,7 +46,7 @@ class PagingListView extends HookConsumerWidget {
   final double? itemExtent;
   final double? Function(int, SliverLayoutDimensions)? itemExtentBuilder;
   final Widget? prototypeItem;
-  final ChildIndexGetter? findChildIndexCallback;
+  final ChildIndexGetter? findItemIndexIndexCallback;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;
@@ -98,7 +98,7 @@ class PagingListView extends HookConsumerWidget {
         shrinkWrap: shrinkWrap,
         padding: padding,
         itemCount: itemCount,
-        findChildIndexCallback: findChildIndexCallback,
+        findItemIndexCallback: findItemIndexIndexCallback,
         addAutomaticKeepAlives: addAutomaticKeepAlives,
         addRepaintBoundaries: addRepaintBoundaries,
         addSemanticIndexes: addSemanticIndexes,
@@ -109,7 +109,7 @@ class PagingListView extends HookConsumerWidget {
         clipBehavior: clipBehavior,
         hitTestBehavior: hitTestBehavior,
         itemBuilder: item,
-        separatorBuilder: itemSeparator ?? (_, __) => SizedBox.shrink(),
+        separatorBuilder: itemSeparator ?? (_, _) => SizedBox.shrink(),
       );
     } else {
       return ListView.builder(
@@ -124,7 +124,7 @@ class PagingListView extends HookConsumerWidget {
         itemExtentBuilder: itemExtentBuilder,
         itemCount: itemCount,
         prototypeItem: prototypeItem,
-        findChildIndexCallback: findChildIndexCallback,
+        findChildIndexCallback: findItemIndexIndexCallback,
         addAutomaticKeepAlives: addAutomaticKeepAlives,
         addRepaintBoundaries: addRepaintBoundaries,
         addSemanticIndexes: addSemanticIndexes,
