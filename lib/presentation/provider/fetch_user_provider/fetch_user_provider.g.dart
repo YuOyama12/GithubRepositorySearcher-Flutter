@@ -6,12 +6,15 @@ part of 'fetch_user_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(FetchUser)
-const fetchUserProvider = FetchUserFamily._();
+final fetchUserProvider = FetchUserFamily._();
 
 final class FetchUserProvider
     extends $AsyncNotifierProvider<FetchUser, UserResponse?> {
-  const FetchUserProvider._({
+  FetchUserProvider._({
     required FetchUserFamily super.from,
     required int super.argument,
   }) : super(
@@ -58,7 +61,7 @@ final class FetchUserFamily extends $Family
           FutureOr<UserResponse?>,
           int
         > {
-  const FetchUserFamily._()
+  FetchUserFamily._()
     : super(
         retry: null,
         name: r'fetchUserProvider',
@@ -82,7 +85,6 @@ abstract class _$FetchUser extends $AsyncNotifier<UserResponse?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build(_$args);
     final ref = this.ref as $Ref<AsyncValue<UserResponse?>, UserResponse?>;
     final element =
         ref.element
@@ -92,9 +94,6 @@ abstract class _$FetchUser extends $AsyncNotifier<UserResponse?> {
               Object?,
               Object?
             >;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, () => build(_$args));
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
